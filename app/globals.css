@@ -3,6 +3,11 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --navy: #050517;
+  --rust: #CF5C36;
+  --beige: #EFC88B;
+  --cream: #F4E3B2;
+  --lightgray: #D3D5D7;
 }
 
 @theme inline {
@@ -20,7 +25,7 @@
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--cream);
+  color: Black;
+  font-family: Roboto, Open Sans, sans-serif;
 }
