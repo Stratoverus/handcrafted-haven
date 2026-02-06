@@ -1,14 +1,31 @@
 @import "tailwindcss";
 
-:root{
-  --principal-color: #F4E3B2;
-  --secondary-color: #CF5C36;
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --navy: #050517;
+  --rust: #CF5C36;
+  --beige: #EFC88B;
+  --cream: #F4E3B2;
+  --lightgray: #D3D5D7;
 }
 
-.bg-principal{
-  background-color: var(--principal-color);
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
 }
 
-.bg-btn{
-  background-color: var(--secondary-color);
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background-color: var(--cream);
+  color: Black;
+  font-family: Roboto, Open Sans, sans-serif;
 }
