@@ -2,6 +2,7 @@ import SelectRegion from "./selectRegion"
 
 export default async function RegisterForm() {
 
+    // wasup
     const res = await fetch("https://www.apicountries.com/countries", {cache: "no-store"});
     const data = await res.json();
 
