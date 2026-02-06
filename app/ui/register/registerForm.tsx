@@ -1,192 +1,167 @@
-export default function RegisterForm() {
+import SelectRegion from "./selectRegion"
+
+export default async function RegisterForm() {
+
+    const res = await fetch("https://www.apicountries.com/countries", {cache: "no-store"});
+    const data = await res.json();
+
     return (
         <>
-            <div className="flex flex-col justify-center px-6 py-12 lg:px-0">
+            
+            <div className="flex flex-col justify-center mb-8 px-6 lg:px-0">
                 <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-                    <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">
-                        Register your account
+                    <h2 className="mt-4 text-center font-bold tracking-tight text-gray-900" style={{ fontSize: "2.5rem" }}>
+                        Register
                     </h2>
                 </div>
-                
+
                 <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
                     <form action="#" method="POST" className="flex flex-col space-y-6">
+                        <div className="grid grid-cols-1 gap-y-9">
 
-                        {/* Personal Information */}
-                            <div className="flex flex-col gap-8 md:flex-row">
-                                <div id="col1">
+                            {/* Container interno de login */}
+                            <div className="flex min-h-full flex-col justify-center px-6 lg:px-8">
+
+                                <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+
+                                    {/* Full name field */}
                                     <div>
-                                        
-                                        <label htmlFor="fullName" className="block text-sm/6 font-medium text-gray-900">
+                                        <label htmlFor="fullName" className="block text-sm/6 font-medium text-black-100">
                                             Full Name
                                         </label>
                                         <div className="mt-2">
                                             <input
-                                            id="fullName"
-                                            name="fullName"
-                                            type="text"
-                                            required
-                                            autoComplete="fullName"
-                                            className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                                                id="fullName"
+                                                name="fullName"
+                                                type="text"
+                                                required
+                                                placeholder="type your full name"
+                                                className="block w-full border border-black rounded-md bg-white/5 px-3 py-1.5 text-base text-black outline-1 -outline-offset-1 outline-white/10 placeholder:text-black-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
                                             />
                                         </div>
                                     </div>
-                                    <div>
-                                        <label htmlFor="email" className="block text-sm/6 font-medium text-gray-900">
-                                            Email address
+
+                                    {/* Street address field */}
+                                    <div className="mt-2">
+                                        <label htmlFor="streetAddress" className="block text-sm/6 font-medium text-black-100">
+                                            Street Address
                                         </label>
                                         <div className="mt-2">
                                             <input
-                                            id="email"
-                                            name="email"
-                                            type="email"
-                                            required
-                                            autoComplete="email"
-                                            className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                                                id="streetAddress"
+                                                name="streetAddress"
+                                                type="text"
+                                                required
+                                                placeholder="type your street address"
+                                                className="block w-full border border-black rounded-md bg-white/5 px-3 py-1.5 text-base text-black outline-1 -outline-offset-1 outline-white/10 placeholder:text-black-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
                                             />
                                         </div>
                                     </div>
 
-                                    <div>
-                                        <div className="flex items-center justify-between">
-                                            <label htmlFor="password" className="block text-sm/6 font-medium text-gray-900">
-                                                Password
-                                            </label>
-                                        </div>
-                                        <div className="mt-2">
-                                            <input
-                                            id="password"
-                                            name="password"
-                                            type="password"
-                                            required
-                                            autoComplete="current-password"
-                                            className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                                            />
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div className="flex items-center justify-between">
-                                            <label htmlFor="password" className="block text-sm/6 font-medium text-gray-900">
-                                                Confirm your password
-                                            </label>
-                                        </div>
-                                        <div className="mt-2">
-                                            <input
-                                            id="confirmPassword"
-                                            name="confirmPassword"
-                                            type="password"
-                                            required
-                                            autoComplete="confirm-password"
-                                            className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-                        {/* Finish the personal information form */}
-
-                            {/* Address Information */}
-                                <div id="col">
-                                    <div>
-                                        <label htmlFor="zipcode" className="block text-sm/6 font-medium text-gray-900">
-                                            Zip Code
+                                    {/* ZIP code field */}
+                                    <div className="mt-2">
+                                        <label htmlFor="zipCode" className="block text-sm/6 font-medium text-black-100">
+                                            ZIP Code
                                         </label>
                                         <div className="mt-2">
                                             <input
-                                            id="zipcode"
-                                            name="zipcode"
-                                            type="text"
-                                            required
-                                            autoComplete="zipcode"
-                                            className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                                                id="zipCode"
+                                                name="zipCode"
+                                                type="text"
+                                                required
+                                                placeholder="ZIP Code"
+                                                className="block w-full border border-black rounded-md bg-white/5 px-3 py-1.5 text-base text-black outline-1 -outline-offset-1 outline-white/10 placeholder:text-black-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
                                             />
                                         </div>
                                     </div>
 
-                                    <div>
-                                        <label htmlFor="fullName" className="block text-sm/6 font-medium text-gray-900">
-                                            Street
-                                        </label>
-                                        <div className="mt-2">
-                                            <input
-                                            id="street"
-                                            name="street"
-                                            type="text"
-                                            required
-                                            autoComplete="street"
-                                            className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                                            />
-                                        </div>
-                                    </div>
-
-                                    <div>
-                                        <label htmlFor="neighborhood" className="block text-sm/6 font-medium text-gray-900">
-                                            Neighborhood
-                                        </label>
-                                        <div className="mt-2">
-                                            <input
-                                            id="neighborhood"
-                                            name="neighborhood"
-                                            type="text"
-                                            required
-                                            autoComplete="neighborhood"
-                                            className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                                            />
-                                        </div>
-                                    </div>
-
-                                    <div>
-                                        <label htmlFor="city" className="block text-sm/6 font-medium text-gray-900">
+                                    {/* City field */}
+                                    <div className="mt-2">
+                                        <label htmlFor="city" className="block text-sm/6 font-medium text-black-100">
                                             City
                                         </label>
                                         <div className="mt-2">
                                             <input
-                                            id="city"
-                                            name="city"
-                                            type="text"
-                                            required
-                                            autoComplete="city"
-                                            className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                                                id="city"
+                                                name="city"
+                                                type="text"
+                                                required
+                                                placeholder="ex: Salt Lake City"
+                                                className="block w-full border border-black rounded-md bg-white/5 px-3 py-1.5 text-base text-black outline-1 -outline-offset-1 outline-white/10 placeholder:text-black-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
                                             />
                                         </div>
                                     </div>
 
+                                    {/* Region field */}
+                                    <div className="mt-2 ">
+                                        <label htmlFor="region" className="block text-sm/6 font-medium text-black-100">
+                                            Region
+                                        </label>
+                                        <div className="mt-2 relative">
+                                            <SelectRegion countries={data}/>
+                                        </div>
+                                    </div>
 
                                     <div>
-                                        <label htmlFor="state" className="block text-sm/6 font-medium text-gray-900">
-                                            State
-                                        </label>
+                                        {/* Email Field */}
                                         <div className="mt-2">
-                                            <input
-                                            id="state"
-                                            name="state"
-                                            type="text"
-                                            required
-                                            autoComplete="state"
-                                            className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                                            />
+                                            <label htmlFor="email" className="block text-sm/6 font-medium text-black-100">
+                                                Email address
+                                            </label>
+                                            <div className="mt-2">
+                                                <input
+                                                    id="email"
+                                                    name="email"
+                                                    type="email"
+                                                    required
+                                                    autoComplete="email"
+                                                    placeholder="user@exemple.com"
+                                                    className="block w-full border border-black rounded-md bg-white/5 px-3 py-1.5 text-base text-black outline-1 -outline-offset-1 outline-white/10 placeholder:text-black-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
+                                                />
+                                            </div>
+                                        </div>
+
+                                        {/* Password Field */}
+                                        <div className="mt-2">
+                                            <div className="flex items-center justify-between">
+                                                <label htmlFor="password" className="block text-sm/6 font-medium text-black-100">
+                                                    Password
+                                                </label>
+                                            </div>
+                                            <div className="mt-2">
+                                                <input
+                                                    id="password"
+                                                    name="password"
+                                                    type="password"
+                                                    required
+                                                    autoComplete="current-password"
+                                                    placeholder="****************"
+                                                    className="block w-full border border-black rounded-md bg-white/5 px-3 py-1.5 text-base text-black outline-1 -outline-offset-1 outline-white/10 placeholder:text-black-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
+                                                />
+                                            </div>
                                         </div>
                                     </div>
+
+                                    {/* Submit Field */}
+                                    <div className="mt-7">
+                                        <input 
+                                            type="submit"
+                                            value="Create account" 
+                                            className="block w-full rounded-md bg-[#CF5C36] px-3 py-1.5 text-base font-medium text-white outline-1 -outline-offset-1 outline-white/10 hover:bg-[#b94f2f] active:bg-[#a9472a] focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 transition-colors duration-150 sm:text-sm/6 cursor-pointer" />
+                                    </div>
+
                                 </div>
+
                             </div>
-                            {/* Finish the address information */}
 
-                        <div>
-                            <button
-                                type="submit"
-                                className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 bg-btn"
-                            >
-                                Register
-                            </button>
-                        </div>
+                            <div className="flex items-center">
+                                <div className="h-px flex-1 bg-black/20" />
+                                <span className="mx-4 text-sm text-black/60">Or register with</span>
+                                <div className="h-px flex-1 bg-black/20" />
+                            </div>
 
-                        <div className="relative grid grid-cols-3">
-                            <span className="block w-24 sm:w-32 h-px bg-gray-300"></span>
-                            <p className="inline-block w-fit text-base px-2 absolute -top-3 inset-x-0 mx-auto">Or continue with</p>
-                            <span className="col-end-5 block w-24 sm:w-32 h-px bg-gray-300"></span>
-                        </div>
-                        
-
-                        <div className="grid grid-cols-2 gap-x-3">
-                            <button className="flex items-center justify-center py-2.5 border rounded-lg hover:bg-gray-50 duration-150 active:bg-gray-100">
+                            {/* Google Btn */}
+                            <button className="bg-white flex items-center justify-center py-2.5 border rounded-lg hover:bg-gray-50 duration-150 active:bg-gray-100">
                                 <svg className="w-5 h-5" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <g clipPath="url(#clip0_17_40)">
                                         <path d="M47.532 24.5528C47.532 22.9214 47.3997 21.2811 47.1175 19.6761H24.48V28.9181H37.4434C36.9055 31.8988 35.177 34.5356 32.6461 36.2111V42.2078H40.3801C44.9217 38.0278 47.532 31.8547 47.532 24.5528Z" fill="#4285F4" />
@@ -200,9 +175,11 @@ export default function RegisterForm() {
                                         </clipPath>
                                     </defs>
                                 </svg>
+                                <p className="pl-2">Sign up with Google</p>
                             </button>
 
-                            <button className="flex items-center justify-center py-2.5 border rounded-lg hover:bg-gray-50 duration-150 active:bg-gray-100">
+                            {/* GitHub Btn */}
+                            <button className="bg-white flex items-center justify-center py-2.5 border rounded-lg hover:bg-gray-50 duration-150 active:bg-gray-100">
                                 <svg className="w-5 h-5" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <g clipPath="url(#clip0_910_21)">
                                         <path fillRule="evenodd" clipRule="evenodd" d="M24.0005 1C18.303 1.00296 12.7923 3.02092 8.45374 6.69305C4.11521 10.3652 1.23181 15.452 0.319089 21.044C-0.593628 26.636 0.523853 32.3684 3.47174 37.2164C6.41963 42.0643 11.0057 45.7115 16.4099 47.5059C17.6021 47.7272 18.0512 46.9883 18.0512 46.36C18.0512 45.7317 18.0273 43.91 18.0194 41.9184C11.3428 43.3608 9.93197 39.101 9.93197 39.101C8.84305 36.3349 7.26927 35.6078 7.26927 35.6078C5.09143 34.1299 7.43223 34.1576 7.43223 34.1576C9.84455 34.3275 11.1123 36.6194 11.1123 36.6194C13.2504 40.2667 16.7278 39.2116 18.0949 38.5952C18.3095 37.0501 18.9335 35.999 19.621 35.4023C14.2877 34.8017 8.68408 32.7548 8.68408 23.6108C8.65102 21.2394 9.53605 18.9461 11.156 17.2054C10.9096 16.6047 10.087 14.1785 11.3905 10.8829C11.3905 10.8829 13.4054 10.2427 17.9916 13.3289C21.9253 12.2592 26.0757 12.2592 30.0095 13.3289C34.5917 10.2427 36.6026 10.8829 36.6026 10.8829C37.9101 14.1706 37.0875 16.5968 36.8411 17.2054C38.4662 18.9464 39.353 21.2437 39.317 23.6187C39.317 32.7824 33.7015 34.8017 28.3602 35.3905C29.2186 36.1334 29.9856 37.5836 29.9856 39.8122C29.9856 43.0051 29.9578 45.5736 29.9578 46.36C29.9578 46.9962 30.391 47.7391 31.6071 47.5059C37.0119 45.7113 41.5984 42.0634 44.5462 37.2147C47.4941 32.3659 48.611 26.6326 47.6972 21.0401C46.7835 15.4476 43.8986 10.3607 39.5587 6.68921C35.2187 3.01771 29.7067 1.00108 24.0085 1H24.0005Z" fill="#191717" />
@@ -220,6 +197,7 @@ export default function RegisterForm() {
                                         </clipPath>
                                     </defs>
                                 </svg>
+                                <p className="pl-2">Sign up with GitHub</p>
                             </button>
                         </div>
                     </form>
