@@ -5,7 +5,7 @@ const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' });
 async function listCategories() {
 	const data = await sql`
     SELECT DISTINCT category
-    FROM Product;
+    FROM public."Product";
   `;
 
 	return data;
