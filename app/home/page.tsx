@@ -1,6 +1,11 @@
 import Image from 'next/image';
+import { fetchCategories } from '../lib/data';
 
-export default function Front() {
+
+export default async function Front() {
+
+    const categories = await fetchCategories();
+
     return (
         <>
             <section className="flex flex-wrap border-dotted border-2 border-gray-500 mx-auto w-4/5 px-3 py-3">
@@ -15,9 +20,9 @@ export default function Front() {
             <section className="" >
                 <h2 className='p-3'>POPULAR PRODUCTS</h2>
                 <div className='flex gap-3 px-3 py-3 justify-between'>
-                    < Product value={"ONE"} />
-                    < Product value={"TWO"} />
-                    < Product value={"THREE"} />
+                    { categories.map( (item, index: number ) => (
+                        < Product key={index} value={item.category} />
+                    ))}
                 </div>
             </section>
         </>
@@ -27,7 +32,7 @@ export default function Front() {
 export function Product({ value }: { value: string }) {
     return (
         <article className="border p-4 rounded-lg w-1/1 bg-white" >
-            <h3 className=''>{value}</h3>
+            <h3 className='text-center font-bold'>{value}</h3>
             <Image
                 src="/hair_bows.png"
                 alt="earrings"
