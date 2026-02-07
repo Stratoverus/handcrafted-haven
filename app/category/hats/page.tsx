@@ -21,7 +21,7 @@ export default function HatsPage() {
             src="/knit_hats.png"
             alt="Knit beanie"
             width={300}
-            height={300}
+            height={150}
             className="rounded-md mx-auto"
           />
           <h3 className="mt-3 font-medium">Knit Beanie</h3>

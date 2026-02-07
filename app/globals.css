@@ -29,3 +29,12 @@ body {
   color: Black;
   font-family: Roboto, Open Sans, sans-serif;
 }
+
+h2 {
+  color: white;
+  background-color: var(--navy);
+  font-family: Roboto;
+}
+p {
+  font-family: 'Open Sans';
+}
