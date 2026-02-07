@@ -84,7 +84,7 @@ export default async function RegisterForm() {
                                         <div>
                                             <label htmlFor="fullName" className="block text-sm/6 font-medium text-black-100">
                                                 Full Name
-                                            </label>
+                                            </label>    
                                             <div className="mt-2">
                                                 <input
                                                     id="fullName"
@@ -96,57 +96,6 @@ export default async function RegisterForm() {
                                                 />
                                             </div>
                                         </div>
-
-                                        {/* Street address field
-                                        <div className="mt-2">
-                                            <label htmlFor="streetAddress" className="block text-sm/6 font-medium text-black-100">
-                                                Street Address
-                                            </label>
-                                            <div className="mt-2">
-                                                <input
-                                                    id="streetAddress"
-                                                    name="streetAddress"
-                                                    type="text"
-                                                    required
-                                                    placeholder="type your street address"
-                                                    className="block w-full border border-black rounded-md bg-white/5 px-3 py-1.5 text-base text-black outline-1 -outline-offset-1 outline-white/10 placeholder:text-black-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
-                                                />
-                                            </div>
-                                        </div>
-
-                                        ZIP code field
-                                        <div className="mt-2">
-                                            <label htmlFor="zipCode" className="block text-sm/6 font-medium text-black-100">
-                                                ZIP Code
-                                            </label>
-                                            <div className="mt-2">
-                                                <input
-                                                    id="zipCode"
-                                                    name="zipCode"
-                                                    type="text"
-                                                    required
-                                                    placeholder="ZIP Code"
-                                                    className="block w-full border border-black rounded-md bg-white/5 px-3 py-1.5 text-base text-black outline-1 -outline-offset-1 outline-white/10 placeholder:text-black-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
-                                                />
-                                            </div>
-                                        </div>
-
-                                        City field
-                                        <div className="mt-2">
-                                            <label htmlFor="city" className="block text-sm/6 font-medium text-black-100">
-                                                City
-                                            </label>
-                                            <div className="mt-2">
-                                                <input
-                                                    id="city"
-                                                    name="city"
-                                                    type="text"
-                                                    required
-                                                    placeholder="ex: Salt Lake City"
-                                                    className="block w-full border border-black rounded-md bg-white/5 px-3 py-1.5 text-base text-black outline-1 -outline-offset-1 outline-white/10 placeholder:text-black-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
-                                                />
-                                            </div>
-                                        </div> */}
 
                                         {/* Region field */}
                                         <div className="mt-2">

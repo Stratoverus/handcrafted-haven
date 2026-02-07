@@ -1,8 +1,11 @@
-export default function Login() {
-  return (
-    <main style={{ padding: '2rem' }}>
-      <h1>Handcrafted Haven</h1>
-      <p>Welcome to the Login Page.</p>
-    </main>
-  );
+import LoginForm from "../ui/login/loginForm";
+
+export default function Login(){
+	return(
+		<>
+			<div className="grid grid-cols-1 min-h-screen">
+				<LoginForm />	
+			</div>
+		</>
+	)
 }
