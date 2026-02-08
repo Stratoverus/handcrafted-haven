@@ -8,12 +8,12 @@ export async function GET(request: Request) {
   if (!query) return NextResponse.json({ products: [] });
 
   //
-  const products = await db.product.findMany({
+  /*const products = await db.product.findMany({
     where: {
       name: { contains: query, mode: 'insensitive' },
     },
     take: 10, // limit results to 10....change number as needed
   });
 
-  return NextResponse.json({ products });
+  return NextResponse.json({ products });*/
 }
