@@ -1,24 +1,69 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Menu, Search, ShoppingCart, Bell, User, X } from 'lucide-react';
 import { authClient } from '@/lib/auth/client';
+import { useRouter } from 'next/navigation';
+
+interface SearchResult {
+  id: number;
+  name: string;
+}
+
 
 const categories = [
   'Sweaters',
+  'Skirts',
   'Shirts',
   'Hats',
   'Footwear',
+  'Jewelry',
+  'Accessories',
+  'Leatherwork',
   'Quilts',
-  'Other',
+  'Misc',
 ];
 
 export default function Header() {
+  const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
+
   const { data } = authClient.useSession();
   const user = data?.user;
+  const [searchTerm, setSearchTerm] = useState('');
+  const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
+  const [showResults, setShowResults] = useState(false);
+
+  useEffect(() => {
+    if (!searchTerm.trim()) {
+      setSearchResults([]);
+      setShowResults(false);
+      return;
+    }
+    const delayDebounce = setTimeout(async () => {
+      try {
+        const res = await fetch(`/api/search?q=${encodeURIComponent(searchTerm)}`);
+        if (!res.ok) throw new Error();
+        const data = await res.json();
+        setSearchResults(data.products || []);
+        setShowResults(true);
+      } catch {
+        setSearchResults([]);
+        setShowResults(false);
+      }
+    }, 300);
+    return () => clearTimeout(delayDebounce);  //debounce search input so it doesn't fire on every keystroke
+  }, [searchTerm]);
+
+  const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && searchTerm.trim()) {
+      router.push(`/search?query=${encodeURIComponent(searchTerm.trim())}`);
+      setShowResults(false);
+    }
+  };
+
 
   return (
     <>
@@ -48,15 +93,31 @@ export default function Header() {
             </div>
 
             {/* Middle */}
-            <div className="flex-1 max-w-xl">
-              <div className="relative">
-                <input
-                  type="text"
-                  placeholder="Search products..."
-                  className="w-full rounded-full border px-4 py-2 pl-10"
-                />
-                <Search className="absolute left-3 top-2.5 h-5 w-5 text-black" />
-              </div>
+            <div className="flex-1 max-w-xl relative">
+              <input
+                type="text"
+                placeholder="Search products..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                onKeyDown={handleSearch}
+                className="w-full border border-gray-300 rounded pl-10 pr-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#CF5C36]"
+                onFocus={() => searchResults.length > 0 && setShowResults(true)}
+                onBlur={() => setTimeout(() => setShowResults(false), 200)} // small delay for click
+              />
+              <Search className="absolute left-3 top-2.5 h-5 w-5 text-black" />
+
+              {/* Search Results Dropdown */}
+              {showResults && searchResults.length > 0 && (
+                <ul className="absolute top-full left-0 w-full bg-white border mt-1 rounded shadow z-50 max-h-64 overflow-auto">
+                  {searchResults.map((product: any) => (
+                    <li key={product.id} className="px-4 py-2 hover:bg-gray-100">
+                      <Link href={`/product/${product.id}`} onClick={() => setShowResults(false)}>
+                        {product.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
 
             {/* Right */}
@@ -82,8 +143,8 @@ export default function Header() {
           </div>
         </div>
 
-        {/* BOTTOM BAR */}
-        <nav className="border-t bg-[#CF5C36] text-white">
+        {/* BOTTOM BAR - hidden on mobile devices */}
+        <nav className="border-t bg-[#CF5C36] text-white hidden md:block">
           <div className="px-6 py-3 flex justify-center gap-6">
             {categories.map((category) => (
               <Link
