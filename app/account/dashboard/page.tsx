@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Package, ShoppingBag, DollarSign, TrendingUp, Plus, ArrowLeft, Eye, Edit, Trash2 } from 'lucide-react';
-import { authClient } from '../../lib/auth/client';
+import { authClient } from '@/lib/auth/client';
 
 export default function DashboardPage() {
   const router = useRouter();

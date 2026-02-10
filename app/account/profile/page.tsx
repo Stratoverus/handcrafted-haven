@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { User, Mail, Phone, MapPin, Package, Heart, Settings, Store } from 'lucide-react';
-import { authClient } from '../../lib/auth/client';
+import { authClient } from '@/lib/auth/client';
 
 export default function ProfilePage() {
   const router = useRouter();
@@ -111,13 +111,13 @@ export default function ProfilePage() {
                 <Settings className="h-5 w-5" />
                 <span>Settings</span>
               </Link>
-              <Link 
-                href="/auth/sign-out"
-                className="flex items-center gap-3 text-gray-700 hover:text-[var(--rust)] transition-colors"
+              <button 
+                onClick={() => authClient.signOut()}
+                className="flex items-center gap-3 text-gray-700 hover:text-[var(--rust)] transition-colors w-full text-left"
               >
                 <Settings className="h-5 w-5" />
                 <span>Sign Out</span>
-              </Link>
+              </button>
             </div>
           </div>
 

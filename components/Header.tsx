@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Menu, Search, ShoppingCart, Bell, User, X } from 'lucide-react';
-import { authClient } from '../app/lib/auth/client';
+import { authClient } from '@/lib/auth/client';
 
 const categories = [
   'Sweaters',
