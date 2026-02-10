@@ -111,17 +111,15 @@ export default function ProfilePage() {
                 <Settings className="h-5 w-5" />
                 <span>Settings</span>
               </Link>
-              <button 
-                type="button"
-                onClick={async () => {
-                  await authClient.signOut();
-                  window.location.href = '/';
-                }}
-                className="flex items-center gap-3 text-gray-700 hover:text-[var(--rust)] transition-colors w-full text-left cursor-pointer"
-              >
-                <Settings className="h-5 w-5" />
-                <span>Sign Out</span>
-              </button>
+              <form action="/auth/sign-out" method="POST" className="w-full">
+                <button 
+                  type="submit"
+                  className="flex items-center gap-3 text-gray-700 hover:text-[var(--rust)] transition-colors w-full text-left cursor-pointer"
+                >
+                  <Settings className="h-5 w-5" />
+                  <span>Sign Out</span>
+                </button>
+              </form>
             </div>
           </div>
 
