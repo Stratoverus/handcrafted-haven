@@ -14,6 +14,6 @@ export async function GET(request: Request) {
     },
     take: 10, // limit results to 10....change number as needed
   });
-
-  return NextResponse.json({ products });*/
+*/
+  return NextResponse.json({ products });
 }
