@@ -111,15 +111,13 @@ export default function ProfilePage() {
                 <Settings className="h-5 w-5" />
                 <span>Settings</span>
               </Link>
-              <form action="/auth/sign-out" method="POST" className="w-full">
-                <button 
-                  type="submit"
-                  className="flex items-center gap-3 text-gray-700 hover:text-[var(--rust)] transition-colors w-full text-left cursor-pointer"
-                >
-                  <Settings className="h-5 w-5" />
-                  <span>Sign Out</span>
-                </button>
-              </form>
+              <Link 
+                href="/auth/sign-out"
+                className="flex items-center gap-3 text-gray-700 hover:text-[var(--rust)] transition-colors"
+              >
+                <Settings className="h-5 w-5" />
+                <span>Sign out</span>
+              </Link>
             </div>
           </div>
 
