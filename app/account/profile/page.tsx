@@ -114,13 +114,7 @@ export default function ProfilePage() {
               <button 
                 type="button"
                 onClick={async () => {
-                  await fetch('/api/auth/sign-out', {
-                    method: 'POST',
-                    credentials: 'include',
-                    headers: {
-                      'Content-Type': 'application/json',
-                    },
-                  });
+                  await authClient.signOut();
                   window.location.href = '/';
                 }}
                 className="flex items-center gap-3 text-gray-700 hover:text-[var(--rust)] transition-colors w-full text-left cursor-pointer"
