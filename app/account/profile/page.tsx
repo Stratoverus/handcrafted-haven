@@ -111,13 +111,13 @@ export default function ProfilePage() {
                 <Settings className="h-5 w-5" />
                 <span>Settings</span>
               </Link>
-              <button 
-                onClick={() => authClient.signOut()}
-                className="flex items-center gap-3 text-gray-700 hover:text-[var(--rust)] transition-colors w-full text-left"
+              <Link 
+                href="/auth/sign-out"
+                className="flex items-center gap-3 text-gray-700 hover:text-[var(--rust)] transition-colors"
               >
                 <Settings className="h-5 w-5" />
-                <span>Sign Out</span>
-              </button>
+                <span>Sign out</span>
+              </Link>
             </div>
           </div>
 
