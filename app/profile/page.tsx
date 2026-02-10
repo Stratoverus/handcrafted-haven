@@ -2,8 +2,9 @@
 
 import Link from 'next/link';
 import { User, Mail, Phone, MapPin, Package, Heart, Settings, Store } from 'lucide-react';
+import { authClient } from '../lib/auth/client';
 
-export default function ProfilePage() {
+export default async function ProfilePage() {
   // Mock user data - need to connect db at some point
   const user = {
     name: 'Keith Eberhard',
@@ -13,6 +14,8 @@ export default function ProfilePage() {
     isSeller: true, // Temporary: change to true/false to see the other button
     memberSince: 'January 2025',
   };
+  
+  // const session = await authClient.getSession()
 
   return (
     <div className="max-w-4xl mx-auto">

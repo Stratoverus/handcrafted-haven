@@ -1,9 +1,10 @@
+
 import RegisterForm from "../ui/register/registerForm";
 
 export default function Register(){
     return(
         <>
-            <div className="grid grid-cols-1 min-h-screen">
+            <div className="grid grid-cols-1 items-center justify-center min-h-screen">
                 <RegisterForm />
             </div>
         </>
