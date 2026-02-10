@@ -12,7 +12,8 @@
   "dependencies": {
     "@headlessui/react": "^2.2.9",
     "@heroicons/react": "^2.2.0",
-    "@neondatabase/neon-js": "0.2.0-beta.1",
+    "@neondatabase/auth": "0.2.0-beta.1",
+    "@stackframe/stack": "^2.8.65",
     "@prisma/client": "^6.7.0",
     "dotenv": "^17.2.4",
     "lucide-react": "^0.563.0",

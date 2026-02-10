@@ -4,6 +4,16 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Menu, Search, ShoppingCart, Bell, User, X } from 'lucide-react';
+import { authClient } from '@/lib/auth/client';
+
+/*const categories = [
+  'Sweaters',
+  'Shirts',
+  'Hats',
+  'Footwear',
+  'Quilts',
+  'Other',
+]; */
 import { useRouter } from 'next/navigation';
 
 interface SearchResult {
@@ -16,6 +26,8 @@ interface SearchResult {
 export default function Header() {
   const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
+  const { data } = authClient.useSession();
+  const user = data?.user;
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [showResults, setShowResults] = useState(false);
@@ -120,8 +132,16 @@ export default function Header() {
 
             {/* Right */}
             <div className="flex items-center gap-4 shrink-0">
-              <Link href="/login" className="p-2 hover:bg-gray-100 rounded">
+              <Link 
+                href={user ? "/account/profile" : "/auth/sign-in"} 
+                className="flex items-center gap-2 p-2 hover:bg-gray-100 rounded"
+              >
                 <User />
+                {user && (
+                  <span className="text-sm font-medium">
+                    {user.name || user.email?.split('@')[0]}
+                  </span>
+                )}
               </Link>
               <Link href="/cart" className="p-2 hover:bg-gray-100 rounded">
                 <ShoppingCart />
