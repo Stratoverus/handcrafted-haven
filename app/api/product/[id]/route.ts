@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { prisma } from "@/app/lib/prisma";
+import { prisma } from "@/lib/prisma";
 
 /*const products = [
   { id: '1', title: 'Handmade Quilt', description: 'A beautiful handcrafted quilt.', price: 119.99, category: 'quilts', stock: 5, sellerId: 'Angie Martin', comments: 'Made with love and high-quality materials.', imageUrl: '/quilts.png'},
