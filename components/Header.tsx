@@ -4,6 +4,9 @@ import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Menu, Search, ShoppingCart, Bell, User, X } from 'lucide-react';
+import Logo from './logo';
+import SearchNav from './search';
+import UserActions from './userActions';
 
 const categories = [
   'Sweaters',
@@ -21,58 +24,33 @@ export default function Header() {
     <>
       <header>
         {/* TOP ROW */}
-        <div className="px-6 py-4">
+        <div className="px-4 bg-white/45">
           <div className="flex items-center justify-between gap-4 text-black">
+
             {/* Left */}
             <div className="flex items-center gap-4 shrink-0">
-              <Link href="/" className="flex items-center">
-                <Image
-                  src="/Logo_4.jpg"
-                  alt="Handcrafted Haven logo"
-                  width={180}
-                  height={60}
-                  priority
-                />
-              </Link>
+              <Logo />
 
               <button
                 aria-label="Open categories"
                 onClick={() => setMenuOpen(true)}
-                className="p-2 rounded hover:bg-gray-100"
+                className="block sm:hidden p-2 rounded hover:bg-gray-100"
               >
                 <Menu className="h-6 w-6" />
               </button>
             </div>
 
             {/* Middle */}
-            <div className="flex-1 max-w-xl">
-              <div className="relative">
-                <input
-                  type="text"
-                  placeholder="Search products..."
-                  className="w-full rounded-full border px-4 py-2 pl-10"
-                />
-                <Search className="absolute left-3 top-2.5 h-5 w-5 text-black" />
-              </div>
-            </div>
+            <SearchNav />
 
             {/* Right */}
-            <div className="flex items-center gap-4 shrink-0">
-              <Link href="/login" className="p-2 hover:bg-gray-100 rounded">
-                <User />
-              </Link>
-              <Link href="/cart" className="p-2 hover:bg-gray-100 rounded">
-                <ShoppingCart />
-              </Link>
-              <button className="p-2 hover:bg-gray-100 rounded">
-                <Bell />
-              </button>
-            </div>
+            <UserActions />
+            
           </div>
         </div>
 
         {/* BOTTOM BAR */}
-        <nav className="border-t bg-[#CF5C36] text-white">
+        <nav className="border-t bg-[#fff]/60 text-[#050517]">
           <div className="px-6 py-3 flex justify-center gap-6">
             {categories.map((category) => (
               <Link
@@ -85,6 +63,7 @@ export default function Header() {
             ))}
           </div>
         </nav>
+        
       </header>
 
       {/* OVERLAY */}
