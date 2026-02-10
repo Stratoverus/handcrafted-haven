@@ -5,13 +5,14 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Menu, Search, ShoppingCart, Bell, User, X } from 'lucide-react';
 import { authClient } from '@/lib/auth/client';
+
+
 import { useRouter } from 'next/navigation';
 
 interface SearchResult {
   id: number;
   name: string;
 }
-
 
 export default function Header() {
   const router = useRouter();

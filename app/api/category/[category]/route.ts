@@ -5,7 +5,7 @@ export async function GET(
   req: Request,
   context: { params: Promise<{ category: string }> }
 ) {
-  const { category } = await context.params; // IMPORTANT
+  const { category } = await context.params; 
   const categorySlug = category.toLowerCase();
 
   try {
