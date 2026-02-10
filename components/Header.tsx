@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Menu, Search, ShoppingCart, Bell, User, X } from 'lucide-react';
+import { authClient } from '../app/lib/auth/client';
 
 const categories = [
   'Sweaters',
@@ -16,6 +17,8 @@ const categories = [
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const { data } = authClient.useSession();
+  const user = data?.user;
 
   return (
     <>
@@ -58,8 +61,16 @@ export default function Header() {
 
             {/* Right */}
             <div className="flex items-center gap-4 shrink-0">
-              <Link href="/login" className="p-2 hover:bg-gray-100 rounded">
+              <Link 
+                href={user ? "/account/profile" : "/auth/sign-in"} 
+                className="flex items-center gap-2 p-2 hover:bg-gray-100 rounded"
+              >
                 <User />
+                {user && (
+                  <span className="text-sm font-medium">
+                    {user.name || user.email?.split('@')[0]}
+                  </span>
+                )}
               </Link>
               <Link href="/cart" className="p-2 hover:bg-gray-100 rounded">
                 <ShoppingCart />

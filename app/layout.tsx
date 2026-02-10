@@ -15,6 +15,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="bg-gradient-to-br from-[#CF5C36] via-[#EFC88B] via-[#F4E3B2] to-[#FFF]">
+<<<<<<< Updated upstream
         <div className="min-h-screen">
           <div className="max-w-[1280px] mx-auto">
             <Header />
@@ -22,6 +23,23 @@ export default function RootLayout({
                 {children}
               </main>
             <Footer />
+=======
+        <NeonAuthUIProvider
+          authClient={authClient} 
+          redirectTo='/account/profile'
+          social={{
+            providers: ["google", "github"]
+          }}
+          >
+          <div className="min-h-screen">
+            <div className="max-w-[1280px] mx-auto">
+              <Header />
+                <main className="px-6 py-8">
+                  {children}
+                </main>
+              <Footer />
+            </div>
+>>>>>>> Stashed changes
           </div>
         </div>
       </body>      
