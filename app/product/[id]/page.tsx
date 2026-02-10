@@ -4,6 +4,17 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import Image from 'next/image';
 
+interface ProductImage {
+  id: string;
+  url: string;
+}
+
+interface Review {
+  id: string;
+  rating: number;
+  comment?: string;
+}
+
 interface Product {
   id: string;
   title: string;
@@ -12,8 +23,15 @@ interface Product {
   category: string;
   stock: number;
   sellerId: string;
-  comments: string;
-  imageUrl?: string;
+  ProductImage: ProductImage[];
+  Review: Review[];
+}
+
+interface CartItem {
+  id: string;
+  title: string;
+  price: number;
+  quantity: number;
 }
 
 export default function ProductPage() {
@@ -37,78 +55,89 @@ export default function ProductPage() {
     fetchProduct();
   }, [id]);
 
+  const addToCart = () => {
+    if (!product) return;
+
+    const existingCart = JSON.parse(localStorage.getItem('cart') || '[]') as CartItem[];
+
+    const existingItem = existingCart.find(item => item.id === product.id);
+    if (existingItem) {
+      existingItem.quantity += 1;
+    } else {
+      existingCart.push({
+        id: product.id,
+        title: product.title,
+        price: product.price,
+        quantity: 1,
+      });
+    }
+
+    localStorage.setItem('cart', JSON.stringify(existingCart));
+    alert('Added to cart!');
+  };
+
   if (loading) return <p className="p-6">Loading...</p>;
   if (!product) return <p className="p-6">Product not found.</p>;
 
-    const addToCart = () => {
-        if (!product) return;
-
-        const existingCart = JSON.parse(
-            localStorage.getItem('cart') || '[]'
-        ) as CartItem[];
-
-        const existingItem = existingCart.find(
-            (item) => item.id === product.id
-        );
-
-        if (existingItem) {
-            existingItem.quantity += 1;
-        } else {
-            existingCart.push({
-            id: product.id,
-            title: product.title,
-            price: product.price,
-            quantity: 1,
-            });
-        }
-
-        localStorage.setItem('cart', JSON.stringify(existingCart));
-        alert('Added to cart!');
-    };
-
-    
   return (
     <div className="max-w-4xl mx-auto px-6 py-6">
       <h1 className="text-3xl font-bold mb-4">{product.title}</h1>
 
-      {product.imageUrl && (
-        <Image
-          src={product.imageUrl}
-          alt={product.title}
-          width={800}
-          height={400}
-          className="w-full h-[400px] object-cover rounded mb-6"
-        />
-      )}
+      {/* Product Images */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+        {product.ProductImage.length > 0 ? (
+          product.ProductImage.map(img => (
+            <Image
+              key={img.id}
+              src={img.url}
+              alt={product.title}
+              width={400}
+              height={400}
+              className="w-full h-[400px] object-cover rounded"
+            />
+          ))
+        ) : (
+          <div className="w-full h-[400px] bg-gray-200 rounded flex items-center justify-center">
+            No images available
+          </div>
+        )}
+      </div>
 
       <p className="text-gray-700 mb-4">{product.description}</p>
 
-      <p className="text-xl font-semibold mb-2">
-        Price: ${product.price.toFixed(2)}
-      </p>
-      {/* Add "Add to Cart" button */}
-      <button onClick={addToCart} className="mt-4 bg-[#CF5C36] text-white px-6 py-3 rounded hover:bg-[#b84f2f] transition">
-        Add to Cart
-      </button>
-      <p> </p>   
-      <p className="mb-2"></p>
+      <p className="text-xl font-semibold mb-2">Price: ${product.price.toFixed(2)}</p>
       <p className="mb-2">Quantity Available: {product.stock}</p>
-      <div className="mb-4 flex items-center gap-3">
-        <span className="font-medium">
-            Seller: {product.sellerId}
-        </span>
+
+      {/* Add to Cart & Message Seller */}
+      <div className="flex gap-4 mb-4">
+        <button
+          onClick={addToCart}
+          className="bg-[#CF5C36] text-white px-6 py-3 rounded hover:bg-[#b84f2f] transition"
+        >
+          Add to Cart
+        </button>
 
         <button
-            onClick={() => alert('Messaging seller coming soon!')}
-            className="text-sm text-[#CF5C36] border border-[#CF5C36] px-3 py-1 rounded hover:bg-[#CF5C36] hover:text-white transition"
+          onClick={() => alert('Messaging seller coming soon!')}
+          className="text-sm text-[#CF5C36] border border-[#CF5C36] px-3 py-1 rounded hover:bg-[#CF5C36] hover:text-white transition"
         >
-            Message Seller
+          Message Seller
         </button>
       </div>
 
-      <div className="mt-4 p-4 border rounded bg-gray-50">
-        <h2 className="font-semibold mb-2">Comments</h2>
-        <p>{product.comments}</p>
+      {/* Reviews */}
+      <div className="mt-6 p-4 border rounded bg-gray-50">
+        <h2 className="font-semibold mb-2">Reviews</h2>
+        {product.Review.length === 0 ? (
+          <p>No reviews yet.</p>
+        ) : (
+          product.Review.map(r => (
+            <div key={r.id} className="mb-2 border-b pb-2">
+              <p>Rating: {r.rating}/5</p>
+              {r.comment && <p>Comment: {r.comment}</p>}
+            </div>
+          ))
+        )}
       </div>
     </div>
   );

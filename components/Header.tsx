@@ -11,18 +11,7 @@ interface SearchResult {
   name: string;
 }
 
-const categories = [
-  'Sweaters',
-  'Skirts',
-  'Shirts',
-  'Hats',
-  'Footwear',
-  'Jewelry',
-  'Accessories',
-  'Leatherwork',
-  'Quilts',
-  'Misc',
-];
+
 
 export default function Header() {
   const router = useRouter();
@@ -30,6 +19,21 @@ export default function Header() {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [showResults, setShowResults] = useState(false);
+  const [categories, setCategories] = useState<string[]>([]);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const res = await fetch("/api/categories");
+        if (!res.ok) throw new Error("Failed to fetch categories");
+        const data = await res.json();
+        setCategories(data.categories || []);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    fetchCategories();
+  }, []);
 
   useEffect(() => {
     if (!searchTerm.trim()) {
@@ -138,7 +142,7 @@ export default function Header() {
                 href={`/category/${category.toLowerCase()}`}
                 className="font-medium hover:underline"
               >
-                {category}
+                {category.charAt(0).toUpperCase() + category.slice(1)}
               </Link>
             ))}
           </div>
@@ -174,7 +178,7 @@ export default function Header() {
               onClick={() => setMenuOpen(false)}
               className="hover:underline"
             >
-              {category}
+              {category.charAt(0).toUpperCase() + category.slice(1)}
             </Link>
           ))}
         </nav>

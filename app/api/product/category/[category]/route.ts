@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
-import { prisma } from "@/app/lib/prisma";
+import { prisma } from "../generated/prisma";
 
+// Temporary mock data (replace with Prisma later)
 /*const products = [
   { id: '1', title: 'Handmade Quilt', description: 'A beautiful handcrafted quilt.', price: 119.99, category: 'quilts', stock: 5, sellerId: 'Angie Martin', comments: 'Made with love and high-quality materials.', imageUrl: '/quilts.png'},
   { id: '2', title: 'Patchwork Quilt', category: 'quilts', price: 150, stock: 3, sellerId: 'Angie Martin', comments: 'Colorful and cozy.', imageUrl: '/quilt.png' },
@@ -31,26 +32,25 @@ import { prisma } from "@/app/lib/prisma";
 
 export async function GET(
   request: Request,
-  context: { params: Promise<{ id: string }> }
+  context: { params: Promise<{ category: string }> }
 ) {
-  const { id } = await context.params;
+  const { category } = await context.params;
 
   try {
-    const product = await prisma.product.findUnique({
-      where: { id },
+    const products = await prisma.product.findMany({
+      where: { category },
       include: {
         ProductImage: true,
         Review: true,
       },
+      orderBy: {
+        createdAt: "desc",
+      },
     });
 
-    if (!product) {
-      return new Response(JSON.stringify({ error: "Product not found" }), { status: 404 });
-    }
-
-    return new Response(JSON.stringify({ product }), { status: 200 });
+    return new Response(JSON.stringify({ products }), { status: 200 });
   } catch (err) {
     console.error(err);
-    return new Response(JSON.stringify({ error: "Failed to fetch product" }), { status: 500 });
+    return new Response(JSON.stringify({ error: "Failed to fetch products by category" }), { status: 500 });
   }
 }
