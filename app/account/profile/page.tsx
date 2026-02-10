@@ -112,8 +112,16 @@ export default function ProfilePage() {
                 <span>Settings</span>
               </Link>
               <button 
-                onClick={() => authClient.signOut()}
-                className="flex items-center gap-3 text-gray-700 hover:text-[var(--rust)] transition-colors w-full text-left"
+                type="button"
+                onClick={async () => {
+                  try {
+                    await authClient.signOut();
+                    router.push('/');
+                  } catch (error) {
+                    console.error('Sign out error:', error);
+                  }
+                }}
+                className="flex items-center gap-3 text-gray-700 hover:text-[var(--rust)] transition-colors w-full text-left cursor-pointer"
               >
                 <Settings className="h-5 w-5" />
                 <span>Sign Out</span>
