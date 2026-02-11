@@ -1,15 +1,23 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
+
+type ProductWithImage = {
+  id: string;
+  title: string;
+  price: number;
+  ProductImage: { url: string }[];
+};
+
 export async function GET(
   req: Request,
   context: { params: Promise<{ category: string }> }
 ) {
-  const { category } = await context.params; 
-  const categorySlug = category.toLowerCase();
-
   try {
-    const products = await prisma.product.findMany({ // query products by category
+    const { category } = await context.params; // Extract category from URL params
+    const categorySlug = category.toLowerCase();
+
+    const products: ProductWithImage[] = await prisma.product.findMany({  // Query products by category slug
       where: { category: categorySlug },
       select: {
         id: true,
@@ -22,12 +30,13 @@ export async function GET(
       }
     });
 
-    return NextResponse.json({
-      products: products.map(p => ({
-        id: p.id,
-        title: p.title,
-        price: p.price,
-        imageUrl: p.ProductImage[0]?.url ?? null
+
+    return NextResponse.json({ // Map products to include imageUrl field
+      products: products.map((product) => ({
+        id: product.id,
+        title: product.title,
+        price: product.price,
+        imageUrl: product.ProductImage[0]?.url ?? null
       }))
     });
   } catch (error) {
