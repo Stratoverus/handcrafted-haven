@@ -5,9 +5,9 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "postinstall": "prisma generate",
     "start": "next start",
-    "lint": "eslint",
-    "seed": "ts-node -P tsconfig.seed.json prisma/seed.ts"
+    "lint": "eslint"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.9",
