@@ -1,9 +1,37 @@
 'use client';
 
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Package, ShoppingBag, DollarSign, TrendingUp, Plus, ArrowLeft, Eye, Edit, Trash2 } from 'lucide-react';
+import { authClient } from '@/lib/auth/client';
 
 export default function DashboardPage() {
+  const router = useRouter();
+  const { data } = authClient.useSession();
+  const [checkComplete, setCheckComplete] = useState(false);
+  
+  useEffect(() => {
+    // Set a timeout to mark check as complete
+    const timeout = setTimeout(() => {
+      setCheckComplete(true);
+    }, 1000);
+
+    return () => clearTimeout(timeout);
+  }, []);
+
+  useEffect(() => {
+    // Redirect if check is complete and no session
+    if (checkComplete && !data?.session) {
+      router.push('/auth/sign-in');
+    }
+  }, [checkComplete, data, router]);
+
+  // Don't show anything until we have a confirmed session
+  if (!data?.session) {
+    return null;
+  }
+
   // Mock sales data - will be replaced with actual data later
   const stats = {
     totalProducts: 24,
@@ -30,7 +58,7 @@ export default function DashboardPage() {
       <div className="flex items-center justify-between mb-8">
         <div>
           <Link 
-            href="/profile"
+            href="/account/profile"
             className="flex items-center gap-2 text-[var(--rust)] hover:underline mb-2"
           >
             <ArrowLeft className="h-4 w-4" />
@@ -39,7 +67,7 @@ export default function DashboardPage() {
           <h1 className="text-3xl font-bold text-[var(--navy)]">Seller Dashboard</h1>
         </div>
         <Link
-          href="/dashboard/add-product"
+          href="/account/dashboard/add-product"
           className="flex items-center gap-2 bg-[var(--rust)] text-white px-6 py-3 rounded-lg hover:bg-[#b84f2e] transition-colors"
         >
           <Plus className="h-5 w-5" />
@@ -108,7 +136,7 @@ export default function DashboardPage() {
             ))}
           </div>
           <Link 
-            href="/dashboard/orders"
+            href="/account/dashboard/orders"
             className="block mt-4 text-center text-[var(--rust)] hover:underline font-medium"
           >
             View All Orders
@@ -144,7 +172,7 @@ export default function DashboardPage() {
             ))}
           </div>
           <Link 
-            href="/dashboard/products"
+            href="/account/dashboard/products"
             className="block mt-4 text-center text-[var(--rust)] hover:underline font-medium"
           >
             Manage All Products
