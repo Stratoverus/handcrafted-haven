@@ -1,9 +1,9 @@
-//import { AccountView } from '@neondatabase/auth/react';
-//import { accountViewPaths } from '@neondatabase/auth/react/ui/server';
+import { AccountView } from '@neondatabase/auth/react';
+import { accountViewPaths } from '@neondatabase/auth/react/ui/server';
 
 export const dynamicParams = false;
 
-/*export function generateStaticParams() {
+export function generateStaticParams() {
   return Object.values(accountViewPaths).map((path) => ({ path }));
 }
 
@@ -15,4 +15,4 @@ export default async function AccountPage({ params }: { params: Promise<{ path: 
       <AccountView path={path} />
     </main>
   );
-}*/
+}
