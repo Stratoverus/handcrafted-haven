@@ -1,7 +1,7 @@
 "use client";
 
-import Header from '../components/Header';
-import Footer from '../components/Footer';
+import Header from './components/Header';
+import Footer from './components/Footer';
 import { NeonAuthUIProvider } from '@neondatabase/auth/react';
 import { authClient } from './lib/auth/client';
 import '../app/globals.css';

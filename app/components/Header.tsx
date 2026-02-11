@@ -20,15 +20,15 @@ export default function Header() {
         <div className="px-4 bg-white/45">
           <div className="flex items-center justify-center sm:justify-between gap-4 text-black">
 
-            {/* Left Menu */}
+            {/* Logo */}
             <div className="flex items-center gap-4 shrink-0">
               <Logo />
             </div>
 
-            {/* Middle */}
+            {/* Search Nav */}
             <SearchNav className="hidden sm:block flex-1 max-w-xl "/>
 
-            {/* Right */}
+            {/* User actions */}
             <UserActions className="hidden sm:flex items-center gap-4 shrink-0"/>
             
           </div>
