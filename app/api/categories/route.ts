@@ -1,0 +1,20 @@
+import { NextResponse } from "next/server";
+import { prisma } from "@/lib/prisma";
+
+export async function GET() {
+  try {
+    const categories: { category: string }[] = // query distinct categories from products
+      await prisma.product.findMany({
+        select: { category: true },
+        distinct: ["category"],
+        orderBy: { category: "asc" },
+      });
+
+    return NextResponse.json({
+      categories: categories.map(({ category }) => category)
+    });
+  } catch (error) {
+    console.error("Category API error:", error);
+    return NextResponse.json({ categories: [] }, { status: 500 });
+  }
+}

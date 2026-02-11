@@ -1,37 +1,9 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { User, Mail, Phone, MapPin, Package, Heart, Settings, Store } from 'lucide-react';
-import { authClient } from '@/lib/auth/client';
 
 export default function ProfilePage() {
-  const router = useRouter();
-  const { data } = authClient.useSession();
-  const [checkComplete, setCheckComplete] = useState(false);
-  
-  useEffect(() => {
-    // Set a timeout to mark check as complete
-    const timeout = setTimeout(() => {
-      setCheckComplete(true);
-    }, 500);
-
-    return () => clearTimeout(timeout);
-  }, []);
-
-  useEffect(() => {
-    // Redirect if check is complete and no session
-    if (checkComplete && !data?.session) {
-      router.push('/auth/sign-in');
-    }
-  }, [checkComplete, data, router]);
-
-  // Don't show anything until we have a confirmed session
-  if (!data?.session) {
-    return null;
-  }
-
   // Mock user data - need to connect db at some point
   const user = {
     name: 'Keith Eberhard',
@@ -82,7 +54,7 @@ export default function ProfilePage() {
           {user.isSeller && (
             <div className="mt-6 pt-6 border-t">
               <Link 
-                href="/account/dashboard"
+                href="/dashboard"
                 className="flex items-center gap-3 bg-[var(--rust)] text-white px-6 py-3 rounded-lg hover:bg-[#b84f2e] transition-colors"
               >
                 <Store className="h-5 w-5" />
@@ -98,25 +70,18 @@ export default function ProfilePage() {
             <h3 className="font-semibold text-[var(--navy)] mb-4">Quick Actions</h3>
             <div className="space-y-3">
               <Link 
-                href="/account/profile/orders"
+                href="/profile/orders"
                 className="flex items-center gap-3 text-gray-700 hover:text-[var(--rust)] transition-colors"
               >
                 <Package className="h-5 w-5" />
                 <span>My Orders</span>
               </Link>
               <Link 
-                href="/account/profile/favorites"
+                href="/profile/favorites"
                 className="flex items-center gap-3 text-gray-700 hover:text-[var(--rust)] transition-colors"
               >
                 <Settings className="h-5 w-5" />
                 <span>Settings</span>
-              </Link>
-              <Link 
-                href="/auth/sign-out"
-                className="flex items-center gap-3 text-gray-700 hover:text-[var(--rust)] transition-colors"
-              >
-                <Settings className="h-5 w-5" />
-                <span>Sign out</span>
               </Link>
             </div>
           </div>
@@ -145,7 +110,7 @@ export default function ProfilePage() {
               <p className="text-sm text-gray-600">2 days ago</p>
               {/* Need to hook this into db as well, see below and above*/}
             </div>
-            <Link href="/account/profile/orders/12345" className="text-[var(--rust)] hover:underline text-sm">
+            <Link href="/profile/orders/12345" className="text-[var(--rust)] hover:underline text-sm">
               View Order
             </Link>
           </div>
