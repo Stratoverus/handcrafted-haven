@@ -15,8 +15,11 @@ importers:
         specifier: ^2.2.0
         version: 2.2.0(react@19.2.3)
       '@neondatabase/auth':
-        specifier: 0.2.0-beta.1
-        version: 0.2.0-beta.1(2523006760668e81b668a30d6fa28921)
+        specifier: ^0.2.0-beta.1
+        version: 0.2.0-beta.1(4e89e781f72799b83c71c0db29c5c1c7)
+      '@prisma/client':
+        specifier: ^6.7.0
+        version: 6.19.2(prisma@6.19.2(typescript@5.9.3))(typescript@5.9.3)
       '@stackframe/stack':
         specifier: ^2.8.65
         version: 2.8.65(@aws-sdk/credential-provider-web-identity@3.972.5)(@types/react-dom@19.2.3(@types/react@19.2.9))(@types/react@19.2.9)(next@16.1.6(@babel/core@7.28.6)(@opentelemetry/api@1.9.0)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(tailwindcss@4.1.18)
@@ -324,6 +327,10 @@ packages:
 
   '@captchafox/types@1.4.0':
     resolution: {integrity: sha512-4xnPMICLinsXghw6zWEF436lhMsBmLxui2QmU7xAEz/+572BRdvc518Sz5OoofbJ7GZG6QPz/wOtJoN8BfKyCg==}
+
+  '@cspotcode/source-map-support@0.8.1':
+    resolution: {integrity: sha512-IchNf6dN4tHoMFIn/7OE8LWZ19Y6q/67Bmf6vnGREv8RSbBVb9LPJxEcnwrcwX6ixSvaiGoomAUvu4YSxXrVgw==}
+    engines: {node: '>=12'}
 
   '@date-fns/tz@1.4.1':
     resolution: {integrity: sha512-P5LUNhtbj6YfI3iJjw5EL9eUAG6OitD0W3fWQcpQjDRc/QIsL0tRNuO1PcDvPccWL1fSTXXdE1ds+l95DV/OFA==}
@@ -807,21 +814,21 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@instantdb/core@0.22.126':
-    resolution: {integrity: sha512-MmOjg97mxYy6VEct/1VKAtMgiDJgjQKj72d2FgKb91cAlWfhZjXfCy/V3MfsvZtfvAolTYYqfHqiRy6BZbOQJg==}
+  '@instantdb/core@0.22.123':
+    resolution: {integrity: sha512-llsaC+atVpHuhSPG15iksmzqbua6TisaoUPqrlVidfLDI222uAx6nHApRR9I4VNPT+pqzqMxY7eXsM5PDiKPfg==}
 
-  '@instantdb/react-common@0.22.126':
-    resolution: {integrity: sha512-K+6lHMg0DpVU/Ta2Xjsl0ZsHh810wHBCjnSgvqev0dufAUc+Cw/vTBkBOPqOzdQtBimktFFmqw+DEJ0ncMzWwQ==}
+  '@instantdb/react-common@0.22.123':
+    resolution: {integrity: sha512-g1sZLyxd8hyiO2RRGN/MhEUH9wC6VT5VNIACjJOWMDvprccFOmatctOHUYXVBXBKY+hcQMuh5U1Ze0JM78rknw==}
     peerDependencies:
       react: '>=16'
 
-  '@instantdb/react@0.22.126':
-    resolution: {integrity: sha512-e6FlZXCBbA5ZKtqeTqJRtC+VwnPDQa2aUfLBOurSeFfqRLAdJEbJoDiyLewFLgEIDMmWv+8mTrLZ5G+wcfqXYg==}
+  '@instantdb/react@0.22.123':
+    resolution: {integrity: sha512-HA9GktPHJohx4JbcQSkqrBVNDVYLQbocbAtl+wBlhX8qpGA7uEGbiRFpRI8IegyowPOI93vch8RlXBnyfUQyJw==}
     peerDependencies:
       react: '>=16'
 
-  '@instantdb/version@0.22.126':
-    resolution: {integrity: sha512-E+jKdg/gZUt10t2TLuv9IRCZWy7Uppy3/X2GkW9ornpjUPC80IOh/+GeoImo1oeipwSEEWatIfJMMSbuPIrTQA==}
+  '@instantdb/version@0.22.123':
+    resolution: {integrity: sha512-MU/+pljTJeocwac1GMeZUBUO1VxYZKubKmtygy7JCefRpC0ux+yQ0HOkBnRKxSp9hMfwk5nNf48T+vRXxD4eTg==}
 
   '@isaacs/balanced-match@4.0.1':
     resolution: {integrity: sha512-yzMTt9lEb8Gv7zRioUilSglI0c0smZ9k5D65677DLWLtWJaXIS3CqcGyUFByYKlnUj6TkjLVs54fBl6+TiGQDQ==}
@@ -3193,6 +3200,9 @@ packages:
   create-require@1.1.1:
     resolution: {integrity: sha512-dcKFX3jn0MpIaXjisoRvexIJVEKzaq7z2rZKxf+MSr9TkdmHmsU4m2lcLojrj/FHl8mk5VxMmYA+ftRkP/3oKQ==}
 
+  create-require@1.1.1:
+    resolution: {integrity: sha512-dcKFX3jn0MpIaXjisoRvexIJVEKzaq7z2rZKxf+MSr9TkdmHmsU4m2lcLojrj/FHl8mk5VxMmYA+ftRkP/3oKQ==}
+
   cross-spawn@7.0.6:
     resolution: {integrity: sha512-uV2QOWP2nWzsy2aMp8aRibhi9dlzF5Hgh5SHaB9OiTGEyDTiJJyx0uy51QXdyWbtAHNua4XJzUKca3OzKUd3vA==}
     engines: {node: '>= 8'}
@@ -3282,6 +3292,10 @@ packages:
 
   detect-node-es@1.1.0:
     resolution: {integrity: sha512-ypdmJU/TbBby2Dxibuv7ZLW3Bs1QEmM7nHjEANfohJLvE0XVujisn1qPJcZxg+qDucsr+bP6fLD1rPS3AhJ7EQ==}
+
+  diff@4.0.4:
+    resolution: {integrity: sha512-X07nttJQkwkfKfvTPG/KSnE2OMdcUCao6+eXF3wmnIQRn2aPAHH3VxDbDOdegkd6JbPsXqShpvEOHfAT+nCNwQ==}
+    engines: {node: '>=0.3.1'}
 
   dijkstrajs@1.0.3:
     resolution: {integrity: sha512-qiSlmBq9+BCdCA/L46dw8Uy93mloxsPSbwnm5yrKn2vMPiy8KyAskTF6zuV/j5BMsmOGZDPs7KjU+mjb670kfA==}
@@ -3540,6 +3554,13 @@ packages:
 
   fast-decode-uri-component@1.0.1:
     resolution: {integrity: sha512-WKgKWg5eUxvRZGwW8FvfbaH7AXSh2cL+3j5fMGzUMCxWBJ3dV3a7Wz8y2f/uQ0e3B6WmodD3oS54jTQ9HVTIIg==}
+
+  exsolve@1.0.8:
+    resolution: {integrity: sha512-LmDxfWXwcTArk8fUEnOfSZpHOJ6zOMUJKOtFLFqJLoKJetuQG874Uc7/Kki7zFLzYybmZhp1M7+98pfMqeX8yA==}
+
+  fast-check@3.23.2:
+    resolution: {integrity: sha512-h5+1OzzfCC3Ef7VbtKdcv7zsstUQwUDlYpUTvjeUsJAssPgLn7QzbboPtL5ro04Mq0rPOsMzl7q5hIbRs2wD1A==}
+    engines: {node: '>=8.0.0'}
 
   fast-deep-equal@3.1.3:
     resolution: {integrity: sha512-f3qQ9oQy9j2AhBe/H9VC91wLmKBCCU/gDOnKNAYG5hswO7BLKj09Hc5HYNz9cGI++xlpDCIgDaitVs03ATR84Q==}
@@ -4262,6 +4283,11 @@ packages:
   normalize-wheel@1.0.1:
     resolution: {integrity: sha512-1OnlAPZ3zgrk8B91HyRj+eVv+kS5u+Z0SCsak6Xil/kmgEia50ga7zfkumayonZrImffAxPU/5WcyGhzetHNPA==}
 
+  nypm@0.6.5:
+    resolution: {integrity: sha512-K6AJy1GMVyfyMXRVB88700BJqNUkByijGJM8kEHpLdcAt+vSQAVfkWWHYzuRXHSY6xA2sNc5RjTj0p9rE2izVQ==}
+    engines: {node: '>=18'}
+    hasBin: true
+
   oauth4webapi@3.8.4:
     resolution: {integrity: sha512-EKlVEgav8zH31IXxvhCqjEgQws6S9QmnmJyLXmeV5REf59g7VmqRVa5l/rhGWtUqGm2rLVTNwukn9hla5kJ2WQ==}
   node-sql-parser@4.18.0:
@@ -4318,6 +4344,9 @@ packages:
   openapi-types@12.1.3:
     resolution: {integrity: sha512-N4YtSYJqghVu4iek2ZUvcN/0aqH1kRDuNqzcycDxhOUpg7GdvLa2F3DgS6yBNhInhv2r/6I0Flkn7CqL8+nIcw==}
 
+  ohash@2.0.11:
+    resolution: {integrity: sha512-RdR9FQrFwNBNXAr4GixM8YaRZRJ5PUWbKYbE5eOsrwAjJW0q2REGcf79oYPsLyskQCZG1PLN+S/K1V00joZAoQ==}
+
   optionator@0.9.4:
     resolution: {integrity: sha512-6IpQ7mKUxRcZNLIObR0hz7lxsapSSIYNZJwXPGeF0mTVqGKFIXj1DQcMoT22S3ROcLyY/rz0PWaWZ9ayWmad9g==}
     engines: {node: '>= 0.8.0'}
@@ -4371,6 +4400,9 @@ packages:
     resolution: {integrity: sha512-oWyT4gICAu+kaA7QWk/jvCHWarMKNs6pXOGWKDTr7cw4IGcUbW+PeTfbaQiLGheFRpjo6O9J0PmyMfQPjH71oA==}
     engines: {node: 20 || >=22}
 
+  pathe@2.0.3:
+    resolution: {integrity: sha512-WUjGcAqP1gQacoQe+OBJsFA7Ld4DyXuUIjZ5cc75cLHvJ7dtNsTugphxIADwspS+AraAUePCKrSVtPLFj/F88w==}
+
   peberminta@0.9.0:
     resolution: {integrity: sha512-XIxfHpEuSJbITd1H3EeQwpcZbTLHc+VVr8ANI9t5sit565tsI4/xK3KWTUFE2e6QiangUkh3B0jihzmGnNrRsQ==}
   pathe@2.0.3:
@@ -4417,6 +4449,9 @@ packages:
   pgsql-parser@13.19.1:
     resolution: {integrity: sha512-px+T9MY97vMzJWupiKSBXONJuQXtP6ix63RDH0xkZWG+Nv0qw45CnfMZrySmNp21YEOXVvlZTNTYN1MxulC6iQ==}
 
+  perfect-debounce@1.0.0:
+    resolution: {integrity: sha512-xCy9V055GLEqoFaHoC1SoLIaLmWctgCUaBaWxDZ7/Zx4CTyX7cJQLJOok/orfjZAh9kEYpjJa4d0KcJmCbctZA==}
+
   picocolors@1.1.1:
     resolution: {integrity: sha512-xceH2snhtb5M9liqDsmEw56le376mTZkEX/jEb/RxNFyegNul7eNslCXP9FDj/Lcu0X8KEyMceP2ntpaHrDEVA==}
 
@@ -4427,6 +4462,9 @@ packages:
   picomatch@4.0.3:
     resolution: {integrity: sha512-5gTmgEY/sqK6gFXLIsQNH19lWb4ebPDLA4SdLP7dsWkIXHWlG66oPuVvXSGFPppYZz8ZDZq0dYYrbHfBCVUb1Q==}
     engines: {node: '>=12'}
+
+  pkg-types@2.3.0:
+    resolution: {integrity: sha512-SIqCzDRg0s9npO5XQ3tNZioRY1uK06lA41ynBC1YmFTmnY6FjUjVt6s4LoADmwoig1qqD0oK8h1p/8mlMx8Oig==}
 
   pngjs@5.0.0:
     resolution: {integrity: sha512-40QW5YalBNfQo5yRYmiw7Yz6TKKVr3h6970B2YE+3fQpsWcrbj1PzJgxeJ19DRQjhMbKPIuMY8rFaXc8moolVw==}
@@ -4638,6 +4676,23 @@ packages:
     peerDependencies:
       react: ^16.14.0 || ^17.0.0 || ^18.0.0 || ^19.0.0 || ^19.0.0-rc
       react-dom: ^16.14.0 || ^17.0.0 || ^18.0.0 || ^19.0.0 || ^19.0.0-rc
+  react-router-dom@7.13.0:
+    resolution: {integrity: sha512-5CO/l5Yahi2SKC6rGZ+HDEjpjkGaG/ncEP7eWFTvFxbHP8yeeI0PxTDjimtpXYlR3b3i9/WIL4VJttPrESIf2g==}
+    engines: {node: '>=20.0.0'}
+    peerDependencies:
+      react: '>=18'
+      react-dom: '>=18'
+
+  react-router@7.13.0:
+    resolution: {integrity: sha512-PZgus8ETambRT17BUm/LL8lX3Of+oiLaPuVTRH3l1eLvSPpKO3AvhAEb5N7ihAFZQrYDqkvvWfFh9p0z9VsjLw==}
+    engines: {node: '>=20.0.0'}
+    peerDependencies:
+      react: '>=18'
+      react-dom: '>=18'
+    peerDependenciesMeta:
+      react-dom:
+        optional: true
+
   react-router-dom@7.13.0:
     resolution: {integrity: sha512-5CO/l5Yahi2SKC6rGZ+HDEjpjkGaG/ncEP7eWFTvFxbHP8yeeI0PxTDjimtpXYlR3b3i9/WIL4VJttPrESIf2g==}
     engines: {node: '>=20.0.0'}
@@ -4963,6 +5018,10 @@ packages:
     resolution: {integrity: sha512-W/KYk+NFhkmsYpuHq5JykngiOCnxeVL8v8dFnqxSD8qEEdRfXk1SDM6JzNqcERbcGYj9tMrDQBYV9cjgnunFIg==}
     engines: {node: '>=18'}
 
+  tinyexec@1.0.2:
+    resolution: {integrity: sha512-W/KYk+NFhkmsYpuHq5JykngiOCnxeVL8v8dFnqxSD8qEEdRfXk1SDM6JzNqcERbcGYj9tMrDQBYV9cjgnunFIg==}
+    engines: {node: '>=18'}
+
   tinyglobby@0.2.15:
     resolution: {integrity: sha512-j2Zq4NyQYG5XMST4cbs02Ak8iJUdxRM0XI5QyxXuZOzKOINmWurp3smXu3y5wDcJrptwpSjgXHzIQxR0omXljQ==}
     engines: {node: '>=12.0.0'}
@@ -5118,6 +5177,9 @@ packages:
   v8-compile-cache-lib@3.0.1:
     resolution: {integrity: sha512-wa7YjyUGfNZngI/vtK0UHAN+lgDCxBPCylVXGp0zu59Fz5aiGtNXaq3DhIov063MorB+VfufLh3JlF2KdTK3xg==}
 
+  v8-compile-cache-lib@3.0.1:
+    resolution: {integrity: sha512-wa7YjyUGfNZngI/vtK0UHAN+lgDCxBPCylVXGp0zu59Fz5aiGtNXaq3DhIov063MorB+VfufLh3JlF2KdTK3xg==}
+
   vaul@1.1.2:
     resolution: {integrity: sha512-ZFkClGpWyI2WUQjdLJ/BaGuV6AVQiJ3uELGk3OYtP+B6yCO7Cmn9vPFXVJkRaGkOJu3m8bQMgtyzNHixULceQA==}
     peerDependencies:
@@ -5182,6 +5244,10 @@ packages:
     resolution: {integrity: sha512-mplynKqc1C2hTVYxd0PU2xQAc22TI1vShAYGksCCfxbn/dFwnHTNi1bvYsBTkhdUNtGIf5xNOg938rrSSYvS9A==}
     engines: {node: '>= 14.6'}
     hasBin: true
+
+  yn@3.1.1:
+    resolution: {integrity: sha512-Ux4ygGWsu2c7isFWe8Yu1YluJmqVhxqK2cLXNQA5AcC3QfbGNpM7fu0Y8b/z16pXLnFxZYvWhd3fhBY9DLmC6Q==}
+    engines: {node: '>=6'}
 
   yn@3.1.1:
     resolution: {integrity: sha512-Ux4ygGWsu2c7isFWe8Yu1YluJmqVhxqK2cLXNQA5AcC3QfbGNpM7fu0Y8b/z16pXLnFxZYvWhd3fhBY9DLmC6Q==}
@@ -5730,6 +5796,10 @@ snapshots:
 
   '@captchafox/types@1.4.0': {}
 
+  '@cspotcode/source-map-support@0.8.1':
+    dependencies:
+      '@jridgewell/trace-mapping': 0.3.9
+
   '@date-fns/tz@1.4.1': {}
   '@cspotcode/source-map-support@0.8.1':
     dependencies:
@@ -6133,27 +6203,27 @@ snapshots:
   '@img/sharp-win32-x64@0.34.5':
     optional: true
 
-  '@instantdb/core@0.22.126':
+  '@instantdb/core@0.22.123':
     dependencies:
-      '@instantdb/version': 0.22.126
+      '@instantdb/version': 0.22.123
       mutative: 1.3.0
       uuid: 11.1.0
 
-  '@instantdb/react-common@0.22.126(react@19.2.3)':
+  '@instantdb/react-common@0.22.123(react@19.2.3)':
     dependencies:
-      '@instantdb/core': 0.22.126
-      '@instantdb/version': 0.22.126
+      '@instantdb/core': 0.22.123
+      '@instantdb/version': 0.22.123
       react: 19.2.3
 
-  '@instantdb/react@0.22.126(react@19.2.3)':
+  '@instantdb/react@0.22.123(react@19.2.3)':
     dependencies:
-      '@instantdb/core': 0.22.126
-      '@instantdb/react-common': 0.22.126(react@19.2.3)
-      '@instantdb/version': 0.22.126
+      '@instantdb/core': 0.22.123
+      '@instantdb/react-common': 0.22.123(react@19.2.3)
+      '@instantdb/version': 0.22.123
       eventsource: 4.1.0
       react: 19.2.3
 
-  '@instantdb/version@0.22.126': {}
+  '@instantdb/version@0.22.123': {}
 
   '@isaacs/balanced-match@4.0.1': {}
 
@@ -6220,10 +6290,10 @@ snapshots:
       '@tybys/wasm-util': 0.10.1
     optional: true
 
-  '@neondatabase/auth-ui@0.1.0-alpha.11(6a617a8fa0ed517d89aeaab59c45a49c)':
+  '@neondatabase/auth-ui@0.1.0-alpha.11(5565815929db90245610a4dd855622ef)':
     dependencies:
       '@captchafox/react': 1.10.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      '@daveyplate/better-auth-ui': 3.3.9(c80be78c09c35a2251a542e842272ec3)
+      '@daveyplate/better-auth-ui': 3.3.9(f682fe7d6bfbb7250944768c644c82a7)
       '@hcaptcha/react-hcaptcha': 1.17.4(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       '@hookform/resolvers': 5.2.2(react-hook-form@7.71.1(react@19.2.3))
       '@marsidev/react-turnstile': 1.4.2(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
@@ -6279,7 +6349,7 @@ snapshots:
       - '@types/react-dom'
       - better-auth
 
-  '@neondatabase/auth@0.2.0-beta.1(2523006760668e81b668a30d6fa28921)':
+  '@neondatabase/auth@0.2.0-beta.1(4e89e781f72799b83c71c0db29c5c1c7)':
     dependencies:
       '@neondatabase/auth-ui': 0.1.0-alpha.11(6a617a8fa0ed517d89aeaab59c45a49c)
   '@neondatabase/auth@0.2.0-beta.1(ee965512311e1e73131ca5e9d3c76fd1)':
@@ -8772,7 +8842,7 @@ snapshots:
   better-call@1.1.5(zod@4.3.5):
     dependencies:
       '@better-auth/utils': 0.3.0
-      '@better-fetch/fetch': 1.1.18
+      '@better-fetch/fetch': 1.1.21
       rou3: 0.7.12
       set-cookie-parser: 2.7.2
     optionalDependencies:
@@ -8942,6 +9012,8 @@ snapshots:
   crc@4.3.2: {}
   create-require@1.1.1: {}
 
+  create-require@1.1.1: {}
+
   cross-spawn@7.0.6:
     dependencies:
       path-key: 3.1.1
@@ -9015,6 +9087,8 @@ snapshots:
   detect-libc@2.1.2: {}
 
   detect-node-es@1.1.0: {}
+
+  diff@4.0.4: {}
 
   dijkstrajs@1.0.3: {}
   diff@4.0.4: {}
@@ -9440,6 +9514,12 @@ snapshots:
   fast-content-type-parse@1.1.0: {}
 
   fast-decode-uri-component@1.0.1: {}
+
+  exsolve@1.0.8: {}
+
+  fast-check@3.23.2:
+    dependencies:
+      pure-rand: 6.1.0
 
   fast-deep-equal@3.1.3: {}
 
@@ -10136,6 +10216,12 @@ snapshots:
 
   normalize-wheel@1.0.1: {}
 
+  nypm@0.6.5:
+    dependencies:
+      citty: 0.2.0
+      pathe: 2.0.3
+      tinyexec: 1.0.2
+
   oauth4webapi@3.8.4: {}
   node-sql-parser@4.18.0:
     dependencies:
@@ -10197,6 +10283,8 @@ snapshots:
 
   openapi-types@12.1.3: {}
 
+  ohash@2.0.11: {}
+
   optionator@0.9.4:
     dependencies:
       deep-is: 0.1.4
@@ -10252,6 +10340,8 @@ snapshots:
       lru-cache: 11.2.5
       minipass: 7.1.2
 
+  pathe@2.0.3: {}
+
   peberminta@0.9.0: {}
   pathe@2.0.3: {}
 
@@ -10296,11 +10386,19 @@ snapshots:
       libpg-query: 13.6.0
       pgsql-deparser: 13.19.1
 
+  perfect-debounce@1.0.0: {}
+
   picocolors@1.1.1: {}
 
   picomatch@2.3.1: {}
 
   picomatch@4.0.3: {}
+
+  pkg-types@2.3.0:
+    dependencies:
+      confbox: 0.2.4
+      exsolve: 1.0.8
+      pathe: 2.0.3
 
   pngjs@5.0.0: {}
   pino-abstract-transport@2.0.0:
@@ -10502,6 +10600,20 @@ snapshots:
     dependencies:
       react: 19.2.3
       react-dom: 19.2.3(react@19.2.3)
+  react-router-dom@7.13.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3):
+    dependencies:
+      react: 19.2.3
+      react-dom: 19.2.3(react@19.2.3)
+      react-router: 7.13.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+
+  react-router@7.13.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3):
+    dependencies:
+      cookie: 1.1.1
+      react: 19.2.3
+      set-cookie-parser: 2.7.2
+    optionalDependencies:
+      react-dom: 19.2.3(react@19.2.3)
+
   react-router-dom@7.13.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3):
     dependencies:
       react: 19.2.3
@@ -10868,6 +10980,8 @@ snapshots:
 
   tinyexec@1.0.2: {}
 
+  tinyexec@1.0.2: {}
+
   tinyglobby@0.2.15:
     dependencies:
       fdir: 6.5.0(picomatch@4.0.3)
@@ -11055,6 +11169,8 @@ snapshots:
   uzip@0.20201231.0: {}
   v8-compile-cache-lib@3.0.1: {}
 
+  v8-compile-cache-lib@3.0.1: {}
+
   vaul@1.1.2(@types/react-dom@19.2.3(@types/react@19.2.9))(@types/react@19.2.9)(react-dom@19.2.3(react@19.2.3))(react@19.2.3):
     dependencies:
       '@radix-ui/react-dialog': 1.1.15(@types/react-dom@19.2.3(@types/react@19.2.9))(@types/react@19.2.9)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
@@ -11152,6 +11268,8 @@ snapshots:
   yallist@3.1.1: {}
 
   yaml@2.8.2: {}
+
+  yn@3.1.1: {}
 
   yn@3.1.1: {}
 
