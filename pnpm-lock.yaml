@@ -15,7 +15,7 @@ importers:
         specifier: ^2.2.0
         version: 2.2.0(react@19.2.3)
       '@neondatabase/auth':
-        specifier: ^0.2.0-beta.1
+        specifier: 0.2.0-beta.1
         version: 0.2.0-beta.1(4e89e781f72799b83c71c0db29c5c1c7)
       '@prisma/client':
         specifier: ^6.7.0
