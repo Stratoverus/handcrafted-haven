@@ -2,11 +2,7 @@ import SelectRegion from "./selectRegion"
 import GoogleAuthBtn from "../authBtns/googleAuthBtn";
 import GitHubAuthBtn from "../authBtns/gitHubAuthBtn";
 
-export default async function RegisterForm() {
-
-    // wasup
-    const res = await fetch("https://www.apicountries.com/countries", {cache: "no-store"});
-    const data = await res.json();
+export default function RegisterForm() {
 
     return (
         <>
@@ -15,35 +11,13 @@ export default async function RegisterForm() {
         
                     <div className="flex flex-col gap-y-9 items-center">
                         <fieldset className=" bg-[#FFF] w-50 rounded-lg p-5 w-20 md:w-70 lg:w-100 shadow-xl/30">
-                            <h2 className="text-center font-bold tracking-tight text-gray-900" style={{ fontSize: "1.5rem" }}>
+                            <h2 className="p-2 mb-2 text-center font-bold tracking-tight text-gray-900" style={{ fontSize: "1.5rem" }}>
                                 Register your account with
                             </h2>
-
-                            <div className="flex flex-col gap-2 items-center">
-                                <div className="gap-2 p-2">
-                                    
-                                    <div className="flex flex-col gap-2 p-2">
-                                        {/* Google Btn */}
-                                        <GoogleAuthBtn />
-
-                                        {/* GitHub Btn */}
-                                        <GitHubAuthBtn />                    
-                                    </div>
-
-                                </div>
-                            </div>
 
                             <form action="#" method="POST" className="flex flex-col space-y-6"> 
                                 
                                 <div className="flex min-h-full flex-col justify-center ">
-
-                                    
-
-                                    <div className="flex items-center p-2">
-                                        <div className="h-px flex-1 bg-black/20" />
-                                        <span className="mx-4 text-sm text-black/60">Or create an account</span>
-                                        <div className="h-px flex-1 bg-black/20" />
-                                    </div>
 
                                     <div className="sm:mx-auto sm:w-full sm:max-w-sm">
 
@@ -63,17 +37,6 @@ export default async function RegisterForm() {
                                                 />
                                             </div>
                                         </div>
-
-                                        {/* Region field */}
-                                        <div className="mt-2">
-                                            <label htmlFor="region" className="block text-sm/6 font-medium text-black-100">
-                                                Region
-                                            </label>
-                                            <div className="mt-2 relative">
-                                                <SelectRegion countries={data}/>
-                                            </div>
-                                        </div>
-
                                         
                                         {/* Email Field */}
                                         <div className="mt-2">
@@ -118,12 +81,33 @@ export default async function RegisterForm() {
                                             <input 
                                                 type="submit"
                                                 value="Create account" 
-                                                className="block w-70 rounded-md bg-[#CF5C36] px-3 py-1.5 text-base font-medium text-white outline-1 -outline-offset-1 outline-white/10 hover:bg-[#b94f2f] transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 sm:text-sm/6 cursor-pointer" />
+                                                className="w-full bg-[#CF5C36] rounded-lg p-2 text-white hover:bg-[#CF5C36]/80" />
                                         </div>
 
                                     </div>
                                 </div>
                             </form>
+
+                            <div className="flex items-center p-2 mt-4">
+                                <div className="h-px flex-1 bg-black/20" />
+                                    <span className="mx-4 text-sm text-black/60">Or continue with</span>
+                                <div className="h-px flex-1 bg-black/20" />
+                            </div>
+
+                            <div className="flex flex-col gap-2 items-center">
+                                <div className="gap-2 p-2">
+                                    
+                                    <div className="flex flex-col gap-2 p-2">
+                                        {/* Google Btn */}
+                                        <GoogleAuthBtn />
+
+                                        {/* GitHub Btn */}
+                                        <GitHubAuthBtn />                    
+                                    </div>
+
+                                </div>
+                            </div>
+
                         </fieldset>
                     </div>
 
