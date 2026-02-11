@@ -5,10 +5,10 @@ export async function GET(
   request: Request,
   context: { params: Promise<{ category: string }> }
 ) {
-  const { category } = await context.params;
+  const { category } = await context.params; // Extract category from URL params
 
   try {
-    const products = await prisma.product.findMany({
+    const products = await prisma.product.findMany({ // query products by category
       where: { category },
       include: {
         ProductImage: true,

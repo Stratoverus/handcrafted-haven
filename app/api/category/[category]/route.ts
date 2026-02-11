@@ -9,7 +9,7 @@ export async function GET(
   const categorySlug = category.toLowerCase();
 
   try {
-    const products = await prisma.product.findMany({
+    const products = await prisma.product.findMany({ // query products by category
       where: { category: categorySlug },
       select: {
         id: true,

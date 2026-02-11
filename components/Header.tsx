@@ -102,20 +102,27 @@ export default function Header() {
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 onKeyDown={handleSearch}
-                className="w-full border border-gray-300 rounded pl-10 pr-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#CF5C36]"
+                className="w-full border border-gray-300 rounded pl-10 pr-4 py-2 bg-white text-black focus:outline-none focus:ring-2 focus:ring-[#e76b4c]"
                 onFocus={() => searchResults.length > 0 && setShowResults(true)}
-                onBlur={() => setTimeout(() => setShowResults(false), 200)} // small delay for click
+                onBlur={() => setTimeout(() => setShowResults(false), 200)}
               />
               <Search className="absolute left-3 top-2.5 h-5 w-5 text-black" />
 
-              {/* Search Results Dropdown */}
               {showResults && searchResults.length > 0 && (
                 <ul className="absolute top-full left-0 w-full bg-white border mt-1 rounded shadow z-50 max-h-64 overflow-auto">
                   {searchResults.map((product: any) => (
-                    <li key={product.id} className="px-4 py-2 hover:bg-gray-100">
-                      <Link href={`/product/${product.id}`} onClick={() => setShowResults(false)}>
-                        {product.name}
+                    <li
+                      key={product.id}
+                      className="px-4 py-2 hover:bg-gray-100 flex justify-between items-center"
+                    >
+                      <Link
+                        href={`/product/${product.id}`}
+                        onClick={() => setShowResults(false)}
+                        className="flex-1"
+                      >
+                        <span className="font-medium">{product.title}</span>
                       </Link>
+                      <span className="ml-2 text-gray-600">${product.price.toFixed(2)}</span>
                     </li>
                   ))}
                 </ul>
@@ -171,14 +178,14 @@ export default function Header() {
 
       {/* SLIDE-OUT MENU */}
       <aside
-        className={`fixed top-0 left-0 h-full w-64 bg-white z-50 transform transition-transform duration-300 ${
+        className={`fixed top-0 left-0 h-full w-64 bg-[#CF5C36] text-white z-50 transform transition-transform duration-300 ${
           menuOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
-        <div className="flex items-center justify-between px-4 py-4 border-b">
-          <h2 className="text-lg font-semibold">Categories</h2>
+        <div className="flex items-center justify-between px-4 py-4 border-b border-white bg-[#CF5C36]">
+          <h2 className="text-lg font-semibold text-white">Categories</h2>
           <button aria-label="Close menu" onClick={() => setMenuOpen(false)}>
-            <X />
+            <X className="text-white" />
           </button>
         </div>
 
@@ -188,7 +195,7 @@ export default function Header() {
               key={category}
               href={`/category/${category.toLowerCase()}`}
               onClick={() => setMenuOpen(false)}
-              className="hover:underline"
+              className="hover:underline text-white"
             >
               {category.charAt(0).toUpperCase() + category.slice(1)}
             </Link>

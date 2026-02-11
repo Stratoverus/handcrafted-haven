@@ -5,10 +5,10 @@ import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 
 interface Product {
-  id: number;
-  name: string;
-  price?: number;
-  imageUrl?: string;
+  id: string;
+  title: string;
+  price: number;
+  ProductImage?: { url: string }[];
 }
 
 export default function SearchPage() {
@@ -24,7 +24,7 @@ export default function SearchPage() {
     setLoading(true);
     fetch(`/api/search?q=${encodeURIComponent(query)}`)
       .then((res) => res.json())
-      .then((data) => setProducts(data.products))
+      .then((data) => setProducts(data.products || []))
       .finally(() => setLoading(false));
   }, [query]);
 
@@ -46,17 +46,15 @@ export default function SearchPage() {
               href={`/product/${product.id}`}
               className="border p-4 rounded hover:shadow"
             >
-              {product.imageUrl && (
+              {product.ProductImage && product.ProductImage[0]?.url && (
                 <img
-                  src={product.imageUrl}
-                  alt={product.name}
+                  src={product.ProductImage[0].url}
+                  alt={product.title}
                   className="w-full h-40 object-cover mb-2 rounded"
                 />
               )}
-              <h2 className="font-medium">{product.name}</h2>
-              {product.price !== undefined && (
-                <p className="text-sm text-gray-700">${product.price.toFixed(2)}</p>
-              )}
+              <h2 className="font-medium">{product.title}</h2>
+              <p className="text-sm text-gray-700">${product.price.toFixed(2)}</p>
             </Link>
           ))}
         </div>

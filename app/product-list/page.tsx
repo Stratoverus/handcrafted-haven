@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-interface Product {
+interface Product { //matches product model is prisma schema
   id: string;
   title: string;
   description: string;
@@ -11,7 +11,7 @@ interface Product {
   ProductImage: { id: string; url: string }[];
 }
 
-async function fetchProducts(): Promise<Product[]> {
+async function fetchProducts(): Promise<Product[]> { //fetches all products from API route
   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/product`, {
     cache: "no-store", // ensures fresh data
   });
@@ -19,7 +19,7 @@ async function fetchProducts(): Promise<Product[]> {
   return data.products;
 }
 
-export default async function ProductListPage() {
+export default async function ProductListPage() { //main product listing page component
   const products = await fetchProducts();
 
   return (

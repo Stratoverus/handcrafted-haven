@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma";
 
 export async function GET() {
   try {
-    const categories = await prisma.product.findMany({
+    const categories = await prisma.product.findMany({ // query distinct categories
       select: { category: true },
       distinct: ["category"],
       orderBy: { category: "asc" }

@@ -1,19 +1,35 @@
-import { NextResponse } from 'next/server';
-//import { db } from '@/lib/db'; // your DB client
+import { prisma } from "@/lib/prisma";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(request: Request) {
-  const { searchParams } = new URL(request.url);
-  const query = searchParams.get('q')?.trim();
+export async function GET(req: NextRequest) {
+  try {
+    const { searchParams } = new URL(req.url);
+    const query = searchParams.get("q") || "";
 
-  if (!query) return NextResponse.json({ products: [] });
+    // If the search term is empty, return empty array
+    if (!query.trim()) {
+      return NextResponse.json({ products: [] });
+    }
 
-  //
-  /*const products = await db.product.findMany({
-    where: {
-      name: { contains: query, mode: 'insensitive' },
-    },
-    take: 10, // limit results to 10....change number as needed
-  });
-*/
-  return NextResponse.json({ products });
+    // Search products by title (or you can add description, etc.)
+    const products = await prisma.product.findMany({
+      where: {
+        title: {
+          contains: query,
+          mode: "insensitive", // case-insensitive
+        },
+      },
+      select: {
+        id: true,
+        title: true,
+        price: true,
+        category: true,
+      },
+    });
+
+    return NextResponse.json({ products });
+  } catch (err) {
+    console.error(err);
+    return NextResponse.json({ products: [] }, { status: 500 });
+  }
 }

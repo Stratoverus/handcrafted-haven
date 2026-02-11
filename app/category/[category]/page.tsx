@@ -5,7 +5,7 @@ import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 
-const categoryHeros: Record<string, string> = {
+const categoryHeros: Record<string, string> = { //mapping of category slugs to images
   quilts: '/quilts.png',
   hats: '/hats.png',
   sweaters: '/sweaters.png',

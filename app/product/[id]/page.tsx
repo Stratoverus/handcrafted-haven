@@ -4,18 +4,18 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import Image from 'next/image';
 
-interface ProductImage {
-  id: string;
+interface ProductImage { //matches product image model in prisma schema
+  id: string; 
   url: string;
 }
 
-interface Review {
+interface Review { //matches review model in prisma schema
   id: string;
   rating: number;
   comment?: string;
 }
 
-interface Product {
+interface Product { //matches product model is prisma schema
   id: string;
   title: string;
   description: string;
@@ -27,14 +27,14 @@ interface Product {
   Review: Review[];
 }
 
-interface CartItem {
+interface CartItem { //matches cart item structure stored in localStorage
   id: string;
   title: string;
   price: number;
   quantity: number;
 }
 
-export default function ProductPage() {
+export default function ProductPage() { //main product page component
   const { id } = useParams<{ id: string }>();
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
