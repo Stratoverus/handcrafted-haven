@@ -3,11 +3,12 @@ import { prisma } from "@/lib/prisma";
 
 export async function GET() {
   try {
-    const categories = await prisma.product.findMany({ // query distinct categories
-      select: { category: true },
-      distinct: ["category"],
-      orderBy: { category: "asc" }
-    });
+    const categories: { category: string }[] = // query distinct categories from products
+      await prisma.product.findMany({
+        select: { category: true },
+        distinct: ["category"],
+        orderBy: { category: "asc" },
+      });
 
     return NextResponse.json({
       categories: categories.map((c) => c.category)
