@@ -10,7 +10,7 @@ export async function GET() {
     });
 
     return NextResponse.json({
-      categories: categories.map(c => c.category)
+      categories: categories.map((c) => c.category)
     });
   } catch (error) {
     console.error("Category API error:", error);
