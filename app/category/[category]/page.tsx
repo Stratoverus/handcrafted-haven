@@ -27,7 +27,7 @@ interface Product {
   imageUrl?: string;
 }
 
-export default function CategoryPage() {
+export default function CategoryPage() { //main category page component - displays products in a given category
   const { category } = useParams<{ category: string }>();
   const categorySlug = category?.toLowerCase();
 

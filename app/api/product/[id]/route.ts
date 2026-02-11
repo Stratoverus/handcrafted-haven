@@ -1,8 +1,7 @@
-import { NextResponse } from 'next/server';
 import { prisma } from "@/lib/prisma";
 
 
-export async function GET(
+export async function GET( // API route to fetch product details by ID, including images and reviews
   request: Request,
   context: { params: Promise<{ id: string }> }
 ) {

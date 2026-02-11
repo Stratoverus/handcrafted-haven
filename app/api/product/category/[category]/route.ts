@@ -1,27 +1,32 @@
 import { NextResponse } from 'next/server';
-import { prisma } from "@/lib/prisma";
+import { prisma } from '@/lib/prisma';
 
 export async function GET(
   request: Request,
   context: { params: Promise<{ category: string }> }
 ) {
-  const { category } = await context.params; // Extract category from URL params
-
   try {
-    const products = await prisma.product.findMany({ // query products by category
-      where: { category },
+
+    const { category } = await context.params;
+    const categorySlug = category.toLowerCase();
+
+    const products = await prisma.product.findMany({
+      where: { category: categorySlug },
       include: {
         ProductImage: true,
         Review: true,
       },
       orderBy: {
-        createdAt: "desc",
+        createdAt: 'desc',
       },
     });
 
-    return new Response(JSON.stringify({ products }), { status: 200 });
+    return NextResponse.json({ products }, { status: 200 });
   } catch (err) {
-    console.error(err);
-    return new Response(JSON.stringify({ error: "Failed to fetch products by category" }), { status: 500 });
+    console.error('Category API error:', err);
+    return NextResponse.json(
+      { error: 'Failed to fetch products by category' },
+      { status: 500 }
+    );
   }
 }
