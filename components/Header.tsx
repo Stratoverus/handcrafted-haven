@@ -20,6 +20,7 @@ export default function Header() {
 
   const { data } = authClient.useSession();
   const user = data?.user;
+  const [userName, setUserName] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [showResults, setShowResults] = useState(false);
@@ -38,6 +39,23 @@ export default function Header() {
     };
     fetchCategories();
   }, []);
+
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      if (user) {
+        try {
+          const res = await fetch("/api/profile");
+          if (res.ok) {
+            const data = await res.json();
+            setUserName(data.user.name);
+          }
+        } catch (err) {
+          console.error("Failed to fetch user profile:", err);
+        }
+      }
+    };
+    fetchUserProfile();
+  }, [user]);
 
   useEffect(() => {
     if (!searchTerm.trim()) {
@@ -138,7 +156,7 @@ export default function Header() {
                 <User />
                 {user && (
                   <span className="text-sm font-medium">
-                    {user.name || user.email?.split('@')[0]}
+                    {userName || user.email?.split('@')[0]}
                   </span>
                 )}
               </Link>

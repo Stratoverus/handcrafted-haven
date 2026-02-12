@@ -6,10 +6,46 @@ import Link from 'next/link';
 import { User, Mail, Phone, MapPin, Package, Heart, Settings, Store } from 'lucide-react';
 import { authClient } from '@/lib/auth/client';
 
+interface UserProfile {
+  name: string;
+  email: string;
+  phone: string | null;
+  address: string | null;
+  shopName: string | null;
+  bio: string | null;
+  image: string | null;
+  isSeller: boolean;
+  memberSince: string;
+  role: string;
+  profileComplete: boolean;
+}
+
+interface Order {
+  id: string;
+  displayId: string;
+  total: number;
+  status: string;
+  timeAgo: string;
+  itemCount: number;
+}
+
+interface ProfileData {
+  user: UserProfile;
+  recentOrders: Order[];
+  stats: {
+    totalOrders: number;
+    totalProducts: number;
+  };
+}
+
 export default function ProfilePage() {
   const router = useRouter();
   const { data } = authClient.useSession();
   const [checkComplete, setCheckComplete] = useState(false);
+  const [profileData, setProfileData] = useState<ProfileData | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [becomingSellerLoading, setBecomingSellerLoading] = useState(false);
   
   useEffect(() => {
     // Set a timeout to mark check as complete
@@ -27,20 +63,97 @@ export default function ProfilePage() {
     }
   }, [checkComplete, data, router]);
 
+  useEffect(() => {
+    // Fetch profile data when session is available
+    if (data?.session) {
+      fetchProfileData();
+    }
+  }, [data?.session]);
+
+  useEffect(() => {
+    // Redirect to profile completion if profile is not complete
+    if (profileData && !profileData.user.profileComplete) {
+      router.push('/account/profile/complete');
+    }
+  }, [profileData, router]);
+
+  const fetchProfileData = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const response = await fetch('/api/profile');
+      
+      if (!response.ok) {
+        throw new Error('Failed to fetch profile data');
+      }
+      
+      const data = await response.json();
+      setProfileData(data);
+    } catch (err) {
+      console.error('Error fetching profile data:', err);
+      setError('Failed to load profile data');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleBecomeSeller = async () => {
+    setBecomingSellerLoading(true);
+    try {
+      const response = await fetch('/api/profile/become-seller', {
+        method: 'POST',
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to become seller');
+      }
+
+      const data = await response.json();
+      if (data.success) {
+        // Redirect to congratulations page
+        router.push('/account/profile/seller-welcome');
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Failed to become a seller. Please try again.');
+    } finally {
+      setBecomingSellerLoading(false);
+    }
+  };
+
   // Don't show anything until we have a confirmed session
   if (!data?.session) {
     return null;
   }
 
-  // Mock user data - need to connect db at some point
-  const user = {
-    name: 'Keith Eberhard',
-    email: 'keith.eberhard@example.com',
-    phone: '+1 (123) 123-4567',
-    location: 'Mesa, AZ',
-    isSeller: true, // Temporary: change to true/false to see the other button
-    memberSince: 'January 2025',
-  };
+  if (loading) {
+    return (
+      <div className="max-w-4xl mx-auto flex items-center justify-center min-h-[60vh]">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[var(--rust)] mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading profile...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error || !profileData) {
+    return (
+      <div className="max-w-4xl mx-auto flex items-center justify-center min-h-[60vh]">
+        <div className="text-center">
+          <p className="text-red-600 mb-4">{error || 'Failed to load profile'}</p>
+          <button
+            onClick={fetchProfileData}
+            className="bg-[var(--rust)] text-white px-6 py-2 rounded-lg hover:bg-[#b84f2e] transition-colors"
+          >
+            Retry
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  const { user, recentOrders } = profileData;
 
   return (
     <div className="max-w-4xl mx-auto">
@@ -52,16 +165,19 @@ export default function ProfilePage() {
           <div className="flex items-start justify-between mb-6">
             <div className="flex items-center gap-4">
               <div className="w-20 h-20 bg-[var(--rust)] rounded-full flex items-center justify-center text-white text-2xl font-bold">
-                {user.name.split(' ').map(n => n[0]).join('')}
+                {user.name && user.name.trim() ? user.name.split(' ').filter(n => n).map(n => n[0]).join('').toUpperCase() : 'U'}
               </div>
               <div>
                 <h2 className="text-2xl font-semibold text-[var(--navy)]">{user.name}</h2>
                 <p className="text-gray-600">Member since {user.memberSince}</p>
               </div>
             </div>
-            <button className="p-2 hover:bg-gray-100 rounded-full">
+            <Link
+              href="/account/profile/edit"
+              className="p-2 hover:bg-gray-100 rounded-full"
+            >
               <Settings className="h-5 w-5 text-gray-600" />
-            </button>
+            </Link>
           </div>
 
           <div className="space-y-4">
@@ -69,14 +185,29 @@ export default function ProfilePage() {
               <Mail className="h-5 w-5 text-[var(--rust)]" />
               <span>{user.email}</span>
             </div>
-            <div className="flex items-center gap-3 text-gray-700">
-              <Phone className="h-5 w-5 text-[var(--rust)]" />
-              <span>{user.phone}</span>
-            </div>
-            <div className="flex items-center gap-3 text-gray-700">
-              <MapPin className="h-5 w-5 text-[var(--rust)]" />
-              <span>{user.location}</span>
-            </div>
+            {user.phone && (
+              <div className="flex items-center gap-3 text-gray-700">
+                <Phone className="h-5 w-5 text-[var(--rust)]" />
+                <span>{user.phone}</span>
+              </div>
+            )}
+            {user.address && (
+              <div className="flex items-center gap-3 text-gray-700">
+                <MapPin className="h-5 w-5 text-[var(--rust)]" />
+                <span>{user.address}</span>
+              </div>
+            )}
+            {user.shopName && (
+              <div className="flex items-center gap-3 text-gray-700">
+                <Store className="h-5 w-5 text-[var(--rust)]" />
+                <span className="font-medium">{user.shopName}</span>
+              </div>
+            )}
+            {user.bio && (
+              <div className="mt-4 pt-4 border-t">
+                <p className="text-sm text-gray-700">{user.bio}</p>
+              </div>
+            )}
           </div>
 
           {user.isSeller && (
@@ -127,8 +258,12 @@ export default function ProfilePage() {
               <p className="text-sm text-gray-700 mb-4">
                 Start selling your handcrafted items on Handcrafted Haven!
               </p>
-              <button className="w-full bg-[var(--rust)] text-white px-4 py-2 rounded hover:bg-[#b84f2e] transition-colors">
-                Apply Now
+              <button 
+                onClick={handleBecomeSeller}
+                disabled={becomingSellerLoading}
+                className="w-full bg-[var(--rust)] text-white px-4 py-2 rounded hover:bg-[#b84f2e] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {becomingSellerLoading ? 'Processing...' : 'Apply Now'}
               </button>
             </div>
           )}
@@ -139,16 +274,25 @@ export default function ProfilePage() {
       <div className="mt-8 bg-white rounded-lg shadow-md p-6">
         <h3 className="text-xl font-semibold text-[var(--navy)] mb-4">Recent Orders</h3>
         <div className="space-y-4">
-          <div className="flex items-center justify-between py-3 border-b">
-            <div>
-              <p className="font-medium">Order #12345</p>
-              <p className="text-sm text-gray-600">2 days ago</p>
-              {/* Need to hook this into db as well, see below and above*/}
-            </div>
-            <Link href="/account/profile/orders/12345" className="text-[var(--rust)] hover:underline text-sm">
-              View Order
-            </Link>
-          </div>
+          {recentOrders.length > 0 ? (
+            recentOrders.map((order) => (
+              <div key={order.id} className="flex items-center justify-between py-3 border-b last:border-b-0">
+                <div>
+                  <p className="font-medium text-[var(--navy)]">Order #{order.displayId}</p>
+                  <p className="text-sm text-gray-600">{order.timeAgo} • {order.itemCount} {order.itemCount === 1 ? 'item' : 'items'}</p>
+                  <p className="text-sm text-gray-500">${order.total.toFixed(2)} • {order.status}</p>
+                </div>
+                <Link 
+                  href={`/account/profile/orders/${order.id}`} 
+                  className="text-[var(--rust)] hover:underline text-sm"
+                >
+                  View Order
+                </Link>
+              </div>
+            ))
+          ) : (
+            <p className="text-gray-500 text-center py-8">No orders yet</p>
+          )}
         </div>
       </div>
     </div>
