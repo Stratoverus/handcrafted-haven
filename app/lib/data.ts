@@ -6,10 +6,10 @@ const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' });
 export async function fetchCategories(): Promise<Category[]> { //fetches distinct product categories with product count for each category
   try {
     const categories = await sql<Category[]>`
-      SELECT TRIM(category) AS category, COUNT(*) AS product_count
+      SELECT LOWER(TRIM(category)) AS category, COUNT(*) AS product_count
       FROM public."Product"
-      GROUP BY TRIM(category)
-      ORDER BY LOWER(TRIM(category)) ASC;
+      GROUP BY LOWER(TRIM(category))
+      ORDER BY LOWER(TRIM(category)) ASC
     `;
     return categories;
   } catch (err) {
@@ -23,4 +23,10 @@ export async function fetchCategories(): Promise<Category[]> { //fetches distinc
 //  FROM public."Product"
 //  GROUP BY LOWER(TRIM(category))
 //  ORDER BY LOWER(TRIM(category)) ASC
+
+//  previous
+      // SELECT TRIM(category) AS category, COUNT(*) AS product_count
+      // FROM public."Product"
+      // GROUP BY TRIM(category)
+      // ORDER BY LOWER(TRIM(category)) ASC;
 

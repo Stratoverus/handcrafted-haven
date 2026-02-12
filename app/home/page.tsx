@@ -67,7 +67,7 @@ export default async function Front() {
 
 
 export function Product({ value, count }: { value: string; count: number; }) {
-  const source = `/categories/${value}.png`;
+  const source = `/categories/${value.toLowerCase()}.png`;
   // const [imgSrc, setImgSrc] = useState(`/categories/${value}.png`);
 
   return (
