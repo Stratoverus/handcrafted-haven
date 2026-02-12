@@ -13,6 +13,7 @@ export async function GET( // API route to fetch product details by ID, includin
       include: {
         ProductImage: true,
         Review: true,
+        User: true,
       },
     });
 
