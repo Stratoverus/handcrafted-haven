@@ -18,3 +18,9 @@ export async function fetchCategories(): Promise<Category[]> { //fetches distinc
   }
 }
 
+// * Correct query to avoid upper and lower case between categories *
+//  SELECT LOWER(TRIM(category)) AS category, COUNT(*) AS product_count
+//  FROM public."Product"
+//  GROUP BY LOWER(TRIM(category))
+//  ORDER BY LOWER(TRIM(category)) ASC
+
