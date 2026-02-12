@@ -22,7 +22,7 @@ const defaultHero = '/default.png';
 interface Product {
   id: string;
   title: string;
-  price?: number;no 
+  price?: number;
   imageUrl?: string;
 }
 
