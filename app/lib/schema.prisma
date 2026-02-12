@@ -63,17 +63,19 @@ model Review {
 }
 
 model User {
-  id        String    @id @default(uuid())
-  name      String?
-  email     String    @unique
-  password  String?
-  image     String?
-  role      String    @default("USER")
-  shopName  String?
-  bio       String?
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  Order     Order[]
-  Product   Product[]
-  Review    Review[]
+  id              String    @id @default(uuid())
+  name            String?
+  email           String    @unique
+  image           String?
+  role            String    @default("USER")
+  shopName        String?
+  bio             String?
+  phone           String?
+  address         String?
+  profileComplete Boolean   @default(false)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  Order           Order[]
+  Product         Product[]
+  Review          Review[]
 }
