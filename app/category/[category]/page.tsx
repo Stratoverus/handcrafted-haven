@@ -15,6 +15,7 @@ const categoryHeros: Record<string, string> = { //mapping of category slugs to i
   leatherwork: '/leatherwork.png',
   skirts: '/skirts.png',
   jewelry: '/jewelry.png',
+  leatherwork: '/leatherwork.png',
   
 }
 
@@ -23,13 +24,15 @@ const defaultHero = '/default.png';
 interface Product {
   id: string;
   title: string;
-  price?: number;
+  price?: number;no 
   imageUrl?: string;
 }
 
 export default function CategoryPage() { //main category page component - displays products in a given category
   const { category } = useParams<{ category: string }>();
-  const categorySlug = category?.toLowerCase();
+  const categorySlug = category
+    ? decodeURIComponent(category).toLowerCase()
+    : undefined;
 
   const [heroSrc, setHeroSrc] = useState(defaultHero);
 
@@ -61,8 +64,8 @@ export default function CategoryPage() { //main category page component - displa
 
   const displayName = categorySlug
   ? categorySlug
-      .split('-')
-      .map(w => w[0].toUpperCase() + w.slice(1))
+      .split(/[\s-]+/)
+      .map(w => w.charAt(0).toUpperCase() + w.slice(1))
       .join(' ')
   : '';
 

@@ -9,6 +9,13 @@ import { authClient } from '@/lib/auth/client';
 
 import { useRouter } from 'next/navigation';
 
+function toTitleCase(text: string) {
+  return text
+    .split(/[\s-]+/)       // split by spaces or hyphens
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+}
+
 interface SearchResult {
   id: number;
   name: string;
@@ -179,7 +186,7 @@ export default function Header() {
                 href={`/category/${category.toLowerCase()}`}
                 className="font-medium hover:underline"
               >
-                {category.charAt(0).toUpperCase() + category.slice(1)}
+                {toTitleCase(category)}
               </Link>
             ))}
           </div>

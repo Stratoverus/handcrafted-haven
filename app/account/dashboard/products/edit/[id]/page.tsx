@@ -22,21 +22,34 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
     imageUrl: '',
   });
   
-  // TODO we need to edit these categories or to make them dynamic somehow...
-  const categories = [
-    'Pottery & Ceramics',
-    'Jewelry',
-    'Textiles & Fiber',
-    'Woodworking',
-    'Metalwork',
-    'Glass Art',
-    'Leather Goods',
-    'Paper Crafts',
-    'Home Decor',
-    'Toys & Games',
-    'Art & Paintings',
-    'Other',
-  ];
+  const [categories, setCategories] = useState<string[]>([]);
+
+  // ----------------------
+  // Helper: Title Case
+  // ----------------------
+  function toTitleCase(text: string) {
+    return text
+      .split(/[\s-]+/)
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
+  }
+
+  // ----------------------
+  // Fetch categories from DB
+  // ----------------------
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const res = await fetch('/api/categories');
+        if (!res.ok) throw new Error('Failed to fetch categories');
+        const data = await res.json();
+        setCategories(data.categories || []);
+      } catch (err) {
+        console.error('Error fetching categories:', err);
+      }
+    };
+    fetchCategories();
+  }, []);
 
   useEffect(() => {
     fetchProduct();
@@ -59,7 +72,7 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
         title: product.title,
         description: product.description,
         price: product.price.toString(),
-        category: product.category,
+        category: categories.find((c) => c.toLowerCase() === product.category.toLowerCase()) || product.category,
         stock: product.stock.toString(),
         imageUrl: product.ProductImage?.[0]?.url || '',
       });
@@ -259,7 +272,7 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
               <option value="">Select a category</option>
               {categories.map((cat) => (
                 <option key={cat} value={cat}>
-                  {cat}
+                  {toTitleCase(cat)}
                 </option>
               ))}
             </select>

@@ -17,8 +17,13 @@ export async function GET(
     const { category } = await context.params; // Extract category from URL params
     const categorySlug = category.toLowerCase();
 
-    const products: ProductWithImage[] = await prisma.product.findMany({  // Query products by category slug
-      where: { category: categorySlug },
+    const products: ProductWithImage[] = await prisma.product.findMany({
+      where: { 
+        category: { 
+          equals: categorySlug, 
+          mode: "insensitive" // <- THIS makes it ignore case
+        } 
+      },
       select: {
         id: true,
         title: true,
