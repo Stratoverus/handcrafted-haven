@@ -6,9 +6,10 @@ const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' });
 export async function fetchCategories(): Promise<Category[]> { //fetches distinct product categories with product count for each category
   try {
     const categories = await sql<Category[]>`
-      SELECT category, COUNT(*) AS product_count
+      SELECT TRIM(category) AS category, COUNT(*) AS product_count
       FROM public."Product"
-      GROUP BY category;
+      GROUP BY TRIM(category)
+      ORDER BY LOWER(TRIM(category)) ASC;
     `;
     return categories;
   } catch (err) {
