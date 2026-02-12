@@ -25,6 +25,14 @@ interface Product { //matches product model is prisma schema
   sellerId: string;
   ProductImage: ProductImage[];
   Review: Review[];
+  User: Seller;
+}
+
+interface Seller { // matches seller
+  id: string;
+  name?: string;
+  email: string;
+  shopName?: string;
 }
 
 interface CartItem { //matches cart item structure stored in localStorage
@@ -80,65 +88,96 @@ export default function ProductPage() { //main product page component
   if (!product) return <p className="p-6">Product not found.</p>;
 
   return (
-    <div className="max-w-4xl mx-auto px-6 py-6">
-      <h1 className="text-3xl font-bold mb-4">{product.title}</h1>
+  <div className="max-w-6xl mx-auto px-6 py-6">
 
-      {/* Product Images */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-        {product.ProductImage.length > 0 ? (
-          product.ProductImage.map(img => (
-            <Image
-              key={img.id}
-              src={img.url}
-              alt={product.title}
-              width={400}
-              height={400}
-              className="w-full h-[400px] object-cover rounded"
-            />
-          ))
-        ) : (
-          <div className="w-full h-[400px] bg-gray-200 rounded flex items-center justify-center">
-            No images available
-          </div>
-        )}
+    {/* Top Section - Two Columns */}
+    <div className="md:flex md:gap-10 items-center">
+
+      {/* LEFT SIDE */}
+      <div className="md:w-1/2">
+        <h1 className="text-3xl font-bold mb-4">{product.title}</h1>
+
+        {/* Product Images */}
+        <div className="space-y-4 mb-6">
+          {product.ProductImage.length > 0 ? (
+            product.ProductImage.map(img => (
+              <Image
+                key={img.id}
+                src={img.url}
+                alt={product.title}
+                width={600}
+                height={600}
+                className="w-full h-[450px] object-cover rounded"
+              />
+            ))
+          ) : (
+            <div className="w-full h-[450px] bg-gray-200 rounded flex items-center justify-center">
+              No images available
+            </div>
+          )}
+        </div>
       </div>
 
-      <p className="text-gray-700 mb-4">{product.description}</p>
+      {/* RIGHT SIDE */}
+      <div className="md:w-1/2 flex flex-col justify-center border rounded-lg p-6 h-fit shadow-sm bg-white">
 
-      <p className="text-xl font-semibold mb-2">Price: ${product.price.toFixed(2)}</p>
-      <p className="mb-2">Quantity Available: {product.stock}</p>
+        {/* Description at top */}
+        <p className="text-gray-700 mb-4">{product.description}</p>
 
-      {/* Add to Cart & Message Seller */}
-      <div className="flex gap-4 mb-4">
+        <p className="text-2xl font-bold mb-2">
+          ${product.price.toFixed(2)}
+        </p>
+
+        <p className="mb-4 text-sm text-gray-600">
+          {product.stock} available
+        </p>
+
+        {/* Seller Info Box */}
+        <div className="mb-4 p-3 bg-white border rounded shadow-sm flex items-center justify-between text-sm">
+          <div>
+            <span className="text-gray-500">Sold by </span>
+            <span className="font-semibold">
+              {product.User.shopName || product.User.name || 'Seller'}
+            </span>
+          </div>
+
+          <button
+            onClick={() => alert('Messaging seller coming soon!')}
+            className="text-[#CF5C36] border border-[#CF5C36] px-3 py-1 rounded hover:bg-[#CF5C36] hover:text-white transition text-xs"
+          >
+            Message Seller
+          </button>
+        </div>
+
+
+        {/* Add to Cart */}
         <button
           onClick={addToCart}
-          className="bg-[#CF5C36] text-white px-6 py-3 rounded hover:bg-[#b84f2f] transition"
+          className="w-full bg-[#CF5C36] text-white py-3 rounded hover:bg-[#b84f2f] transition"
         >
           Add to Cart
         </button>
 
-        <button
-          onClick={() => alert('Messaging seller coming soon!')}
-          className="text-sm text-[#CF5C36] border border-[#CF5C36] px-3 py-1 rounded hover:bg-[#CF5C36] hover:text-white transition"
-        >
-          Message Seller
-        </button>
       </div>
 
-      {/* Reviews */}
-      <div className="mt-6 p-4 border rounded bg-gray-50">
-        <h2 className="font-semibold mb-2">Reviews</h2>
-        {product.Review.length === 0 ? (
-          <p>No reviews yet.</p>
-        ) : (
-          product.Review.map(r => (
-            <div key={r.id} className="mb-2 border-b pb-2">
-              <p>Rating: {r.rating}/5</p>
-              {r.comment && <p>Comment: {r.comment}</p>}
-            </div>
-          ))
-        )}
-      </div>
     </div>
-  );
+
+    {/* Reviews Section */}
+    <div className="mt-12 p-6 border rounded bg-gray-50">
+      <h2 className="text-xl font-semibold mb-4">Reviews</h2>
+
+      {product.Review.length === 0 ? (
+        <p>No reviews yet.</p>
+      ) : (
+        product.Review.map(r => (
+          <div key={r.id} className="mb-4 border-b pb-3">
+            <p className="font-medium">Rating: {r.rating}/5</p>
+            {r.comment && <p className="text-gray-700">{r.comment}</p>}
+          </div>
+        ))
+      )}
+    </div>
+
+  </div>
+);
 }
