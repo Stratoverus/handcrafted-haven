@@ -14,9 +14,7 @@ const categoryHeros: Record<string, string> = { //mapping of category slugs to i
   accessories: '/accessories.png',
   leatherwork: '/leatherwork.png',
   skirts: '/skirts.png',
-  jewelry: '/jewelry.png',
-  leatherwork: '/leatherwork.png',
-  
+  jewelry: '/jewelry.png',  
 }
 
 const defaultHero = '/default.png';
