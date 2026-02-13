@@ -6,7 +6,9 @@ type ProductWithImage = {
   id: string;
   title: string;
   price: number;
-  shopName: string;
+  User: {
+    shopName: string | null;
+  } | null;
   ProductImage: { url: string }[];
 };
 
@@ -44,13 +46,13 @@ export async function GET(
 
 
     return NextResponse.json({ // Map products to include imageUrl field
-      products: products.map((product) => ({
-        id: product.id,
-        title: product.title,
-        price: product.price,
-        sellerId: product.sellerId,
-        shopName: product.User?.shopName ?? null,
-        imageUrl: product.ProductImage[0]?.url ?? null
+      products: products.map((product1) => ({
+        id: product1.id,
+        title: product1.title,
+        price: product1.price,
+        sellerId: product1.sellerId,
+        shopName: product1.User?.shopName ?? null,
+        imageUrl: product1.ProductImage[0]?.url ?? null
       }))
     });
   } catch (error) {

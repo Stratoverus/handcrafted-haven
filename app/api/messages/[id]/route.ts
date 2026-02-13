@@ -5,7 +5,7 @@ import { prisma } from '@/lib/prisma';
 // PATCH - Mark message as read
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: { id: string } }
 ) {
   try {
     const { data: session } = await auth.getSession();
@@ -13,7 +13,7 @@ export async function PATCH(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { id: messageId } = await params;
+    const { id: messageId } = params;
     const userId = session.user.id;
 
     // Check if message exists and user is the receiver
