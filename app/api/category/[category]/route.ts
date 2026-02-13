@@ -6,6 +6,7 @@ type ProductWithImage = {
   id: string;
   title: string;
   price: number;
+  sellerId: string;
   User: {
     shopName: string | null;
   } | null;
