@@ -231,17 +231,6 @@ export default function FileUpload({
                 type="button"
                 onClick={(e) => {
                   e.stopPropagation();
-                  handleClick();
-                }}
-                className="px-4 py-2 bg-white text-gray-700 rounded-lg hover:bg-gray-100 transition-colors flex items-center gap-2"
-              >
-                <ImageIcon className="h-4 w-4" />
-                Change
-              </button>
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.stopPropagation();
                   handleRemove();
                 }}
                 className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors flex items-center gap-2"

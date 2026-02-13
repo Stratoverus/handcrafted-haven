@@ -194,7 +194,8 @@ export default function EditProfilePage() {
               name="name"
               value={formData.name}
               onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[var(--rust)] focus:border-transparent"
+              style={{ border: '2px solid #6B7280' }}
+              className="w-full px-4 py-2 rounded-lg focus:ring-2 focus:ring-[var(--rust)] outline-none bg-white"
               placeholder="Enter your full name"
               required
             />
@@ -213,7 +214,8 @@ export default function EditProfilePage() {
               name="phone"
               value={formData.phone}
               onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[var(--rust)] focus:border-transparent"
+              style={{ border: '2px solid #6B7280' }}
+              className="w-full px-4 py-2 rounded-lg focus:ring-2 focus:ring-[var(--rust)] outline-none bg-white"
               placeholder="(555) 123-4567"
               required
             />
@@ -232,7 +234,8 @@ export default function EditProfilePage() {
               name="address"
               value={formData.address}
               onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[var(--rust)] focus:border-transparent"
+              style={{ border: '2px solid #6B7280' }}
+              className="w-full px-4 py-2 rounded-lg focus:ring-2 focus:ring-[var(--rust)] outline-none bg-white"
               placeholder="123 Main St, City, State ZIP"
               required
             />
@@ -258,7 +261,8 @@ export default function EditProfilePage() {
                     name="shopName"
                     value={formData.shopName}
                     onChange={handleChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[var(--rust)] focus:border-transparent"
+                    style={{ border: '2px solid #6B7280' }}
+                    className="w-full px-4 py-2 rounded-lg focus:ring-2 focus:ring-[var(--rust)] outline-none bg-white"
                     placeholder="Your shop name"
                   />
                 </div>
@@ -277,7 +281,8 @@ export default function EditProfilePage() {
                   value={formData.bio}
                   onChange={handleChange}
                   rows={4}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[var(--rust)] focus:border-transparent resize-none"
+                  style={{ border: '2px solid #6B7280' }}
+                  className="w-full px-4 py-2 rounded-lg focus:ring-2 focus:ring-[var(--rust)] outline-none resize-none bg-white"
                   placeholder="Tell us about yourself or your shop..."
                 />
               </div>

@@ -123,8 +123,13 @@ export async function PUT(request: Request) {
       );
     }
 
-    // Delete existing images from blob storage if new images are provided
-    if (images && images.length > 0 && existingProduct.ProductImage.length > 0) {
+    // Check if image URL has changed
+    const existingImageUrl = existingProduct.ProductImage[0]?.url;
+    const newImageUrl = images && images.length > 0 ? images[0] : null;
+    const imageChanged = newImageUrl && newImageUrl !== existingImageUrl;
+
+    // Only delete existing images from blob storage if the image URL has changed
+    if (imageChanged && existingProduct.ProductImage.length > 0) {
       const { del } = await import('@vercel/blob');
       for (const image of existingProduct.ProductImage) {
         try {
@@ -150,7 +155,8 @@ export async function PUT(request: Request) {
         price: parseFloat(price),
         category,
         stock: stock ? parseInt(stock) : 1,
-        ProductImage: images && images.length > 0 ? {
+        // Only create new image records if the image URL changed
+        ProductImage: imageChanged ? {
           create: images.map((url: string) => ({ url })),
         } : undefined,
       },
