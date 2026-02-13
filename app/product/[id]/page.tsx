@@ -1,8 +1,9 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useParams } from 'next/navigation';
 import Image from 'next/image';
+import MessageSellerModal from '@/components/MessageSellerModal';
 
 interface ProductImage { //matches product image model in prisma schema
   id: string; 
@@ -46,6 +47,8 @@ export default function ProductPage() { //main product page component
   const { id } = useParams<{ id: string }>();
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
+  const [showMessageModal, setShowMessageModal] = useState(false);
+  const viewTracked = useRef<string | null>(null);
 
   useEffect(() => {
     if (!id) return;
@@ -55,6 +58,14 @@ export default function ProductPage() { //main product page component
         const res = await fetch(`/api/product/${encodeURIComponent(id)}`);
         const data = await res.json();
         setProduct(data.product ?? null);
+        
+        // Track product view only once per product ID
+        if (data.product && viewTracked.current !== id) {
+          viewTracked.current = id;
+          fetch(`/api/product/${encodeURIComponent(id)}/view`, {
+            method: 'POST',
+          }).catch(err => console.error('Failed to track view:', err));
+        }
       } finally {
         setLoading(false);
       }
@@ -141,9 +152,9 @@ export default function ProductPage() { //main product page component
             </span>
           </div>
 
-          <button
-            onClick={() => alert('Messaging seller coming soon!')}
-            className="text-[#CF5C36] border border-[#CF5C36] px-3 py-1 rounded hover:bg-[#CF5C36] hover:text-white transition text-xs"
+          <button 
+            onClick={() => setShowMessageModal(true)}
+            className="text-[#CF5C36] border border-[#CF5C36] px-3 py-1 rounded hover:bg-[#CF5C36] hover:text-white transition text-xs cursor-pointer"
           >
             Message Seller
           </button>
@@ -153,7 +164,7 @@ export default function ProductPage() { //main product page component
         {/* Add to Cart */}
         <button
           onClick={addToCart}
-          className="w-full bg-[#CF5C36] text-white py-3 rounded hover:bg-[#b84f2f] transition"
+          className="w-full bg-[#CF5C36] text-white py-3 rounded hover:bg-[#b84f2f] transition cursor-pointer"
         >
           Add to Cart
         </button>
@@ -177,6 +188,16 @@ export default function ProductPage() { //main product page component
         ))
       )}
     </div>
+
+    {/* Message Seller Modal */}
+    <MessageSellerModal
+      isOpen={showMessageModal}
+      onClose={() => setShowMessageModal(false)}
+      sellerId={product.User.id}
+      sellerName={product.User.shopName || product.User.name}
+      productId={product.id}
+      productTitle={product.title}
+    />
 
   </div>
 );

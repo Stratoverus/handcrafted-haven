@@ -24,6 +24,7 @@ interface SearchResult {
 export default function Header() {
   const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [showUserDropdown, setShowUserDropdown] = useState(false);
 
   const { data } = authClient.useSession();
   const user = data?.user;
@@ -32,6 +33,7 @@ export default function Header() {
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [showResults, setShowResults] = useState(false);
   const [categories, setCategories] = useState<string[]>([]);
+  const [unreadCount, setUnreadCount] = useState(0);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -64,6 +66,42 @@ export default function Header() {
     fetchUserProfile();
   }, [user]);
 
+  // Fetch unread notification count
+  useEffect(() => {
+    const fetchUnreadCount = async () => {
+      if (user) {
+        try {
+          const res = await fetch("/api/notifications/unread-count", {
+            cache: 'no-store',
+            headers: {
+              'Cache-Control': 'no-cache',
+            },
+          });
+          if (res.ok) {
+            const data = await res.json();
+            setUnreadCount(data.unreadCount || 0);
+          }
+        } catch (err) {
+          console.error("Failed to fetch unread count:", err);
+        }
+      }
+    };
+    
+    fetchUnreadCount();
+    
+    // Poll for new notifications every 30 seconds
+    const interval = setInterval(fetchUnreadCount, 30000);
+    
+    // Listen for custom event when notification is read
+    const handleNotificationRead = () => fetchUnreadCount();
+    window.addEventListener('notificationRead', handleNotificationRead);
+    
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener('notificationRead', handleNotificationRead);
+    };
+  }, [user]);
+
   useEffect(() => {
     if (!searchTerm.trim()) {
       setSearchResults([]);
@@ -92,6 +130,11 @@ export default function Header() {
     }
   };
 
+  const handleLogout = async () => {
+    await authClient.signOut();
+    router.push('/');
+  };
+
   return (
     <>
       <header>
@@ -113,7 +156,7 @@ export default function Header() {
               <button
                 aria-label="Open categories"
                 onClick={() => setMenuOpen(true)}
-                className="p-2 rounded hover:bg-gray-100"
+                className="p-2 rounded hover:bg-gray-100 cursor-pointer"
               >
                 <Menu className="h-6 w-6" />
               </button>
@@ -156,23 +199,70 @@ export default function Header() {
 
             {/* Right */}
             <div className="flex items-center gap-4 shrink-0">
-              <Link 
-                href={user ? "/account/profile" : "/auth/sign-in"} 
-                className="flex items-center gap-2 p-2 hover:bg-gray-100 rounded"
-              >
-                <User />
-                {user && (
-                  <span className="text-sm font-medium">
-                    {userName || user.email?.split('@')[0]}
+              {user ? (
+                <div 
+                  className="relative"
+                  onMouseEnter={() => setShowUserDropdown(true)}
+                  onMouseLeave={() => setShowUserDropdown(false)}
+                >
+                  <Link 
+                    href="/account/profile"
+                    className="flex items-center gap-2 p-2 hover:bg-gray-100 rounded cursor-pointer"
+                  >
+                    <User />
+                    <span className="text-sm font-medium">
+                      {userName || user.email?.split('@')[0]}
+                    </span>
+                  </Link>
+                  
+                  {showUserDropdown && (
+                    <div className="absolute right-0 mt-0 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+                      <Link
+                        href="/account/profile"
+                        className="block px-4 py-2 text-gray-800 hover:bg-gray-100 rounded-t-lg cursor-pointer"
+                      >
+                        Profile
+                      </Link>
+                      <Link
+                        href="/account/dashboard"
+                        className="block px-4 py-2 text-gray-800 hover:bg-gray-100 cursor-pointer"
+                      >
+                        Dashboard
+                      </Link>
+                      <Link
+                        href="/account/messages"
+                        className="block px-4 py-2 text-gray-800 hover:bg-gray-100 cursor-pointer"
+                      >
+                        Messages
+                      </Link>
+                      <button
+                        onClick={handleLogout}
+                        className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-100 rounded-b-lg cursor-pointer"
+                      >
+                        Logout
+                      </button>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <Link 
+                  href="/auth/sign-in" 
+                  className="flex items-center gap-2 p-2 hover:bg-gray-100 rounded cursor-pointer"
+                >
+                  <User />
+                </Link>
+              )}
+              <Link href="/cart" className="p-2 hover:bg-gray-100 rounded cursor-pointer">
+                <ShoppingCart />
+              </Link>
+              <Link href="/account/notifications" className="p-2 hover:bg-gray-100 rounded relative cursor-pointer">
+                <Bell />
+                {unreadCount > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold">
+                    {unreadCount > 9 ? '9+' : unreadCount}
                   </span>
                 )}
               </Link>
-              <Link href="/cart" className="p-2 hover:bg-gray-100 rounded">
-                <ShoppingCart />
-              </Link>
-              <button className="p-2 hover:bg-gray-100 rounded">
-                <Bell />
-              </button>
             </div>
           </div>
         </div>
@@ -184,7 +274,7 @@ export default function Header() {
               <Link
                 key={category}
                 href={`/category/${category.toLowerCase()}`}
-                className="font-medium hover:underline"
+                className="font-medium hover:underline cursor-pointer"
               >
                 {toTitleCase(category)}
               </Link>
@@ -209,7 +299,7 @@ export default function Header() {
       >
         <div className="flex items-center justify-between px-4 py-4 border-b border-white bg-[#CF5C36]">
           <h2 className="text-lg font-semibold text-white">Categories</h2>
-          <button aria-label="Close menu" onClick={() => setMenuOpen(false)}>
+          <button aria-label="Close menu" onClick={() => setMenuOpen(false)} className="cursor-pointer">
             <X className="text-white" />
           </button>
         </div>
@@ -220,7 +310,7 @@ export default function Header() {
               key={category}
               href={`/category/${category.toLowerCase()}`}
               onClick={() => setMenuOpen(false)}
-              className="hover:underline text-white"
+              className="hover:underline text-white cursor-pointer"
             >
               {category.charAt(0).toUpperCase() + category.slice(1)}
             </Link>

@@ -9,8 +9,8 @@ import { authClient } from '@/lib/auth/client';
 interface DashboardStats {
   totalProducts: number;
   activeOrders: number;
-  monthlyRevenue: number;
-  viewsThisWeek: number;
+  revenue: number;
+  totalViews: number;
 }
 
 interface Product {
@@ -42,6 +42,9 @@ export default function DashboardPage() {
   const [dashboardData, setDashboardData] = useState<DashboardData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [revenuePeriod, setRevenuePeriod] = useState<'month' | 'year' | 'total'>('month');
+  const [revenue, setRevenue] = useState<number>(0);
+  const [revenueLoading, setRevenueLoading] = useState(false);
   
   useEffect(() => {
     // Set a timeout to mark check as complete
@@ -66,6 +69,31 @@ export default function DashboardPage() {
     }
   }, [data?.session]);
 
+  useEffect(() => {
+    // Fetch revenue when period changes
+    if (data?.session) {
+      fetchRevenue();
+    }
+  }, [data?.session, revenuePeriod]);
+
+  const fetchRevenue = async () => {
+    try {
+      setRevenueLoading(true);
+      const response = await fetch(`/api/dashboard/revenue?period=${revenuePeriod}`);
+      
+      if (!response.ok) {
+        throw new Error('Failed to fetch revenue');
+      }
+      
+      const data = await response.json();
+      setRevenue(data.revenue);
+    } catch (err) {
+      console.error('Error fetching revenue:', err);
+    } finally {
+      setRevenueLoading(false);
+    }
+  };
+
   const fetchDashboardData = async () => {
     try {
       setLoading(true);
@@ -78,6 +106,7 @@ export default function DashboardPage() {
       
       const data = await response.json();
       setDashboardData(data);
+      setRevenue(data.stats.revenue);
     } catch (err) {
       console.error('Error fetching dashboard data:', err);
       setError('Failed to load dashboard data');
@@ -162,18 +191,35 @@ export default function DashboardPage() {
 
         <div className="bg-white rounded-lg shadow-md p-6">
           <div className="flex items-center justify-between mb-2">
-            <h3 className="text-gray-600 text-sm font-medium">Monthly Revenue</h3>
+            <div className="flex items-center gap-3">
+              <h3 className="text-gray-600 text-sm font-medium">Revenue</h3>
+              <select
+                value={revenuePeriod}
+                onChange={(e) => setRevenuePeriod(e.target.value as 'month' | 'year' | 'total')}
+                className="text-xs border border-gray-300 rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-[var(--rust)]"
+              >
+                <option value="month">Month to Date</option>
+                <option value="year">Year to Date</option>
+                <option value="total">Total Revenue</option>
+              </select>
+            </div>
             <DollarSign className="h-5 w-5 text-[var(--rust)]" />
           </div>
-          <p className="text-3xl font-bold text-[var(--navy)]">${stats.monthlyRevenue}</p>
+          <p className="text-3xl font-bold text-[var(--navy)]">
+            {revenueLoading ? (
+              <span className="text-gray-400">Loading...</span>
+            ) : (
+              `$${revenue}`
+            )}
+          </p>
         </div>
 
         <div className="bg-white rounded-lg shadow-md p-6">
           <div className="flex items-center justify-between mb-2">
-            <h3 className="text-gray-600 text-sm font-medium">Views This Week</h3>
+            <h3 className="text-gray-600 text-sm font-medium">Total Views</h3>
             <TrendingUp className="h-5 w-5 text-[var(--rust)]" />
           </div>
-          <p className="text-3xl font-bold text-[var(--navy)]">{stats.viewsThisWeek}</p>
+          <p className="text-3xl font-bold text-[var(--navy)]">{stats.totalViews}</p>
         </div>
       </div>
 

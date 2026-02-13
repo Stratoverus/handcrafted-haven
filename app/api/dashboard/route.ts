@@ -75,13 +75,13 @@ export async function GET() {
       order.status === 'PENDING' || order.status === 'PROCESSING' || order.status === 'SHIPPED'
     ).length;
 
-    // Calculate monthly revenue (last 30 days)
-    const thirtyDaysAgo = new Date();
-    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+    // Calculate default revenue (month to date) for initial load
+    const now = new Date();
+    const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
     
     const monthlyOrders = await prisma.order.findMany({
       where: {
-        createdAt: { gte: thirtyDaysAgo },
+        createdAt: { gte: monthStart },
         OrderItem: {
           some: {
             Product: {
@@ -101,21 +101,25 @@ export async function GET() {
       },
     });
 
-    const monthlyRevenue = monthlyOrders.reduce((sum: number, order: any) => {
+    const revenue = monthlyOrders.reduce((sum: number, order: any) => {
       const orderTotal = order.OrderItem.reduce((itemSum: number, item: any) => {
         return itemSum + (item.price * item.quantity);
       }, 0);
       return sum + orderTotal;
     }, 0);
 
-    // Note: We need to add the views column in Products TODO!!!
+    // Calculate total views across all products
+    const totalViews = products.reduce((sum: number, product: any) => {
+      return sum + (product.views || 0);
+    }, 0);
+
     // Format products for dashboard
     const formattedProducts = products.slice(0, 3).map((product: any) => ({
       id: product.id,
       name: product.title,
       price: product.price,
-      stock: product.stock
-      //views: product.views       NEED TO ADD THIS IN DATABASE
+      stock: product.stock,
+      views: product.views || 0
     }));
 
     // Format orders for dashboard
@@ -140,8 +144,8 @@ export async function GET() {
       stats: {
         totalProducts,
         activeOrders,
-        monthlyRevenue: Math.round(monthlyRevenue * 100) / 100,
-        //viewsThisWeek, TODO NEED TO ADD THIS
+        revenue: Math.round(revenue * 100) / 100,
+        totalViews,
       },
       products: formattedProducts,
       recentOrders: formattedOrders,

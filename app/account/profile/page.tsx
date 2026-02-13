@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { User, Mail, Phone, MapPin, Package, Heart, Settings, Store } from 'lucide-react';
+import { User, Mail, Phone, MapPin, Package, Heart, Settings, Store, MessageSquare, LogOut } from 'lucide-react';
 import { authClient } from '@/lib/auth/client';
 
 interface UserProfile {
@@ -144,7 +144,7 @@ export default function ProfilePage() {
           <p className="text-red-600 mb-4">{error || 'Failed to load profile'}</p>
           <button
             onClick={fetchProfileData}
-            className="bg-[var(--rust)] text-white px-6 py-2 rounded-lg hover:bg-[#b84f2e] transition-colors"
+            className="bg-[var(--rust)] text-white px-6 py-2 rounded-lg hover:bg-[#b84f2e] transition-colors cursor-pointer"
           >
             Retry
           </button>
@@ -214,7 +214,7 @@ export default function ProfilePage() {
             <div className="mt-6 pt-6 border-t">
               <Link 
                 href="/account/dashboard"
-                className="flex items-center gap-3 bg-[var(--rust)] text-white px-6 py-3 rounded-lg hover:bg-[#b84f2e] transition-colors"
+                className="flex items-center gap-3 bg-[var(--rust)] text-white px-6 py-3 rounded-lg hover:bg-[#b84f2e] transition-colors cursor-pointer"
               >
                 <Store className="h-5 w-5" />
                 <span className="font-semibold">Go to Seller Dashboard</span>
@@ -229,6 +229,13 @@ export default function ProfilePage() {
             <h3 className="font-semibold text-[var(--navy)] mb-4">Quick Actions</h3>
             <div className="space-y-3">
               <Link 
+                href="/account/messages"
+                className="flex items-center gap-3 text-gray-700 hover:text-[var(--rust)] transition-colors"
+              >
+                <MessageSquare className="h-5 w-5" />
+                <span>Messages</span>
+              </Link>
+              <Link 
                 href="/account/profile/orders"
                 className="flex items-center gap-3 text-gray-700 hover:text-[var(--rust)] transition-colors"
               >
@@ -236,19 +243,22 @@ export default function ProfilePage() {
                 <span>My Orders</span>
               </Link>
               <Link 
-                href="/account/profile/favorites"
+                href="/account/profile/edit"
                 className="flex items-center gap-3 text-gray-700 hover:text-[var(--rust)] transition-colors"
               >
                 <Settings className="h-5 w-5" />
                 <span>Settings</span>
               </Link>
-              <Link 
-                href="/auth/sign-out"
-                className="flex items-center gap-3 text-gray-700 hover:text-[var(--rust)] transition-colors"
+              <button
+                onClick={async () => {
+                  await authClient.signOut();
+                  router.push('/');
+                }}
+                className="flex items-center gap-3 text-gray-700 hover:text-[var(--rust)] transition-colors w-full cursor-pointer"
               >
-                <Settings className="h-5 w-5" />
-                <span>Sign out</span>
-              </Link>
+                <LogOut className="h-5 w-5" />
+                <span>Logout</span>
+              </button>
             </div>
           </div>
 
@@ -261,7 +271,7 @@ export default function ProfilePage() {
               <button 
                 onClick={handleBecomeSeller}
                 disabled={becomingSellerLoading}
-                className="w-full bg-[var(--rust)] text-white px-4 py-2 rounded hover:bg-[#b84f2e] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full bg-[var(--rust)] text-white px-4 py-2 rounded hover:bg-[#b84f2e] transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
               >
                 {becomingSellerLoading ? 'Processing...' : 'Apply Now'}
               </button>

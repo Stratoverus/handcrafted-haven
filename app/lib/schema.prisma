@@ -42,6 +42,7 @@ model Product {
   User         User           @relation(fields: [sellerId], references: [id])
   ProductImage ProductImage[]
   Review       Review[]
+  Message      Message[]
 }
 
 model ProductImage {
@@ -63,19 +64,53 @@ model Review {
 }
 
 model User {
-  id              String    @id @default(uuid())
+  id              String         @id @default(uuid())
   name            String?
-  email           String    @unique
+  email           String         @unique
   image           String?
-  role            String    @default("USER")
+  role            String         @default("USER")
   shopName        String?
   bio             String?
   phone           String?
   address         String?
-  profileComplete Boolean   @default(false)
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
+  profileComplete Boolean        @default(false)
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
   Order           Order[]
   Product         Product[]
   Review          Review[]
+  SentMessages    Message[]      @relation("SentMessages")
+  ReceivedMessages Message[]     @relation("ReceivedMessages")
+  Notification    Notification[]
+}
+
+model Message {
+  id           String         @id @default(uuid())
+  subject      String
+  content      String
+  senderId     String
+  receiverId   String
+  productId    String?
+  sendAsShop   Boolean        @default(false)
+  isRead       Boolean        @default(false)
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  Sender       User           @relation("SentMessages", fields: [senderId], references: [id])
+  Receiver     User           @relation("ReceivedMessages", fields: [receiverId], references: [id])
+  Product      Product?       @relation(fields: [productId], references: [id])
+  Notification Notification[]
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  userId    String
+  type      String   // "MESSAGE", "ORDER", "PRODUCT", etc.
+  title     String
+  message   String
+  link      String?
+  messageId String?
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+  User      User     @relation(fields: [userId], references: [id])
+  Message   Message? @relation(fields: [messageId], references: [id])
 }
