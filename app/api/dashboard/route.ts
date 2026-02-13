@@ -75,13 +75,13 @@ export async function GET() {
       order.status === 'PENDING' || order.status === 'PROCESSING' || order.status === 'SHIPPED'
     ).length;
 
-    // Calculate monthly revenue (last 30 days)
-    const thirtyDaysAgo = new Date();
-    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+    // Calculate default revenue (month to date) for initial load
+    const now = new Date();
+    const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
     
     const monthlyOrders = await prisma.order.findMany({
       where: {
-        createdAt: { gte: thirtyDaysAgo },
+        createdAt: { gte: monthStart },
         OrderItem: {
           some: {
             Product: {
@@ -101,20 +101,15 @@ export async function GET() {
       },
     });
 
-    const monthlyRevenue = monthlyOrders.reduce((sum: number, order: any) => {
+    const revenue = monthlyOrders.reduce((sum: number, order: any) => {
       const orderTotal = order.OrderItem.reduce((itemSum: number, item: any) => {
         return itemSum + (item.price * item.quantity);
       }, 0);
       return sum + orderTotal;
     }, 0);
 
-    // Calculate views for the week (last 7 days)
-    const sevenDaysAgo = new Date();
-    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
-    
-    const viewsThisWeek = products.reduce((sum: number, product: any) => {
-      // For now, we'll show total views as we don't track view timestamps
-      // In the future, you could add a ProductView table to track individual views
+    // Calculate total views across all products
+    const totalViews = products.reduce((sum: number, product: any) => {
       return sum + (product.views || 0);
     }, 0);
 
@@ -149,8 +144,8 @@ export async function GET() {
       stats: {
         totalProducts,
         activeOrders,
-        monthlyRevenue: Math.round(monthlyRevenue * 100) / 100,
-        viewsThisWeek,
+        revenue: Math.round(revenue * 100) / 100,
+        totalViews,
       },
       products: formattedProducts,
       recentOrders: formattedOrders,
