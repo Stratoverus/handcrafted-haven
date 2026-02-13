@@ -61,7 +61,7 @@ export async function POST(req: NextRequest) {
   try {
     const { data: session } = await auth.getSession();
     if (!session?.user?.id) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ error: 'Unauthorized - You Must be logged in to send messages' }, { status: 401 });
     }
 
     const body = await req.json();
