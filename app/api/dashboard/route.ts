@@ -108,14 +108,23 @@ export async function GET() {
       return sum + orderTotal;
     }, 0);
 
-    // Note: We need to add the views column in Products TODO!!!
+    // Calculate views for the week (last 7 days)
+    const sevenDaysAgo = new Date();
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+    
+    const viewsThisWeek = products.reduce((sum: number, product: any) => {
+      // For now, we'll show total views as we don't track view timestamps
+      // In the future, you could add a ProductView table to track individual views
+      return sum + (product.views || 0);
+    }, 0);
+
     // Format products for dashboard
     const formattedProducts = products.slice(0, 3).map((product: any) => ({
       id: product.id,
       name: product.title,
       price: product.price,
-      stock: product.stock
-      //views: product.views       NEED TO ADD THIS IN DATABASE
+      stock: product.stock,
+      views: product.views || 0
     }));
 
     // Format orders for dashboard
@@ -141,7 +150,7 @@ export async function GET() {
         totalProducts,
         activeOrders,
         monthlyRevenue: Math.round(monthlyRevenue * 100) / 100,
-        //viewsThisWeek, TODO NEED TO ADD THIS
+        viewsThisWeek,
       },
       products: formattedProducts,
       recentOrders: formattedOrders,
