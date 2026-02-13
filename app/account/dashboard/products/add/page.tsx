@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, Package, DollarSign } from 'lucide-react';
@@ -20,22 +20,34 @@ export default function AddProductPage() {
     imageUrl: '',
   });
 
-  // TODO we need to edit these categories or to make them dynamic somehow...
-  const categories = [
-    'Clothing',
-    'Pottery & Ceramics',
-    'Jewelry',
-    'Textiles & Fiber',
-    'Woodworking',
-    'Metalwork',
-    'Glass Art',
-    'Leather Goods',
-    'Paper Crafts',
-    'Home Decor',
-    'Toys & Games',
-    'Art & Paintings',
-    'Other',
-  ];
+  const [categories, setCategories] = useState<string[]>([]);
+
+  // ----------------------
+  // Helper: Title Case
+  // ----------------------
+  function toTitleCase(text: string) {
+    return text
+      .split(/[\s-]+/)
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
+  }
+
+  // ----------------------
+  // Fetch categories from DB
+  // ----------------------
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const res = await fetch('/api/categories');
+        if (!res.ok) throw new Error('Failed to fetch categories');
+        const data = await res.json();
+        setCategories(data.categories || []);
+      } catch (err) {
+        console.error('Error fetching categories:', err);
+      }
+    };
+    fetchCategories();
+  }, []);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -213,7 +225,7 @@ export default function AddProductPage() {
               <option value="">Select a category</option>
               {categories.map((cat) => (
                 <option key={cat} value={cat}>
-                  {cat}
+                  {toTitleCase(cat)}
                 </option>
               ))}
             </select>
