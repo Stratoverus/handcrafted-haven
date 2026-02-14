@@ -4,6 +4,7 @@ import { useEffect, useState, useRef } from 'react';
 import { useParams } from 'next/navigation';
 import Image from 'next/image';
 import MessageSellerModal from '@/components/MessageSellerModal';
+import Link from 'next/link';
 
 interface ProductImage { //matches product image model in prisma schema
   id: string; 
@@ -147,9 +148,12 @@ export default function ProductPage() { //main product page component
         <div className="mb-4 p-3 bg-white border rounded shadow-sm flex items-center justify-between text-sm">
           <div>
             <span className="text-gray-500">Sold by </span>
-            <span className="font-semibold">
+            <Link
+              href={`/seller/${product.User.id}`}
+              className="font-semibold text-[#CF5C36] hover:underline"
+            >
               {product.User.shopName || product.User.name || 'Seller'}
-            </span>
+            </Link>
           </div>
 
           <button 

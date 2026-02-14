@@ -1,13 +1,13 @@
 import { prisma } from "@/lib/prisma";
 
-export async function GET() {
+export async function GET() { // API route to fetch products 
   try {
     const products = await prisma.product.findMany({
       include: {
         ProductImage: true,
         Review: true,
       },
-      orderBy: {
+      orderBy: { // Order products by creation date, newest first
         createdAt: "desc",
       },
     });
