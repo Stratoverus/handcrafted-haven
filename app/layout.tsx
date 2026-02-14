@@ -5,6 +5,8 @@ import Footer from '../components/Footer';
 import { NeonAuthUIProvider } from '@neondatabase/auth/react';
 import { authClient } from './lib/auth/client';
 import '../app/globals.css';
+import { CartProvider } from '@/context/CartContext';
+
 
 // export const metadata = {
 //   title: 'Handcrafted Haven',
@@ -28,14 +30,20 @@ export default function RootLayout({
           >
           <div className="min-h-screen">
             <div className="max-w-[1280px] mx-auto">
-              <Header />
-                <main className="px-6 py-8">
-                  {children}
-                </main>
-              <Footer />
+              <CartProvider>
+                <Header />
+                  <main className="px-6 py-8">
+                    
+                      {children}
+                    
+                  </main>
+                  
+                <Footer />
+              </CartProvider>
             </div>
           </div>
         </NeonAuthUIProvider>
+        
       </body>
     </html>
   );
