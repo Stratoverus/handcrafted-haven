@@ -4,7 +4,7 @@ import { useCart } from '@/context/CartContext';
 import { Trash2, ShoppingCart, DollarSign, Package } from 'lucide-react';
 
 export default function CartPage() {
-  const { cart, removeFromCart, clearCart } = useCart();
+  const { cart, removeFromCart, clearCart, increaseQuantity, decreaseQuantity } = useCart();
 
   const total = cart.reduce(
     (sum: number, item) => sum + item.price * item.quantity, 0
@@ -39,9 +39,24 @@ export default function CartPage() {
                     <h3 className="text-xl font-semibold text-[var(--navy)] mb-1">
                       {item.title}
                     </h3>
-                    <p className="text-sm text-gray-600 mb-2">
+                    {/* <p className="text-sm text-gray-600 mb-2">
                       Quantity: {item.quantity}
-                    </p>
+                    </p> */}
+                    <div className="flex items-center gap-3">
+                      <button
+                        onClick={() => decreaseQuantity(item.id)}
+                        className="px-3 py-1 border rounded text-lg font-bold hover:bg-gray-100"
+                      >
+                        -
+                      </button>
+                      <span className="text-lg font-semibold">{item.quantity}</span>
+                      <button
+                        onClick={() => increaseQuantity(item.id)}
+                        className="px-3 py-1 border rounded text-lg font-bold hover:bg-gray-100"
+                      >
+                        +
+                      </button>
+                    </div>
                   </div>
                   
                   <div className="flex items-center gap-6 text-sm">
