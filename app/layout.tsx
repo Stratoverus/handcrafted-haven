@@ -30,14 +30,16 @@ export default function RootLayout({
           >
           <div className="min-h-screen">
             <div className="max-w-[1280px] mx-auto">
-              <Header />
-                <main className="px-6 py-8">
-                  <CartProvider>
-                    {children}
-                  </CartProvider>
-                </main>
-                
-              <Footer />
+              <CartProvider>
+                <Header />
+                  <main className="px-6 py-8">
+                    
+                      {children}
+                    
+                  </main>
+                  
+                <Footer />
+              </CartProvider>
             </div>
           </div>
         </NeonAuthUIProvider>

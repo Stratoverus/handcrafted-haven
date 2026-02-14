@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Menu, Search, ShoppingCart, Bell, User, X } from 'lucide-react';
 import { authClient } from '@/lib/auth/client';
+import { useCart } from '../app/context/CartContext';
 
 
 import { useRouter } from 'next/navigation';
@@ -34,6 +35,7 @@ export default function Header() {
   const [showResults, setShowResults] = useState(false);
   const [categories, setCategories] = useState<string[]>([]);
   const [unreadCount, setUnreadCount] = useState(0);
+  const { cartCount } = useCart();
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -252,8 +254,13 @@ export default function Header() {
                   <User />
                 </Link>
               )}
-              <Link href="/cart" className="p-2 hover:bg-gray-100 rounded cursor-pointer">
+              <Link href="/cart" className="p-2 hover:bg-gray-100 rounded  relative cursor-pointer">
                 <ShoppingCart />
+                {cartCount > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold">
+                    {cartCount > 9 ? '9+' : cartCount}
+                  </span>
+                )}
               </Link>
               <Link href="/account/notifications" className="p-2 hover:bg-gray-100 rounded relative cursor-pointer">
                 <Bell />
