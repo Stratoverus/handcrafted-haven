@@ -39,7 +39,7 @@ export default async function Front() {
                     height={300}
                     className="absolute inset-0 w-full h-full object-cover rounded-md"
                   />
-                  <h3 className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-10 text-center font-bold uppercase text-white bg-[var(--rust)] px-4 py-2 w-3/4">
+                  <h3 className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-10 text-center font-bold uppercase text-white bg-[var(--rust)] px-4 py-2 w-3/4 transition-colors duration-300 hover:text-[#cf5c36] hover:bg-white">          
                     {product.title}
                   </h3>
                 </div>
