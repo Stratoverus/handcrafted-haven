@@ -1,7 +1,8 @@
 'use client';
+import Image from "next/image";
 
 import { useCart } from '@/context/CartContext';
-import { Trash2, ShoppingCart, DollarSign, Package } from 'lucide-react';
+import { Trash2, ShoppingCart, Package } from 'lucide-react';
 
 export default function CartPage() {
   const { cart, removeFromCart, clearCart, increaseQuantity, decreaseQuantity } = useCart();
@@ -30,9 +31,19 @@ export default function CartPage() {
         <div className="grid gap-6 mx-auto max-w-3xl">
           {cart.map(item => (
             <div key={item.id} className="bg-white rounded-lg shadow-md p-6 flex gap-6 hover:shadow-lg transition-shadow">
-              <div className="w-25 h-25 flex-shrink-0 bg-gray-100 rounded-lg flex items-center justify-center">
-                <Package className="h-12 w-12 text-gray-300" />
-              </div>
+              <div className="w-24 h-24 flex-shrink-0 bg-gray-100 rounded-lg overflow-hidden relative">
+                {item.imageUrl ? (
+                  <Image
+                    src={item.imageUrl}
+                    alt={item.title}
+                    width={96} 
+                    height={96}
+                    className="object-cover"
+                  />
+                ) : (
+                  <Package className="h-12 w-12 text-gray-300 mx-auto my-auto" />
+                )}
+</div>
               <div className="flex items-start justify-between mb-2">
                 <div className='flex-2'>
                   <div>
