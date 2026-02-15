@@ -1,5 +1,6 @@
 import postgres from "postgres";
 import { Category, Product } from "./definitions";
+import { prisma } from '@/lib/prisma';
 
 const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' });
 
@@ -18,20 +19,30 @@ export async function fetchCategories(): Promise<Category[]> { //fetches distinc
   }
 }
 
-export async function fetchLatestProducts(): Promise<Product[]> {
+export async function fetchLatestProducts() {
   try {
-    const products = await sql<Product[]>`
-      SELECT id, title, category, description, price, stock, "createdAt"
-      FROM public."Product"
-      ORDER BY "createdAt" DESC
-      LIMIT 3
-    `;
+    const products = await prisma.product.findMany({
+      orderBy: { createdAt: 'desc' },
+      take: 3,
+      select: {
+        id: true,
+        title: true,
+        category: true,
+        description: true,
+        price: true,
+        stock: true,
+        createdAt: true,
+        ProductImage: { select: { url: true }, take: 1 }
+      }
+    });
+
     return products;
   } catch (err) {
     console.error('Database Error:', err);
     throw new Error('Failed to fetch latest products.');
   }
 }
+
 
 
 
