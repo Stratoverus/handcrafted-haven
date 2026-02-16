@@ -3,6 +3,7 @@ import Image from "next/image";
 
 import { useCart } from '@/context/CartContext';
 import { Trash2, ShoppingCart, Package } from 'lucide-react';
+import Link from 'next/link';
 
 export default function CartPage() {
   const { cart, removeFromCart, clearCart, increaseQuantity, decreaseQuantity } = useCart();
@@ -36,14 +37,14 @@ export default function CartPage() {
                   <Image
                     src={item.imageUrl}
                     alt={item.title}
-                    width={96} 
+                    width={96}
                     height={96}
                     className="object-cover"
                   />
                 ) : (
                   <Package className="h-12 w-12 text-gray-300 mx-auto my-auto" />
                 )}
-</div>
+              </div>
               <div className="flex items-start justify-between mb-2">
                 <div className='flex-2'>
                   <div>
@@ -69,7 +70,7 @@ export default function CartPage() {
                       </button>
                     </div>
                   </div>
-                  
+
                   <div className="flex items-center gap-6 text-sm">
                     <div className="flex items-center gap-2 text-[var(--rust)]">
 
@@ -83,13 +84,13 @@ export default function CartPage() {
                   </div>
                 </div>
                 <button
-                onClick={() => removeFromCart(item.id)}
-                className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-              >
-                <Trash2 className="h-5 w-5" />
-              </button>
+                  onClick={() => removeFromCart(item.id)}
+                  className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                >
+                  <Trash2 className="h-5 w-5" />
+                </button>
               </div>
-              
+
               {/* <p>
                 {item.title} — ${item.price.toFixed(2)} × {item.quantity}
               </p>
@@ -104,6 +105,15 @@ export default function CartPage() {
               ${total.toFixed(2)}
             </span>
           </div>
+
+
+         <div className="text-right">
+           <Link href="/checkout">
+            <button className="bg-[var(--rust)] text-white px-6 py-3 rounded-lg hover:bg-[#b84f2e] font-bold">
+              CHECKOUT
+            </button>
+          </Link>
+         </div>
 
           {/* <button onClick={clearCart}>Clear Cart</button> */}
         </div>
