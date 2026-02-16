@@ -211,12 +211,11 @@ export default function CheckoutPage() {
                 Address *
               </div>
             </label>
-            <textarea
+            <input
               id="address"
               name="address"
               value={formData.address}
               onChange={handleChange}
-              rows={3}
               style={{ border: '2px solid #6B7280' }}
               className="w-full px-4 py-2 rounded-lg focus:ring-2 focus:ring-[var(--rust)] outline-none resize-none bg-white"
               placeholder="123 Main St, City, State ZIP"
