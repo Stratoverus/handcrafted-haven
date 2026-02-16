@@ -24,6 +24,10 @@ export async function GET(req: NextRequest) {
         title: true,
         price: true,
         category: true,
+        ProductImage: {
+          select: { url: true },
+          take: 1,
+        },
       },
     });
 
