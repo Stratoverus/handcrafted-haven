@@ -140,8 +140,8 @@ export default function Header() {
   return (
     <>
       <header>
-        {/* TOP ROW */}
-        <div className="px-6 py-4">
+        {/* Desktop Layout */}
+        <div className="hidden md:block px-6 py-4">
           <div className="flex items-center justify-between gap-4 text-black">
             {/* Left */}
             <div className="flex items-center gap-4 shrink-0">
@@ -274,6 +274,102 @@ export default function Header() {
           </div>
         </div>
 
+        {/* Mobile Layout */}
+        <div className="md:hidden">
+          {/* Top Row - Logo (smaller) and Icons */}
+          <div className="px-4 py-3 flex items-center justify-between border-b">
+            <div className="flex items-center gap-3">
+              <button
+                aria-label="Open categories"
+                onClick={() => setMenuOpen(true)}
+                className="p-2 rounded hover:bg-gray-100 cursor-pointer"
+              >
+                <Menu className="h-6 w-6" />
+              </button>
+              
+              <Link href="/" className="flex items-center">
+                <Image
+                  src="/Logo_4.jpg"
+                  alt="Handcrafted Haven logo"
+                  width={120}
+                  height={40}
+                  priority
+                  className="h-8 w-auto"
+                />
+              </Link>
+            </div>
+
+            <div className="flex items-center gap-2">
+              {user ? (
+                <Link 
+                  href="/account/profile"
+                  className="p-2 hover:bg-gray-100 rounded cursor-pointer"
+                >
+                  <User className="h-5 w-5" />
+                </Link>
+              ) : (
+                <Link 
+                  href="/auth/sign-in" 
+                  className="p-2 hover:bg-gray-100 rounded cursor-pointer"
+                >
+                  <User className="h-5 w-5" />
+                </Link>
+              )}
+              <Link href="/cart" className="p-2 hover:bg-gray-100 rounded relative cursor-pointer">
+                <ShoppingCart className="h-5 w-5" />
+                {cartCount > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold">
+                    {cartCount > 9 ? '9+' : cartCount}
+                  </span>
+                )}
+              </Link>
+              <Link href="/account/notifications" className="p-2 hover:bg-gray-100 rounded relative cursor-pointer">
+                <Bell className="h-5 w-5" />
+                {unreadCount > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold">
+                    {unreadCount > 9 ? '9+' : unreadCount}
+                  </span>
+                )}
+              </Link>
+            </div>
+          </div>
+
+          {/* Bottom Row - Search Bar */}
+          <div className="px-4 py-3 relative">
+            <input
+              type="text"
+              placeholder="Search products..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              onKeyDown={handleSearch}
+              className="w-full border border-gray-300 rounded pl-10 pr-4 py-2 bg-white text-black focus:outline-none focus:ring-2 focus:ring-[#e76b4c]"
+              onFocus={() => searchResults.length > 0 && setShowResults(true)}
+              onBlur={() => setTimeout(() => setShowResults(false), 200)}
+            />
+            <Search className="absolute left-7 top-6 h-5 w-5 text-black" />
+
+            {showResults && searchResults.length > 0 && (
+              <ul className="absolute top-full left-4 right-4 bg-white border mt-1 rounded shadow z-50 max-h-64 overflow-auto">
+                {searchResults.map((product: any) => (
+                  <li
+                    key={product.id}
+                    className="px-4 py-2 hover:bg-gray-100 flex justify-between items-center"
+                  >
+                    <Link
+                      href={`/product/${product.id}`}
+                      onClick={() => setShowResults(false)}
+                      className="flex-1"
+                    >
+                      <span className="font-medium text-sm">{product.title}</span>
+                    </Link>
+                    <span className="ml-2 text-gray-600 text-sm">${product.price.toFixed(2)}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </div>
+
         {/* BOTTOM BAR - hidden on mobile devices */}
         <nav className="border-t bg-[#CF5C36] text-white hidden md:block">
           <div className="px-6 py-3 flex justify-center gap-6">
@@ -300,18 +396,63 @@ export default function Header() {
 
       {/* SLIDE-OUT MENU */}
       <aside
-        className={`fixed top-0 left-0 h-full w-64 bg-[#CF5C36] text-white z-50 transform transition-transform duration-300 ${
+        className={`fixed top-0 left-0 h-full w-64 bg-[#CF5C36] text-white z-50 transform transition-transform duration-300 overflow-y-auto ${
           menuOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
         <div className="flex items-center justify-between px-4 py-4 border-b border-white bg-[#CF5C36]">
-          <h2 className="text-lg font-semibold text-white">Categories</h2>
+          <h2 className="text-lg font-semibold text-white">Menu</h2>
           <button aria-label="Close menu" onClick={() => setMenuOpen(false)} className="cursor-pointer">
             <X className="text-white" />
           </button>
         </div>
 
-        <nav className="flex flex-col p-4 gap-4">
+        {/* User Section - Mobile Only */}
+        {user && (
+          <div className="md:hidden border-b border-white/30 p-4">
+            <p className="text-sm text-white/80 mb-3">
+              {userName || user.email?.split('@')[0]}
+            </p>
+            <div className="flex flex-col gap-2">
+              <Link
+                href="/account/profile"
+                onClick={() => setMenuOpen(false)}
+                className="text-white hover:underline cursor-pointer text-sm"
+              >
+                Profile
+              </Link>
+              <Link
+                href="/account/dashboard"
+                onClick={() => setMenuOpen(false)}
+                className="text-white hover:underline cursor-pointer text-sm"
+              >
+                Dashboard
+              </Link>
+              <Link
+                href="/account/messages"
+                onClick={() => setMenuOpen(false)}
+                className="text-white hover:underline cursor-pointer text-sm"
+              >
+                Messages
+              </Link>
+              <button
+                onClick={() => {
+                  handleLogout();
+                  setMenuOpen(false);
+                }}
+                className="text-left text-white hover:underline cursor-pointer text-sm"
+              >
+                Logout
+              </button>
+            </div>
+          </div>
+        )}
+
+        <div className="px-4 py-3">
+          <h3 className="text-sm font-semibold text-white/80 mb-2">Categories</h3>
+        </div>
+
+        <nav className="flex flex-col px-4 pb-4 gap-3">
           {categories.map((category) => (
             <Link
               key={category}
