@@ -23,38 +23,42 @@ export default async function Front() {
       </section>
 
       <section>
-        <h2 className="p-3 text-2xl font-bold">LATEST PRODUCTS</h2>
-        <div className="flex flex-wrap gap-6 px-3 py-3 justify-evenly">
-          {latestProducts.map(product => (
-            <article
-              key={product.id}
-              className="border rounded-lg bg-white p-4 w-[280px] lg:w-[340px] md:w-[280px] sm:p-2 shadow-md hover:shadow-lg transition-shadow"
-            >
-              <Link href={`/product/${product.id}`}>
-                <div className="relative h-64 w-full">
-                  <Image
-                    src={product.ProductImage?.[0]?.url || '/categories/default.png'}
-                    alt={product.title}
-                    width={300}
-                    height={300}
-                    className="absolute inset-0 w-full h-full object-cover rounded-md"
-                    loading="eager"
-                  />
-                  <h3 className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-10 text-center font-bold uppercase text-white bg-[var(--rust)] px-4 py-2 w-3/4 transition-colors duration-300 hover:text-[#cf5c36] hover:bg-white">          
-                    {product.title}
-                  </h3>
-                </div>
-              </Link>
-              <p className="text-center mt-2 text-gray-600">
-                {product.category} — ${product.price.toFixed(2)}
+      <h2 className="p-3 text-2xl font-bold">LATEST PRODUCTS</h2>
+      <div className="flex flex-wrap gap-6 px-3 py-3 justify-evenly">
+        {latestProducts.map((product) => (
+          <article
+            key={product.id}
+            className="border rounded-lg bg-white p-4 w-[280px] lg:w-[340px] md:w-[280px] sm:p-2 shadow-md hover:shadow-lg transition-shadow"
+          >
+            <Link href={`/product/${product.id}`}>
+              <div className="relative h-64 w-full">
+                <Image
+                  // Verificamos la ruta de la imagen
+                  src={product.ProductImage?.[0]?.url || '/categories/default.png'}
+                  alt={product.title}
+                  fill // Usar fill es mejor en Next.js para contenedores relativos
+                  sizes="(max-width: 768px) 280px, 340px"
+                  className="object-cover rounded-md"
+                  priority={true}
+                />
+                <h3 className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-10 text-center font-bold uppercase text-white bg-[var(--rust)] px-4 py-2 w-3/4 transition-colors duration-300 hover:text-[#cf5c36] hover:bg-white">          
+                  {product.title}
+                </h3>
+              </div>
+            </Link>
+            
+            <div className="mt-4 space-y-1">
+              <p className="text-center text-gray-600">
+                <span className="capitalize">{product.category}</span> — ${product.price.toFixed(2)}
               </p>
-              <p className="text-center text-sm text-gray-500">
+              <p className="text-center text-xs text-gray-400">
                 Added {new Date(product.createdAt).toLocaleDateString()}
               </p>
-            </article>
-          ))}
-        </div>
-      </section>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
 
       <section>
         <h2 className="p-3 text-2xl font-bold">CATEGORIES</h2>
