@@ -14,9 +14,29 @@ interface CheckoutFormData {
   payment: string;
 }
 
+interface OrderItemPayload {
+  id: string;
+  quantity: number;
+  price: number;
+}
+
+interface CustomerPayload {
+  userId: string;
+  name: string;
+  phone: string;
+  address: string;
+  payment: string;
+}
+
+interface OrderPayload {
+  items: OrderItemPayload[];
+  total: number;
+  customer: CustomerPayload;
+}
+
 export default function CheckoutPage() {
   const router = useRouter();
-  const { data } = authClient.useSession();
+  const { data: sessionData } = authClient.useSession(); 
   const { cart, clearCart } = useCart();
 
   const [formData, setFormData] = useState<CheckoutFormData>({
@@ -34,18 +54,16 @@ export default function CheckoutPage() {
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   useEffect(() => {
-    // Redirect if not authenticated
-    if (data && !data.session) {
+    if (sessionData && !sessionData.session) {
       router.push('/auth/sign-in');
     }
-  }, [data, router]);
+  }, [sessionData, router]);
 
   useEffect(() => {
-    // Fetch current profile data to pre-fill
-    if (data?.session) {
+    if (sessionData?.session) {
       fetchProfile();
     }
-  }, [data?.session]);
+  }, [sessionData?.session]);
 
   const fetchProfile = async () => {
     try {
@@ -76,39 +94,50 @@ export default function CheckoutPage() {
     setError(null);
     setSuccess(false);
 
-    if (!formData.name.trim()) {
-      setError('Name is required');
+    if (!formData.name.trim() || !formData.phone.trim() || !formData.address.trim()) {
+      setError('Please fill in all required fields');
       setSaving(false);
       return;
     }
-    if (!formData.phone.trim()) {
-      setError('Phone number is required');
-      setSaving(false);
-      return;
-    }
-    if (!formData.address.trim()) {
-      setError('Address is required');
+
+    const userId = sessionData?.session?.userId;
+
+    if (!userId) {
+      setError('User ID not found. Please sign in again.');
       setSaving(false);
       return;
     }
 
     try {
-      const order = { items: cart, total, customer: formData };
+      const orderData: OrderPayload = {
+        items: cart.map(item => ({
+          id: item.id,
+          quantity: item.quantity,
+          price: item.price,
+        })),
+        total,
+        customer: {
+          ...formData,
+          userId: userId,
+        }
+      };
+
       const response = await fetch('/api/orders', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(order),
+        body: JSON.stringify(orderData),
       });
 
-      const data = await response.json();
-      if (!response.ok || !data.success) {
-        throw new Error(data.error || 'Failed to place order');
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
+        throw new Error(result.error || 'Failed to place order');
       }
 
       setSuccess(true);
       clearCart();
       setTimeout(() => {
-        router.push(`/order-success/${data.orderId}`);
+        router.push(`/order-success/${result.orderId}`);
       }, 1500);
     } catch (err) {
       console.error('Error placing order:', err);
@@ -123,18 +152,7 @@ export default function CheckoutPage() {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  if (!data?.session) return null;
-
-  if (loading) {
-    return (
-      <div className="max-w-2xl mx-auto flex items-center justify-center min-h-[60vh]">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[var(--rust)] mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading checkout...</p>
-        </div>
-      </div>
-    );
-  }
+  if (!sessionData?.session) return null;
 
   return (
     <div className="max-w-2xl mx-auto">
@@ -254,10 +272,6 @@ export default function CheckoutPage() {
             </button>
           </div>
         </form>
-
-        <p className="text-xs text-gray-500 text-center mt-6">
-          * Required fields
-        </p>
       </div>
     </div>
   );
