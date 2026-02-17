@@ -6,8 +6,9 @@ interface CartItem {
   id: string;
   title: string;
   price: number;
-quantity: number;
-imageUrl?: string;
+  quantity: number;
+  stock: number;
+  imageUrl?: string;
 }
 
 interface CartContextType {
@@ -64,10 +65,12 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     const increaseQuantity = (id: string) => {
         setCart(prev =>
             prev.map(item =>
-            item.id === id ? { ...item, quantity: item.quantity + 1 } : item
+            item.id === id && item.quantity < item.stock
+                ? { ...item, quantity: item.quantity + 1 }
+                : item
             )
         );
-    };
+        };
 
     const decreaseQuantity = (id: string) => {
         setCart(prev =>

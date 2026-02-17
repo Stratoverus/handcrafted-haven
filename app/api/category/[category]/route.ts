@@ -7,6 +7,7 @@ type ProductWithImage = {
   title: string;
   price: number;
   sellerId: string;
+  stock: number;
   User: {
     shopName: string | null;
   } | null;
@@ -33,6 +34,7 @@ export async function GET(
         title: true,
         price: true,
         sellerId: true,
+        stock: true,
         User: {
           select: {
             shopName: true
@@ -53,7 +55,8 @@ export async function GET(
         price: product1.price,
         sellerId: product1.sellerId,
         shopName: product1.User?.shopName ?? null,
-        imageUrl: product1.ProductImage[0]?.url ?? null
+        imageUrl: product1.ProductImage[0]?.url ?? null,
+        stock: product1.stock
       }))
     });
   } catch (error) {
