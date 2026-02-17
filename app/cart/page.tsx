@@ -64,6 +64,7 @@ export default function CartPage() {
                       <span className="text-lg font-semibold">{item.quantity}</span>
                       <button
                         onClick={() => increaseQuantity(item.id)}
+                        disabled={item.quantity >= item.stock}
                         className="px-3 py-1 border rounded text-lg font-bold hover:bg-gray-100"
                       >
                         +
