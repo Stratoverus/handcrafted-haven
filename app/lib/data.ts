@@ -24,19 +24,22 @@ export async function fetchLatestProducts() {
     const products = await prisma.product.findMany({
       orderBy: { createdAt: 'desc' },
       take: 3,
-      select: {
-        id: true,
-        title: true,
-        category: true,
-        description: true,
-        price: true,
-        stock: true,
-        createdAt: true,
-        ProductImage: { select: { url: true }, take: 1 }
+      include: {
+        ProductImage: {
+          select: {
+            url: true
+          },
+          take: 1
+        }
       }
     });
 
-    return products;
+    return products.map((product) => ({
+      ...product,
+      createdAt: product.createdAt.toISOString(),
+      updatedAt: product.updatedAt.toISOString(),
+      // image: product.ProductImage[0]?.url || '/placeholder-product.jpg',
+    }));
   } catch (err) {
     console.error('Database Error:', err);
     throw new Error('Failed to fetch latest products.');
