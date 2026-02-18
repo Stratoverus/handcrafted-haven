@@ -26,12 +26,20 @@ export default function HeroSec(){
         <section className='h-screen'>
 
             <picture className='absolute inset-0'>
+<<<<<<< HEAD:app/components/HeroSec.tsx
                 {/* <source media='(min-width: 1280px)' srcSet='/handcrafted_1280x600.png' /> */}
                 <source media='(min-width: 1024px)' srcSet='/handcrafted_1024x500.png' />
                 <source media='(min-width: 768px)' srcSet='/handcrafted_768x400.png' />
                 <source media='(min-width: 640px)' srcSet='/handcrafted_640x300.png' />
                 <img 
                     src="/handcrafted_375x200.png" 
+=======
+                <source media='(min-width: 1024px)' srcSet='/knives.png' />
+                <source media='(min-width: 768px)' srcSet='/leather_belt.webp' />
+                <source media='(min-width: 640px)' srcSet='/hero_image.png' />
+                <img 
+                    src="/hero_image.png" 
+>>>>>>> main:components/HeroSec.tsx
                     alt="handcrafted hero"
                     className="w-full h-screen object-cover object-center"
                 />
@@ -48,18 +56,36 @@ export default function HeroSec(){
                 </h3>
 
                 <div className="mt-10">
+<<<<<<< HEAD:app/components/HeroSec.tsx
                     <button className={`${subTitleFont.className} group relative animate-bounce overflow-hidden w-35 text-white hover:text-black text-[1.2rem] border-4 border-white rounded-lg drop-shadow-[0_0_20px_rgba(255,255,255,0.9)] transition-all duration-[3s] ease-out ${show ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-10"}` }
 
                     onClick={() => {
                         document.getElementById("header")
                         ?.scrollIntoView({behavior: "smooth"});
+=======
+                    <button className={`${subTitleFont.className} group relative animate-bounce overflow-hidden w-35 text-black bg-white text-[1.2rem] border-4 border-white rounded-lg drop-shadow-[0_0_20px_rgba(255,255,255,0.9)] transition-all duration-[3s] ease-out ${show ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-10"}` }
+
+                    onClick={() => {
+                        const width = window.innerWidth;
+                        if (width <= 767){
+                            document.getElementById("headerMob")
+                            ?.scrollIntoView({behavior: "smooth"})
+                        } else {
+                            document.getElementById("header")
+                            ?.scrollIntoView({behavior: "smooth"})
+                        }
+>>>>>>> main:components/HeroSec.tsx
                     }}
                     
                     >
 
                     <span className='p-5 relative z-10'>Join Now</span>
 
+<<<<<<< HEAD:app/components/HeroSec.tsx
                     <span className='absolute left-0 h-full w-0 bg-white transition-all duration-500 ease-out group-hover:w-full'></span>
+=======
+                    <span className='absolute left-0 h-full w-0 bg-[#cf5c36] transition-all duration-500 ease-out group-hover:w-full'></span>
+>>>>>>> main:components/HeroSec.tsx
 
                     </button>
                 </div>

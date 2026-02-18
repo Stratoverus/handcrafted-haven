@@ -1,12 +1,15 @@
 @import "tailwindcss";
 @import "@neondatabase/auth/ui/tailwind";
+<<<<<<< HEAD
 /* @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap'); */
+=======
+>>>>>>> main
 
 :root {
   --background: #ffffff;
   --foreground: #171717;
   --navy: #050517;
-  --rust: #CF5C36;
+  --rust: #a74727;
   --beige: #EFC88B;
   --cream: #F4E3B2;
   --lightgray: #D3D5D7;
@@ -34,9 +37,29 @@ body {
 }
 
 h2 {
+<<<<<<< HEAD
   color: var(--navy);
+=======
+  color: white;
+  background-color: var(--rust);
+>>>>>>> main
   font-family: Roboto;
 }
 p {
   font-family: 'Open Sans';
+}
+
+@keyframes slide-in {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-in {
+  animation: slide-in 0.3s ease-out;
 }

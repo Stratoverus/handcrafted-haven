@@ -5,7 +5,11 @@ import { Facebook, Instagram, Twitter } from 'lucide-react';
 
 export default function Footer() {
     return (
+<<<<<<< HEAD:app/components/Footer.tsx
     <footer className="text-black border-t border-black bg-[#fff]/60 text-[#050517] mt-10">
+=======
+    <footer className="text-black border-t border-black bg-[#fff]/60 text-[#050517]">
+>>>>>>> main:components/Footer.tsx
             <div className="px-6 py-6"> {/*padding px=padding left, py=padding right */}
             <div className="flex flex-col md:flex-row items-center md:items-start justify-between gap-6 text-sm">
 
@@ -20,9 +24,9 @@ export default function Footer() {
             <div className="text-center">
                 <p className="font-medium mb-1">TEAM MEMBERS:</p>
                 <p>
-                James Eberhard<br />
-                Keith James Eberhard<br />
-                Kevin Garcia Ferreira<br />
+                James Eberhard<br/>
+                Keith James Eberhard<br/>
+                Kevin Garcia Ferreira<br/>
                 Miguel Ignacio Arcos Salazar
                 </p>
             </div>
@@ -34,7 +38,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Facebook"
-                className="hover:text-[#CF5C36]"
+                className="hover:text-[var(--rust)]"
                 >
                 <Facebook className="h-5 w-5" />
                 </Link>
@@ -44,7 +48,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Instagram"
-                className="hover:text-[#CF5C36]"
+                className="hover:text-[var(--rust)]"
                 >
                 <Instagram className="h-5 w-5" />
                 </Link>
@@ -54,7 +58,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Twitter"
-                className="hover:text-[#CF5C36]"
+                className="hover:text-[var(--rust)]"
                 >
                 <Twitter className="h-5 w-5" />
                 </Link> 

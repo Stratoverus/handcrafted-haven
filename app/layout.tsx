@@ -1,4 +1,5 @@
 "use client";
+<<<<<<< HEAD
 
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -13,6 +14,24 @@ import HeroSec from './components/HeroSec';
 //   title: 'Handcrafted Haven',
 //   description: 'Handmade goods marketplace',
 // };
+=======
+
+import Header from '../components/Header';
+import Footer from '../components/Footer';
+import { NeonAuthUIProvider } from '@neondatabase/auth/react';
+import { authClient } from './lib/auth/client';
+import '../app/globals.css';
+import { CartProvider } from '@/context/CartContext';
+import { ToastProvider } from '@/context/ToastContext';
+import HeroSec from '@/components/HeroSec';
+import { usePathname } from 'next/navigation';
+
+
+/*export const metadata = {
+  title: 'Handcrafted Haven',
+  description: 'Handmade goods marketplace',
+};*/
+>>>>>>> main
 
 export default function RootLayout({
   children,
@@ -22,17 +41,26 @@ export default function RootLayout({
 
   const path = usePathname();
 
+<<<<<<< HEAD
   return (    
+=======
+  return (
+>>>>>>> main
     <html lang="en" suppressHydrationWarning>
       <body className="bg-gradient-to-br from-[#CF5C36] via-[#EFC88B] via-[#F4E3B2] to-[#FFF]">
         <NeonAuthUIProvider
           authClient={authClient} 
+<<<<<<< HEAD
           redirectTo='/profile'
+=======
+          redirectTo='/account/profile'
+>>>>>>> main
           social={{
             providers: ["google", "github"]
           }}
           >
           <div className="min-h-screen">
+<<<<<<< HEAD
               {path === "/" && <HeroSec />}
               <section>
                 <Header />
@@ -44,6 +72,27 @@ export default function RootLayout({
           </div>
         </NeonAuthUIProvider>
       </body>      
+=======
+            <div className="w-full">
+              <ToastProvider>
+                <CartProvider>
+                  {path === "/" && <HeroSec />}
+                  <Header />
+                    <main className="py-8">
+                      
+                        {children}
+                      
+                    </main>
+                    
+                  <Footer />
+                </CartProvider>
+              </ToastProvider>
+            </div>
+          </div>
+        </NeonAuthUIProvider>
+        
+      </body>
+>>>>>>> main
     </html>
   );
 }
