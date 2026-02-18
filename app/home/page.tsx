@@ -1,9 +1,3 @@
-<<<<<<< HEAD
-import { fetchCategories } from '../lib/data';
-import FrontHome from '../ui/home/FrontHome';
-
-export default async function Home() {
-=======
 // 'use client'
 
 import Image from 'next/image';
@@ -13,19 +7,11 @@ import { TrendingUp } from 'lucide-react';
 
 export default async function Front() {
 
->>>>>>> main
   const categories = await fetchCategories();
   const latestProducts = await fetchLatestProducts();
   const topProducts = await fetchTopSellingProducts();
   if (topProducts.length === 0) return null;
 
-<<<<<<< HEAD
-  return(
-    <FrontHome categories={categories} />
-  )
-
-};
-=======
   return (
     <>
       {/* <section className="flex flex-wrap mx-auto w-4/5 px-3 py-3">
@@ -170,4 +156,3 @@ export function Product({ value, count }: { value: string; count: number; }) {
     </article>
   )
 }
->>>>>>> main
