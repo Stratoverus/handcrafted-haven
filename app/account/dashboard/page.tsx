@@ -161,7 +161,7 @@ export default function DashboardPage() {
         <div>
           <Link 
             href="/account/profile"
-            className="flex items-center gap-2 text-[var(--rust)] hover:underline mb-2"
+            className="flex items-center gap-2 text-black hover:underline mb-2"
           >
             <ArrowLeft className="h-4 w-4" />
             <span>Back to Profile</span>

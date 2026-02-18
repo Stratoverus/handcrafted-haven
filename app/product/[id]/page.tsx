@@ -265,7 +265,7 @@ export default function ProductPage() {
 
       {/* Reviews Section */}
       <div className="mt-12 p-6 border rounded bg-gray-50">
-        <h2 className="text-xl font-semibold mb-4">Reviews</h2>
+        <h2 className="text-xl font-semibold mb-4 px-2 py-1">Reviews</h2>
 
         {session?.user?.id && (
           <button

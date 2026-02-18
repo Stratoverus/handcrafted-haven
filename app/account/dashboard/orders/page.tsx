@@ -150,7 +150,7 @@ export default function ManageOrdersPage() {
       <div className="mb-6">
         <Link 
           href="/account/dashboard"
-          className="inline-flex items-center gap-2 text-[var(--rust)] hover:underline"
+          className="inline-flex items-center gap-2 text-black hover:underline"
         >
           <ArrowLeft className="h-4 w-4" />
           Back to Dashboard
