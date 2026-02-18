@@ -11,7 +11,10 @@ export async function GET( //API route to get seller info/products
 
   try {
     const seller = await prisma.user.findUnique({ // get seller info and their products
-      where: { id: sellerId },
+      where: { 
+        id: sellerId,
+        role: 'SELLER', // Only show if user is an active seller
+      },
       select: {
         id: true,
         name: true,

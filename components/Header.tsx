@@ -30,6 +30,7 @@ export default function Header() {
   const { data } = authClient.useSession();
   const user = data?.user;
   const [userName, setUserName] = useState<string | null>(null);
+  const [userRole, setUserRole] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [showResults, setShowResults] = useState(false);
@@ -59,6 +60,7 @@ export default function Header() {
           if (res.ok) {
             const data = await res.json();
             setUserName(data.user.name);
+            setUserRole(data.user.role);
           }
         } catch (err) {
           console.error("Failed to fetch user profile:", err);
@@ -152,6 +154,7 @@ export default function Header() {
                   width={180}
                   height={60}
                   priority
+                  style={{ width: 'auto', height: '60px' }}
                 />
               </Link>
 
@@ -225,12 +228,14 @@ export default function Header() {
                       >
                         Profile
                       </Link>
-                      <Link
-                        href="/account/dashboard"
-                        className="block px-4 py-2 text-gray-800 hover:bg-gray-100 cursor-pointer"
-                      >
-                        Dashboard
-                      </Link>
+                      {userRole === 'SELLER' && (
+                        <Link
+                          href="/account/dashboard"
+                          className="block px-4 py-2 text-gray-800 hover:bg-gray-100 cursor-pointer"
+                        >
+                          Dashboard
+                        </Link>
+                      )}
                       <Link
                         href="/account/messages"
                         className="block px-4 py-2 text-gray-800 hover:bg-gray-100 cursor-pointer"
@@ -294,7 +299,7 @@ export default function Header() {
                   width={120}
                   height={40}
                   priority
-                  className="h-8 w-auto"
+                  style={{ width: 'auto', height: '32px' }}
                 />
               </Link>
             </div>
@@ -421,13 +426,15 @@ export default function Header() {
               >
                 Profile
               </Link>
-              <Link
-                href="/account/dashboard"
-                onClick={() => setMenuOpen(false)}
-                className="text-white hover:underline cursor-pointer text-sm"
-              >
-                Dashboard
-              </Link>
+              {userRole === 'SELLER' && (
+                <Link
+                  href="/account/dashboard"
+                  onClick={() => setMenuOpen(false)}
+                  className="text-white hover:underline cursor-pointer text-sm"
+                >
+                  Dashboard
+                </Link>
+              )}
               <Link
                 href="/account/messages"
                 onClick={() => setMenuOpen(false)}

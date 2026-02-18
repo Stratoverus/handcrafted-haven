@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Plus, Edit, Trash2, Package, DollarSign, ArrowLeft } from 'lucide-react';
 import { authClient } from '@/lib/auth/client';
+import { useToast } from '@/context/ToastContext';
 
 interface Product {
   id: string;
@@ -19,8 +20,7 @@ interface Product {
 
 export default function ManageProductsPage() {
   const router = useRouter();
-  const { data } = authClient.useSession();
-  const [products, setProducts] = useState<Product[]>([]);
+  const { data } = authClient.useSession();  const { showToast } = useToast();  const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [deletingId, setDeletingId] = useState<string | null>(null);
@@ -70,7 +70,7 @@ export default function ManageProductsPage() {
       setProducts(products.filter((p) => p.id !== productId));
     } catch (err) {
       console.error('Error deleting product:', err);
-      alert('Failed to delete product');
+      showToast('Failed to delete product', 'error');
     } finally {
       setDeletingId(null);
     }

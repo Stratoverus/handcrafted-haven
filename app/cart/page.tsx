@@ -27,7 +27,22 @@ export default function CartPage() {
         </div>
       </div>
       {cart.length === 0 ? (
-        <p>Your cart is empty.</p>
+        <div className="max-w-lg mx-auto bg-white rounded-lg shadow-md p-12 text-center">
+          <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
+            <ShoppingCart className="h-12 w-12 text-gray-300" />
+          </div>
+          <h2 className="text-2xl font-semibold text-[var(--navy)] mb-3">
+            Your cart is empty
+          </h2>
+          <p className="text-gray-600 mb-8">
+            Looks like you haven't added any items to your cart yet.
+          </p>
+          <Link href="/product-list">
+            <button className="bg-[var(--rust)] text-white px-8 py-3 rounded-lg hover:bg-[#b84f2e] transition-colors font-semibold">
+              Browse Products
+            </button>
+          </Link>
+        </div>
       ) : (
         <div className="grid gap-6 mx-auto max-w-3xl">
           {cart.map(item => (

@@ -25,7 +25,7 @@ export default async function Front() {
       <section>
         <h2 className="p-3 text-2xl font-bold">LATEST PRODUCTS</h2>
         <div className="flex flex-wrap gap-6 px-3 py-3 justify-evenly">
-          {latestProducts.map(product => (
+          {latestProducts.map((product, index) => (
             <article
               key={product.id}
               className="border rounded-lg bg-white p-4 w-[280px] lg:w-[340px] md:w-[280px] sm:p-2 shadow-md hover:shadow-lg transition-shadow"
@@ -37,8 +37,9 @@ export default async function Front() {
                     alt={product.title}
                     width={300}
                     height={300}
-                    className="absolute inset-0 w-full h-full object-cover rounded-md"
-                    loading="eager"
+                    style={{ width: '100%', height: '100%' }}
+                    className="absolute inset-0 object-cover rounded-md"
+                    priority={index === 0}
                   />
                   <h3 className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-10 text-center font-bold uppercase text-white bg-[var(--rust)] px-4 py-2 w-3/4 transition-colors duration-300 hover:text-[#cf5c36] hover:bg-white">          
                     {product.title}
@@ -91,7 +92,8 @@ export function Product({ value, count }: { value: string; count: number; }) {
             alt={value}
             width={300}
             height={300}
-            className="absolute inset-0 w-full h-full object-cover rounded-md z-0"
+            style={{ width: '100%', height: '100%' }}
+            className="absolute inset-0 object-cover rounded-md z-0"
           />
           {/* rounded-md mx-auto z-0 
                 onError={(e) => {

@@ -14,6 +14,14 @@ export async function GET() {
   try {
     // Fetch all distinct categories from DB
     const categoriesRaw: { category: string }[] = await prisma.product.findMany({
+      where: {
+        User: {
+          NOT: {
+            name: 'Deleted User',
+          },
+          role: 'SELLER',
+        },
+      },
       select: { category: true },
       distinct: ["category"],
       orderBy: { category: "asc" },

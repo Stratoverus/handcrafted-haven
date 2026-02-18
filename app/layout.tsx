@@ -6,6 +6,7 @@ import { NeonAuthUIProvider } from '@neondatabase/auth/react';
 import { authClient } from './lib/auth/client';
 import '../app/globals.css';
 import { CartProvider } from '@/context/CartContext';
+import { ToastProvider } from '@/context/ToastContext';
 
 
 // export const metadata = {
@@ -30,16 +31,18 @@ export default function RootLayout({
           >
           <div className="min-h-screen">
             <div className="max-w-[1280px] mx-auto">
-              <CartProvider>
-                <Header />
-                  <main className="px-6 py-8">
+              <ToastProvider>
+                <CartProvider>
+                  <Header />
+                    <main className="px-6 py-8">
+                      
+                        {children}
+                      
+                    </main>
                     
-                      {children}
-                    
-                  </main>
-                  
-                <Footer />
-              </CartProvider>
+                  <Footer />
+                </CartProvider>
+              </ToastProvider>
             </div>
           </div>
         </NeonAuthUIProvider>

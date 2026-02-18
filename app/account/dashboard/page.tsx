@@ -100,6 +100,12 @@ export default function DashboardPage() {
       setError(null);
       const response = await fetch('/api/dashboard');
       
+      if (response.status === 403) {
+        // User is not a seller, redirect to profile
+        router.push('/account/profile');
+        return;
+      }
+      
       if (!response.ok) {
         throw new Error('Failed to fetch dashboard data');
       }
@@ -209,7 +215,7 @@ export default function DashboardPage() {
             {revenueLoading ? (
               <span className="text-gray-400">Loading...</span>
             ) : (
-              `$${revenue}`
+              `$${revenue.toFixed(2)}`
             )}
           </p>
         </div>
@@ -254,7 +260,7 @@ export default function DashboardPage() {
           </div>
           <Link 
             href="/account/dashboard/orders"
-            className="block mt-4 text-center text-[var(--rust)] hover:underline font-medium"
+            className="block mt-4 text-center text-[var(--rust)] hover:underline font-medium cursor-pointer"
           >
             View All Orders
           </Link>

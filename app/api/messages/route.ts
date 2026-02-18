@@ -49,7 +49,7 @@ export async function GET(req: NextRequest) {
       },
     });
 
-    return NextResponse.json({ messages }, { status: 200 });
+    return NextResponse.json({ messages, userId }, { status: 200 });
   } catch (error) {
     console.error('Error fetching messages:', error);
     return NextResponse.json({ error: 'Failed to fetch messages' }, { status: 500 });
