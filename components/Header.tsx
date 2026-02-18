@@ -6,16 +6,9 @@ import Link from 'next/link';
 import { Menu, Search, ShoppingCart, Bell, User, X } from 'lucide-react';
 import { authClient } from '@/lib/auth/client';
 import { useCart } from '../app/context/CartContext';
-import { useRef } from 'react';
 
 import { useRouter } from 'next/navigation';
-
-function toTitleCase(text: string) {
-  return text
-    .split(/[\s-]+/)       // split by spaces or hyphens
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
-}
+import BottomBar from './BottomBar';
 
 interface SearchResult {
   id: number;
@@ -139,16 +132,6 @@ export default function Header() {
     router.push('/');
   };
 
-  const menuRef = useRef<HTMLDivElement>(null);
-
-  function scrollLeft(){
-    menuRef.current?.scrollBy({left: -menuRef.current.clientWidth, behavior: "smooth"})
-  }
-
-  function scrollRight(){
-    menuRef.current?.scrollBy({left: menuRef.current.clientWidth, behavior: "smooth"})
-  }
-
   return (
     <>
       <header>
@@ -167,14 +150,6 @@ export default function Header() {
                   style={{ width: 'auto', height: '60px' }}
                 />
               </Link>
-
-              <button
-                aria-label="Open categories"
-                onClick={() => setMenuOpen(true)}
-                className="md:hidden p-2 rounded hover:bg-gray-100 cursor-pointer"
-              >
-                <Menu className="h-6 w-6" />
-              </button>
             </div>
 
             {/* Middle */}
@@ -214,6 +189,15 @@ export default function Header() {
 
             {/* Right */}
             <div className="flex items-center gap-4 shrink-0">
+
+              <button
+                aria-label="Open categories"
+                onClick={() => setMenuOpen(true)}
+                className="p-2 rounded hover:bg-gray-100 cursor-pointer"
+              >
+                
+                <Menu className="h-6 w-6" />
+              </button>
               {user ? (
                 <div 
                   className="relative"
@@ -386,30 +370,9 @@ export default function Header() {
         </div>
 
         {/* BOTTOM BAR - hidden on mobile devices */}
-        <nav className="border-t bg-[#fff]/60 text-[#050517] hidden md:block">
 
-          <div className="px-6 py-3 flex justify-center gap-6">
+        <BottomBar categories={categories} />
 
-            <button onClick={scrollLeft} className='px-3 py-1 text-[1.2rem] rounded-lg hover:bg-white hover:text-[#e08d63]'>◀</button>
-
-            <div ref={menuRef} className='flex gap-6 overflow-x-auto scroll-smooth whitespace-nowrap max-w-[900px] [&::-webkit-scrollbar]:hidden'>
-
-              {categories.map((category) => (
-                <Link
-                  key={category}
-                  href={`/category/${category.toLowerCase()}`}
-                  className="font-medium p-1 rounded-lg hover:bg-gray-500/15 cursor-pointer"
-                >
-                  {toTitleCase(category)}
-                </Link>
-              ))}
-            </div>
-
-            <button onClick={scrollRight} className='px-3 py-1 text-[1.2rem] rounded-lg hover:bg-white hover:text-[#e08d63]'>▶</button>
-
-          </div>
-
-        </nav>
       </header>
 
       {/* OVERLAY */}

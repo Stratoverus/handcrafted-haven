@@ -7,8 +7,6 @@ import { authClient } from './lib/auth/client';
 import '../app/globals.css';
 import { CartProvider } from '@/context/CartContext';
 import { ToastProvider } from '@/context/ToastContext';
-import HeroSec from '@/components/HeroSec';
-import { usePathname } from 'next/navigation';
 
 
 /*export const metadata = {
@@ -22,7 +20,6 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
 
-  const path = usePathname();
 
   return (
     <html lang="en" suppressHydrationWarning>
@@ -38,9 +35,8 @@ export default function RootLayout({
             <div className="w-full">
               <ToastProvider>
                 <CartProvider>
-                  {path === "/" && <HeroSec />}
                   <Header />
-                    <main className="py-8">
+                    <main>
                       
                         {children}
                       

@@ -1,0 +1,81 @@
+"use client";
+
+import Link from "next/link";
+import { useRef } from "react";
+
+
+type CategoryProps = {
+    categories: string[]
+}
+
+export default function BottomBar({categories}: CategoryProps){
+    const WindowWidth = window.innerWidth;
+
+    const menuRef = useRef<HTMLDivElement>(null);
+
+    function toTitleCase(text: string) {
+        return text
+        .split(/[\s-]+/)       // split by spaces or hyphens
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ');
+    }
+
+    function scrollLeft(){
+        menuRef.current?.scrollBy({left: -menuRef.current.clientWidth, behavior: "smooth"})
+    }
+
+    function scrollRight(){
+        menuRef.current?.scrollBy({left: menuRef.current.clientWidth, behavior: "smooth"})
+    }
+
+    if (WindowWidth <= 1260){
+        return(
+            <nav className="border-t bg-[#fff]/60 text-[#050517] hidden md:block">
+
+                <div className="px-6 py-3 flex justify-center gap-6">
+
+                    <button onClick={scrollLeft} className='px-3 py-1 text-[1.2rem] rounded-lg hover:bg-white hover:text-[#e08d63] hover:cursor-pointer'>◀</button>
+
+                    <div ref={menuRef} className='flex gap-6 overflow-x-auto scroll-smooth whitespace-nowrap max-w-[900px] [&::-webkit-scrollbar]:hidden'>
+
+                    {categories.map((category) => (
+                        <Link
+                        key={category}
+                        href={`/category/${category.toLowerCase()}`}
+                        className="font-medium p-1 rounded-lg hover:bg-gray-500/15 cursor-pointer"
+                        >
+                        {toTitleCase(category)}
+                        </Link>
+                    ))}
+                    </div>
+
+                    <button onClick={scrollRight} className='px-3 py-1 text-[1.2rem] rounded-lg hover:bg-white hover:text-[#e08d63] hover:cursor-pointer'>▶</button>
+
+                </div>
+
+            </nav> 
+        )
+    } else {
+        return(
+            <nav className="border-t bg-[#fff]/60 text-[#050517] hidden md:block">
+
+                <div className="px-6 py-3 flex justify-center gap-6">
+
+                    {categories.map((category) => (
+                        <Link
+                        key={category}
+                        href={`/category/${category.toLowerCase()}`}
+                        className="font-medium p-1 rounded-lg hover:bg-gray-500/15 cursor-pointer"
+                        >
+                        {toTitleCase(category)}
+                        </Link>
+                    ))}
+
+                </div>
+
+            </nav>
+        )
+    }
+}
+
+
