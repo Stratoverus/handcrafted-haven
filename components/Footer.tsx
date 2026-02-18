@@ -20,9 +20,9 @@ export default function Footer() {
             <div className="text-center">
                 <p className="font-medium mb-1">TEAM MEMBERS:</p>
                 <p>
-                James Eberhard<br />
-                Keith James Eberhard<br />
-                Kevin Garcia Ferreira<br />
+                James Eberhard<br/>
+                Keith James Eberhard<br/>
+                Kevin Garcia Ferreira<br/>
                 Miguel Ignacio Arcos Salazar
                 </p>
             </div>
