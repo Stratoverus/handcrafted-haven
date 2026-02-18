@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { Menu, Search, ShoppingCart, Bell, User, X } from 'lucide-react';
 import { authClient } from '@/lib/auth/client';
 import { useCart } from '../app/context/CartContext';
-
+import { useRef } from 'react';
 
 import { useRouter } from 'next/navigation';
 
@@ -139,17 +139,27 @@ export default function Header() {
     router.push('/');
   };
 
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  function scrollLeft(){
+    menuRef.current?.scrollBy({left: -menuRef.current.clientWidth, behavior: "smooth"})
+  }
+
+  function scrollRight(){
+    menuRef.current?.scrollBy({left: menuRef.current.clientWidth, behavior: "smooth"})
+  }
+
   return (
     <>
       <header>
         {/* Desktop Layout */}
-        <div className="hidden md:block px-6 py-4">
+        <div id='header' className="hidden md:block px-6 py-4 bg-white/45">
           <div className="flex items-center justify-between gap-4 text-black">
             {/* Left */}
             <div className="flex items-center gap-4 shrink-0">
               <Link href="/" className="flex items-center">
                 <Image
-                  src="/Logo_4.jpg"
+                  src="/Logo_5.png"
                   alt="Handcrafted Haven logo"
                   width={180}
                   height={60}
@@ -161,7 +171,7 @@ export default function Header() {
               <button
                 aria-label="Open categories"
                 onClick={() => setMenuOpen(true)}
-                className="p-2 rounded hover:bg-gray-100 cursor-pointer"
+                className="md:hidden p-2 rounded hover:bg-gray-100 cursor-pointer"
               >
                 <Menu className="h-6 w-6" />
               </button>
@@ -280,10 +290,23 @@ export default function Header() {
         </div>
 
         {/* Mobile Layout */}
-        <div className="md:hidden">
+        <div id='headerMob' className="md:hidden bg-white/45">
           {/* Top Row - Logo (smaller) and Icons */}
           <div className="px-4 py-3 flex items-center justify-between border-b">
             <div className="flex items-center gap-3">
+              
+              <Link href="/" className="flex items-center">
+                <Image
+                  src="/Logo_5.png"
+                  alt="Handcrafted Haven logo"
+                  width={100}
+                  height={40}
+                  priority
+                />
+              </Link>
+            </div>
+
+            <div className="flex items-center gap-2">
               <button
                 aria-label="Open categories"
                 onClick={() => setMenuOpen(true)}
@@ -292,19 +315,6 @@ export default function Header() {
                 <Menu className="h-6 w-6" />
               </button>
               
-              <Link href="/" className="flex items-center">
-                <Image
-                  src="/Logo_4.jpg"
-                  alt="Handcrafted Haven logo"
-                  width={120}
-                  height={40}
-                  priority
-                  style={{ width: 'auto', height: '32px' }}
-                />
-              </Link>
-            </div>
-
-            <div className="flex items-center gap-2">
               {user ? (
                 <Link 
                   href="/account/profile"
@@ -376,18 +386,29 @@ export default function Header() {
         </div>
 
         {/* BOTTOM BAR - hidden on mobile devices */}
-        <nav className="border-t bg-[#CF5C36] text-white hidden md:block">
+        <nav className="border-t bg-[#fff]/60 text-[#050517] hidden md:block">
+
           <div className="px-6 py-3 flex justify-center gap-6">
-            {categories.map((category) => (
-              <Link
-                key={category}
-                href={`/category/${category.toLowerCase()}`}
-                className="font-medium hover:underline cursor-pointer"
-              >
-                {toTitleCase(category)}
-              </Link>
-            ))}
+
+            <button onClick={scrollLeft} className='px-3 py-1 text-[1.2rem] rounded-lg hover:bg-white hover:text-[#e08d63]'>◀</button>
+
+            <div ref={menuRef} className='flex gap-6 overflow-x-auto scroll-smooth whitespace-nowrap max-w-[900px] [&::-webkit-scrollbar]:hidden'>
+
+              {categories.map((category) => (
+                <Link
+                  key={category}
+                  href={`/category/${category.toLowerCase()}`}
+                  className="font-medium p-1 rounded-lg hover:bg-gray-500/15 cursor-pointer"
+                >
+                  {toTitleCase(category)}
+                </Link>
+              ))}
+            </div>
+
+            <button onClick={scrollRight} className='px-3 py-1 text-[1.2rem] rounded-lg hover:bg-white hover:text-[#e08d63]'>▶</button>
+
           </div>
+
         </nav>
       </header>
 

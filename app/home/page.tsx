@@ -5,7 +5,6 @@ import { fetchCategories, fetchLatestProducts, fetchTopSellingProducts } from '.
 import Link from 'next/link';
 import { TrendingUp } from 'lucide-react';
 
-
 export default async function Front() {
 
   const categories = await fetchCategories();
@@ -15,7 +14,7 @@ export default async function Front() {
 
   return (
     <>
-      <section className="flex flex-wrap mx-auto w-4/5 px-3 py-3"> {/*border-dotted border-2 border-gray-500*/}
+      {/* <section className="flex flex-wrap mx-auto w-4/5 px-3 py-3">
         <Image
           src="/handcrafted.png"
           alt="handcrafted"
@@ -23,15 +22,15 @@ export default async function Front() {
           height={300}
           className="rounded-md mx-aut"
         />
-      </section>
+      </section> */}
        {/* Latest product section */}
       <section>
-        <h2 className="p-3 text-2xl font-bold">LATEST PRODUCTS</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 px-6 py-6 justify-items-center">
+        <h2 className="p-3 w-full text-2xl font-bold text-center">LATEST PRODUCTS</h2>
+        <div className="flex flex-col md:flex-row gap-8 px-6 py-6 justify-center items-center">
           {latestProducts.map((product) => (
             <article
               key={product.id}
-              className="group bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden w-[280px] md:w-[280px] lg:w-[340px]"
+              className="group bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden w-[280px] lg:w-[300px]"
             >
               <Link href={`/product/${product.id}`}>
                 <div className="p-2">
@@ -66,16 +65,16 @@ export default async function Front() {
       </section>
           {/* Best seller section */}
       <section>
-        <h2 className="p-3 text-2xl font-bold flex items-center gap-2">
+        <h2 className="p-3 text-2xl font-bold flex justify-center items-center gap-2">
           BEST SELLERS
           <TrendingUp className="text-[var(--rust)]" />
         </h2>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 px-6 py-6 justify-items-center">
+        <div className="flex flex-col md:flex-row gap-8 px-6 py-6 justify-center items-center">
           {topProducts.map((product) => (
             <article
               key={product.id}
-              className="group bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden w-[280px] md:w-[280px] lg:w-[340px] relative"
+              className="group bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden w-[280px] lg:w-[300px] relative"
             >
               {/* Popular badge */}
               <div className="absolute top-2 right-2 z-20 bg-amber-400 text-xs font-bold px-2 py-1 rounded shadow-sm">
@@ -114,9 +113,9 @@ export default async function Front() {
 
              {/* Category section */}
       <section>
-        <h2 className="p-3 text-2xl font-bold">CATEGORIES</h2>
+        <h2 className="p-3 text-2xl text-center font-bold">CATEGORIES</h2>
 
-        <div className="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-8 px-6 py-6 justify-items-center justify-center">
+        <div className="flex flex-col md:grid md:grid-cols-3 md:justify-items-center gap-8 px-6 py-6 justify-center items-center">
           {categories.map((item, index) => (
             <Product
               key={index}
@@ -136,7 +135,7 @@ export function Product({ value, count }: { value: string; count: number; }) {
   const source = `/categories/${value.toLowerCase()}.png`;
 
   return (
-    <article className="group border rounded-lg bg-white p-4 w-[280px] lg:w-[340px] md:w-[280px] sm:p-2 shadow-md hover:shadow-xl transition-all duration-300">
+    <article className="group border rounded-lg bg-white p-4 w-[280px] lg:w-[320px] md:w-[240px] sm:p-2 shadow-md hover:shadow-xl transition-all duration-300">
       <Link key={value} href={`/category/${value.toLowerCase()}`}>
         <div className='relative h-64 w-full overflow-hidden'>
           <Image

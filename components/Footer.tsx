@@ -5,7 +5,7 @@ import { Facebook, Instagram, Twitter } from 'lucide-react';
 
 export default function Footer() {
     return (
-    <footer className="text-black border-t border-black">
+    <footer className="text-black border-t border-black bg-[#fff]/60 text-[#050517]">
             <div className="px-6 py-6"> {/*padding px=padding left, py=padding right */}
             <div className="flex flex-col md:flex-row items-center md:items-start justify-between gap-6 text-sm">
 

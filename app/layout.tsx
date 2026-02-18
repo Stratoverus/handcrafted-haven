@@ -7,6 +7,8 @@ import { authClient } from './lib/auth/client';
 import '../app/globals.css';
 import { CartProvider } from '@/context/CartContext';
 import { ToastProvider } from '@/context/ToastContext';
+import HeroSec from '@/components/HeroSec';
+import { usePathname } from 'next/navigation';
 
 
 /*export const metadata = {
@@ -19,6 +21,9 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+
+  const path = usePathname();
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body className="bg-gradient-to-br from-[#CF5C36] via-[#EFC88B] via-[#F4E3B2] to-[#FFF]">
@@ -30,11 +35,12 @@ export default function RootLayout({
           }}
           >
           <div className="min-h-screen">
-            <div className="max-w-[1280px] mx-auto">
+            <div className="w-full">
               <ToastProvider>
                 <CartProvider>
+                  {path === "/" && <HeroSec />}
                   <Header />
-                    <main className="px-6 py-8">
+                    <main className="py-8">
                       
                         {children}
                       
