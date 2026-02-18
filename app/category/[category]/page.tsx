@@ -95,8 +95,8 @@ export default function CategoryPage() {
             return (
               <div
                 key={product.id}
-                className={`border p-4 rounded transition bg-white relative
-                  ${isOutOfStock ? "opacity-60" : "hover:shadow"}`}
+                className={`group border p-4 rounded transition bg-white relative overflow-hidden
+                  ${isOutOfStock ? "opacity-60" : "hover:shadow-lg"}`}
               >
                 {/* Out of Stock Badge */}
                 {isOutOfStock && (
@@ -115,11 +115,13 @@ export default function CategoryPage() {
                     />
                   ) : (
                     <Link href={`/product/${product.id}`}>
-                      <img
-                        src={product.imageUrl}
-                        alt={product.title}
-                        className="w-full h-40 object-cover mb-2 rounded"
-                      />
+                      <div className="overflow-hidden rounded mb-2">
+                        <img
+                          src={product.imageUrl}
+                          alt={product.title}
+                          className="w-full h-40 object-cover transition-transform duration-300 group-hover:scale-105"
+                        />
+                      </div>
                     </Link>
                   )
                 )}
@@ -131,7 +133,7 @@ export default function CategoryPage() {
                   </h2>
                 ) : (
                   <Link href={`/product/${product.id}`}>
-                    <h2 className="font-medium">{product.title}</h2>
+                    <h2 className="font-medium px-2 py-1">{product.title}</h2>
                     {product.price !== undefined && (
                       <p className="text-sm text-gray-700 mt-1">
                         ${product.price.toFixed(2)}

@@ -101,7 +101,7 @@ export default function SellerPage() { //seller page component - fetches seller 
       </div>
 
       {/* Products Section */}
-      <div className="bg-white rounded-lg shadow-md p-8">
+      <div className="rounded-lg p-8">
         <h2 className="text-2xl font-semibold mb-6 text-[var(--navy)] flex items-center gap-2">
           <ShoppingBag className="h-6 w-6 text-[var(--rust)]" />
           Products
@@ -118,7 +118,7 @@ export default function SellerPage() { //seller page component - fetches seller 
               <Link
                 key={product.id}
                 href={`/product/${product.id}`}
-                className="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300 group"
+                className="bg-white border border-gray-300 rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300 group"
               >
                 {product.imageUrl && !imageErrors.has(product.id) ? (
                   <div className="relative h-48 bg-gray-100">
@@ -139,10 +139,11 @@ export default function SellerPage() { //seller page component - fetches seller 
                     <Package className="h-12 w-12 text-gray-300" />
                   </div>
                 )}
-                <div className="p-4">
-                  <h3 className="font-semibold text-[var(--navy)] mb-2 group-hover:text-[var(--rust)] transition-colors">
+                <div className="p-4 text-center space-y-3">
+                  <h3 className="font-bold uppercase text-white bg-[var(--rust)] px-4 py-2 rounded-md transition-colors duration-300 group-hover:bg-white group-hover:text-[var(--rust)]">
                     {product.title}
                   </h3>
+
                   <p className="text-lg font-bold text-[var(--rust)]">
                     ${product.price.toFixed(2)}
                   </p>
