@@ -34,7 +34,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Facebook"
-                className="hover:text-[#CF5C36]"
+                className="hover:text-[var(--rust)]"
                 >
                 <Facebook className="h-5 w-5" />
                 </Link>
@@ -44,7 +44,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Instagram"
-                className="hover:text-[#CF5C36]"
+                className="hover:text-[var(--rust)]"
                 >
                 <Instagram className="h-5 w-5" />
                 </Link>
@@ -54,7 +54,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Twitter"
-                className="hover:text-[#CF5C36]"
+                className="hover:text-[var(--rust)]"
                 >
                 <Twitter className="h-5 w-5" />
                 </Link> 

@@ -224,7 +224,7 @@ export default function ProductPage() {
               <span className="text-gray-500">Sold by </span>
               <Link
                 href={`/seller/${product.User.id}`}
-                className="font-semibold text-[#CF5C36] hover:underline"
+                className="font-semibold text-[var(--rust)] hover:underline"
               >
                 {product.User.shopName || product.User.name || 'Seller'}
               </Link>
@@ -232,7 +232,7 @@ export default function ProductPage() {
 
             <button 
               onClick={() => setShowMessageModal(true)}
-              className="text-[#CF5C36] border border-[#CF5C36] px-3 py-1 rounded hover:bg-[#CF5C36] hover:text-white transition text-xs cursor-pointer"
+              className="text-[var(--rust)] border border-[var(--rust)] px-3 py-1 rounded hover:bg-[var(--rust)] hover:text-white transition text-xs cursor-pointer"
             >
               Message Seller
             </button>
@@ -255,7 +255,7 @@ export default function ProductPage() {
           <button
             onClick={handleAddToCart}
             disabled={alreadyInCart >= product.stock}
-            className="w-full bg-[#CF5C36] text-white py-3 rounded hover:bg-[#b84f2f] transition cursor-pointer"
+            className="w-full bg-[var(--rust)] text-white py-3 rounded hover:bg-[#b84f2f] transition cursor-pointer"
           >
             {alreadyInCart >= product.stock ? "Max In Cart" : "Add to Cart"}
           </button>
@@ -265,12 +265,12 @@ export default function ProductPage() {
 
       {/* Reviews Section */}
       <div className="mt-12 p-6 border rounded bg-gray-50">
-        <h2 className="text-xl font-semibold mb-4">Reviews</h2>
+        <h2 className="text-xl font-semibold mb-4 px-2 py-1">Reviews</h2>
 
         {session?.user?.id && (
           <button
             onClick={() => setShowReviewModal(true)}
-            className="bg-[#CF5C36] text-white px-4 py-2 rounded hover:bg-[#b84f2f] mb-6"
+            className="bg-[var(--rust)] text-white px-4 py-2 rounded hover:bg-[#b84f2f] mb-6"
           >
             Leave a Review
           </button>

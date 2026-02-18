@@ -169,7 +169,7 @@ export default function ProfilePage() {
                 {user.name && user.name.trim() ? user.name.split(' ').filter(n => n).map(n => n[0]).join('').toUpperCase() : 'U'}
               </div>
               <div>
-                <h2 className="text-2xl font-semibold text-[var(--navy)]">{user.name}</h2>
+                <h2 className="text-2xl font-semibold text-[var(--navy)] px-2 py-1">{user.name}</h2>
                 <p className="text-gray-600">Member since {user.memberSince}</p>
               </div>
             </div>

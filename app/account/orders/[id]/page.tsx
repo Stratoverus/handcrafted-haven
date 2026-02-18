@@ -157,7 +157,7 @@ export default function ViewOrderPage() {
       <div className="mb-6">
         <Link
           href="/account/orders"
-          className="inline-flex items-center gap-2 text-[var(--rust)] hover:underline"
+          className="inline-flex items-center gap-2 text-black hover:underline"
         >
           <ArrowLeft className="h-4 w-4" />
           Back to Orders

@@ -81,8 +81,6 @@ export default function CategoryPage() {
         className="w-full max-w-[400px] h-[250px] object-cover rounded mb-6 mx-auto"
       />
 
-      <p className="text-gray-600 mb-6">Welcome to the {displayName} page.</p>
-
       {loading ? (
         <p>Loading...</p>
       ) : products.length === 0 ? (
@@ -95,8 +93,8 @@ export default function CategoryPage() {
             return (
               <div
                 key={product.id}
-                className={`border p-4 rounded transition bg-white relative
-                  ${isOutOfStock ? "opacity-60" : "hover:shadow"}`}
+                className={`group border p-4 rounded transition bg-white relative overflow-hidden
+                  ${isOutOfStock ? "opacity-60" : "hover:shadow-lg"}`}
               >
                 {/* Out of Stock Badge */}
                 {isOutOfStock && (
@@ -115,11 +113,13 @@ export default function CategoryPage() {
                     />
                   ) : (
                     <Link href={`/product/${product.id}`}>
-                      <img
-                        src={product.imageUrl}
-                        alt={product.title}
-                        className="w-full h-40 object-cover mb-2 rounded"
-                      />
+                      <div className="overflow-hidden rounded mb-2">
+                        <img
+                          src={product.imageUrl}
+                          alt={product.title}
+                          className="w-full h-40 object-cover transition-transform duration-300 group-hover:scale-105"
+                        />
+                      </div>
                     </Link>
                   )
                 )}
@@ -131,7 +131,7 @@ export default function CategoryPage() {
                   </h2>
                 ) : (
                   <Link href={`/product/${product.id}`}>
-                    <h2 className="font-medium">{product.title}</h2>
+                    <h2 className="font-medium px-2 py-1">{product.title}</h2>
                     {product.price !== undefined && (
                       <p className="text-sm text-gray-700 mt-1">
                         ${product.price.toFixed(2)}
@@ -144,7 +144,7 @@ export default function CategoryPage() {
                 {product.shopName && (
                   <Link
                     href={`/seller/${product.sellerId}`}
-                    className="text-[#CF5C36] hover:underline text-sm mt-2 block"
+                    className="text-[var(--rust)] hover:underline text-sm mt-2 block"
                   >
                     {product.shopName}
                   </Link>
