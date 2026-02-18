@@ -414,7 +414,7 @@ export default function ProductPage() {
 
       {/* Reviews Section */}
       <div className="mt-12 p-6 border rounded bg-gray-50">
-        <h2 className="text-xl font-semibold mb-4 px-2 py-1">Reviews</h2>
+        <h2 className="text-2xl font-bold mb-6 px-2 py-1 ">Reviews</h2>
 
         {session?.user?.id && product.sellerId !== session.user.id && (
           <button
@@ -468,7 +468,7 @@ export default function ProductPage() {
       {/* Related Products Section */}
       {relatedProducts.length > 0 && (
         <div className="mt-12 p-6 border rounded bg-gray-50">
-          <h2 className="text-2xl font-bold mb-6 text-[var(--navy)]">
+          <h2 className="text-2xl font-bold mb-6 px-2 py-1 text-[var(--navy)]">
             {showingCategoryProducts ? 'Related Products' : 'You May Also Like'}
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
