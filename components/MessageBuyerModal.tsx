@@ -148,7 +148,7 @@ export default function MessageBuyerModal({
                 value={subject}
                 onChange={(e) => setSubject(e.target.value)}
                 style={{ border: '2px solid #6B7280' }}
-                className="w-full rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#CF5C36] bg-white"
+                className="w-full rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[var(--rust)] bg-white"
                 required
               />
             </div>
@@ -160,7 +160,7 @@ export default function MessageBuyerModal({
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
                 style={{ border: '2px solid #6B7280' }}
-                className="w-full rounded px-3 py-2 h-32 focus:outline-none focus:ring-2 focus:ring-[#CF5C36] bg-white resize-none"
+                className="w-full rounded px-3 py-2 h-32 focus:outline-none focus:ring-2 focus:ring-[var(--rust)] bg-white resize-none"
                 required
               />
             </div>
@@ -184,7 +184,7 @@ export default function MessageBuyerModal({
               <button
                 type="submit"
                 disabled={sending}
-                className="px-4 py-2 bg-[#CF5C36] text-white rounded hover:bg-[#b84f2f] transition disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed"
+                className="px-4 py-2 bg-[var(--rust)] text-white rounded hover:bg-[#b84f2f] transition disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed"
               >
                 {sending ? 'Sending...' : 'Send Message'}
               </button>

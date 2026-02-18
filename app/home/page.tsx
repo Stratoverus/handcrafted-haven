@@ -80,7 +80,7 @@ export default async function Front() {
                       className="object-cover rounded-md transition-transform duration-300 group-hover:scale-105"
                       priority
                     />
-                    <h3 className="absolute bottom-4 left-1/2 -translate-x-1/2 text-center font-bold uppercase text-white bg-[var(--rust)] px-4 py-2 w-3/4 transition-colors duration-300 group-hover:bg-white group-hover:text-[#cf5c36]">
+                    <h3 className="absolute bottom-4 left-1/2 -translate-x-1/2 text-center font-bold uppercase text-white bg-[var(--rust)] px-4 py-2 w-3/4 transition-colors duration-300 group-hover:bg-white group-hover:text-[var(--rust)]">
                       {product.title}
                     </h3>
                   </div>
@@ -135,7 +135,7 @@ export default async function Front() {
                       sizes="280px"
                       className="object-cover rounded-md transition-transform duration-300 group-hover:scale-105"
                     />
-                    <h3 className="absolute bottom-4 left-1/2 -translate-x-1/2 text-center font-bold uppercase text-white bg-[var(--rust)] px-4 py-2 w-3/4 transition-colors duration-300 group-hover:bg-white group-hover:text-[#cf5c36]">
+                    <h3 className="absolute bottom-4 left-1/2 -translate-x-1/2 text-center font-bold uppercase text-white bg-[var(--rust)] px-4 py-2 w-3/4 transition-colors duration-300 group-hover:bg-white group-hover:text-[var(--rust)]">
                       {product.title}
                     </h3>
                   </div>
@@ -197,7 +197,7 @@ export function Product({ value, count }: { value: string; count: number; }) {
             height={300}
             className="object-cover rounded-md w-full h-full transition-transform duration-300 group-hover:scale-105"
           />
-          <h3 className='absolute bottom-4 left-1/2 -translate-x-1/2 text-center font-bold uppercase text-white bg-[#cf5c36] px-4 py-2 w-3/4 transition-colors duration-300 group-hover:bg-white group-hover:text-[#cf5c36]'>
+          <h3 className='absolute bottom-4 left-1/2 -translate-x-1/2 text-center font-bold uppercase text-white bg-[var(--rust)] px-4 py-2 w-3/4 transition-colors duration-300 group-hover:bg-white group-hover:text-[var(--rust)]'>
             {value}
           </h3>
         </div>

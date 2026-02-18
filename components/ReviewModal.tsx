@@ -88,7 +88,7 @@ export default function ReviewModal({
           <button
             onClick={onSubmit}
             disabled={submitting}
-            className="bg-white text-[#CF5C36] px-4 py-2 rounded font-semibold hover:bg-gray-100 disabled:opacity-50"
+            className="bg-white text-[var(--rust)] px-4 py-2 rounded font-semibold hover:bg-gray-100 disabled:opacity-50"
           >
             {submitting ? 'Saving...' : (editMode ? 'Update Review' : 'Submit Review')}
           </button>
