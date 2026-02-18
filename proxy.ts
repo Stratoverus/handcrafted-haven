@@ -1,15 +1,3 @@
-<<<<<<< HEAD
-import { auth } from "./app/lib/auth/server";
-
-export default auth.middleware({
-    loginUrl: "/login",
-});
-
-export const config = {
-    matcher: [
-        "/profile/:path*"
-    ],
-=======
 import { auth } from '@/lib/auth/server';
 
 export default auth.middleware({
@@ -22,5 +10,4 @@ export const config = {
     // Protected routes requiring authentication
     '/account/:path*',
   ],
->>>>>>> main
 };

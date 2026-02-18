@@ -1,23 +1,7 @@
 "use client";
-<<<<<<< HEAD
-
-import Header from './components/Header';
-import Footer from './components/Footer';
-import { NeonAuthUIProvider } from '@neondatabase/auth/react';
-import { authClient } from './lib/auth/client';
-import '../app/globals.css';
-import LenisProvider from './components/LenisProvide';
-import { usePathname } from 'next/navigation';
-import HeroSec from './components/HeroSec';
-
-// export const metadata = {
-//   title: 'Handcrafted Haven',
-//   description: 'Handmade goods marketplace',
-// };
-=======
 
 import Header from '../components/Header';
-import Footer from '../components/Footer';
+import Footer from './components/Footer';
 import { NeonAuthUIProvider } from '@neondatabase/auth/react';
 import { authClient } from './lib/auth/client';
 import '../app/globals.css';
@@ -31,7 +15,6 @@ import { usePathname } from 'next/navigation';
   title: 'Handcrafted Haven',
   description: 'Handmade goods marketplace',
 };*/
->>>>>>> main
 
 export default function RootLayout({
   children,
@@ -41,38 +24,17 @@ export default function RootLayout({
 
   const path = usePathname();
 
-<<<<<<< HEAD
-  return (    
-=======
   return (
->>>>>>> main
     <html lang="en" suppressHydrationWarning>
       <body className="bg-gradient-to-br from-[#CF5C36] via-[#EFC88B] via-[#F4E3B2] to-[#FFF]">
         <NeonAuthUIProvider
           authClient={authClient} 
-<<<<<<< HEAD
-          redirectTo='/profile'
-=======
           redirectTo='/account/profile'
->>>>>>> main
           social={{
             providers: ["google", "github"]
           }}
           >
           <div className="min-h-screen">
-<<<<<<< HEAD
-              {path === "/" && <HeroSec />}
-              <section>
-                <Header />
-                  <main>
-                    <LenisProvider>{children}</LenisProvider>
-                  </main>
-                <Footer />
-              </section>
-          </div>
-        </NeonAuthUIProvider>
-      </body>      
-=======
             <div className="w-full">
               <ToastProvider>
                 <CartProvider>
@@ -92,7 +54,6 @@ export default function RootLayout({
         </NeonAuthUIProvider>
         
       </body>
->>>>>>> main
     </html>
   );
 }
