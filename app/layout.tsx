@@ -8,10 +8,10 @@ import '../app/globals.css';
 import { CartProvider } from '@/context/CartContext';
 
 
-// export const metadata = {
-//   title: 'Handcrafted Haven',
-//   description: 'Handmade goods marketplace',
-// };
+/*export const metadata = {
+  title: 'Handcrafted Haven',
+  description: 'Handmade goods marketplace',
+};*/
 
 export default function RootLayout({
   children,
