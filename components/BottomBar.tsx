@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
 
 
 type CategoryProps = {
@@ -9,7 +9,19 @@ type CategoryProps = {
 }
 
 export default function BottomBar({categories}: CategoryProps){
-    const WindowWidth = window.innerWidth;
+    const [isSmall, setIsSmall] = useState(false);
+
+    useEffect(() => {
+        const checkWidth = () => {
+            setIsSmall(window.innerWidth <= 1260)
+        }
+        
+        checkWidth();
+        window.addEventListener("resize", checkWidth);
+
+        return () => window.removeEventListener("resize", checkWidth);
+
+    }, []);
 
     const menuRef = useRef<HTMLDivElement>(null);
 
@@ -28,7 +40,7 @@ export default function BottomBar({categories}: CategoryProps){
         menuRef.current?.scrollBy({left: menuRef.current.clientWidth, behavior: "smooth"})
     }
 
-    if (WindowWidth <= 1260){
+    if (isSmall){
         return(
             <nav className="border-t bg-[#fff]/60 text-[#050517] hidden md:block">
 
