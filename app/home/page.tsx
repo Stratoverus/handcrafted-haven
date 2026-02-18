@@ -25,7 +25,15 @@ export default async function Front() {
       </section> */}
        {/* Latest product section */}
       <section>
-        <h2 className="p-3 w-full text-2xl font-bold text-center">LATEST PRODUCTS</h2>
+        <div className="px-6 py-3 flex items-right ">
+          <h2 className="p-3 w-full text-2xl font-bold text-center">LATEST PRODUCTS</h2>
+          <Link 
+            href="/product-list?sort=latest"
+            className="text-white hover:underline font-semibold text-sm flex items-center gap-1"
+          >
+            View All →
+          </Link>
+        </div>
         <div className="flex flex-col md:flex-row gap-8 px-6 py-6 justify-center items-center">
           {latestProducts.map((product) => (
             <article
@@ -65,10 +73,17 @@ export default async function Front() {
       </section>
           {/* Best seller section */}
       <section>
-        <h2 className="p-3 text-2xl font-bold flex justify-center items-center gap-2">
-          BEST SELLERS
-          <TrendingUp className="text-[var(--rust)]" />
-        </h2>
+        <div className="bg-[var(--rust)] text-white px-6 py-3 flex items-center justify-between">
+          <h2 className="text-2xl font-bold flex justify-center items-center gap-2">
+            BEST SELLERS
+          </h2>
+          <Link 
+            href="/product-list?sort=bestsellers"
+            className="text-white hover:underline font-semibold text-sm flex items-center gap-1"
+          >
+            View All →
+          </Link>
+        </div>
 
         <div className="flex flex-col md:flex-row gap-8 px-6 py-6 justify-center items-center">
           {topProducts.map((product) => (
@@ -113,7 +128,15 @@ export default async function Front() {
 
              {/* Category section */}
       <section>
-        <h2 className="p-3 text-2xl text-center font-bold">CATEGORIES</h2>
+        <div className="bg-[var(--rust)] text-white px-6 py-3 flex items-center justify-between">
+          <h2 className="text-2xl text-center font-bold">CATEGORIES</h2>
+          <Link 
+            href="/product-list"
+            className="text-white hover:underline font-semibold text-sm flex items-center gap-1"
+          >
+            View All Products →
+          </Link>
+        </div>
 
         <div className="flex flex-col md:grid md:grid-cols-3 md:justify-items-center gap-8 px-6 py-6 justify-center items-center">
           {categories.map((item, index) => (

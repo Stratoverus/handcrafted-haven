@@ -9,6 +9,7 @@ interface ReviewModalProps {
   setComment: (s: string) => void;
   submitting: boolean;
   onSubmit: () => void;
+  editMode?: boolean;
 }
 
 export default function ReviewModal({
@@ -20,6 +21,7 @@ export default function ReviewModal({
   setComment,
   submitting,
   onSubmit,
+  editMode = false,
 }: ReviewModalProps) {
   if (!isOpen) return null;
 
@@ -29,7 +31,9 @@ export default function ReviewModal({
         className="p-6 rounded shadow-lg w-full max-w-md"
         style={{ backgroundColor: "var(--rust)" }}   // <-- HERE
       >
-        <h2 className="text-xl font-semibold mb-4 text-white">Leave a Review</h2>
+        <h2 className="text-xl font-semibold mb-4 text-white">
+          {editMode ? 'Edit Your Review' : 'Leave a Review'}
+        </h2>
 
         {/* Rating Input */}
         <label className="block text-sm mb-2 font-medium text-white">Rating (1–5)</label>
@@ -84,9 +88,9 @@ export default function ReviewModal({
           <button
             onClick={onSubmit}
             disabled={submitting}
-            className="bg-white text-[var(--rust)] px-4 py-2 rounded font-semibold hover:bg-gray-100"
+            className="bg-white text-[var(--rust)] px-4 py-2 rounded font-semibold hover:bg-gray-100 disabled:opacity-50"
           >
-            Submit
+            {submitting ? 'Saving...' : (editMode ? 'Update Review' : 'Submit Review')}
           </button>
         </div>
       </div>

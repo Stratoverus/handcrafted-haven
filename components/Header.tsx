@@ -436,7 +436,7 @@ export default function Header() {
         {/* User Section - Mobile Only */}
         {user && (
           <div className="md:hidden border-b border-white/30 p-4">
-            <p className="text-sm text-white/80 mb-3">
+            <p className="text-sm text-white mb-3">
               {userName || user.email?.split('@')[0]}
             </p>
             <div className="flex flex-col gap-2">
@@ -477,7 +477,17 @@ export default function Header() {
         )}
 
         <div className="px-4 py-3">
-          <h3 className="text-sm font-semibold text-white/80 mb-2">Categories</h3>
+          <Link
+            href="/product-list"
+            onClick={() => setMenuOpen(false)}
+            className="block py-2 text-white font-semibold hover:underline cursor-pointer"
+          >
+            All Products
+          </Link>
+        </div>
+
+        <div className="px-4 py-3 border-t border-white/30">
+          <h3 className="text-sm font-semibold text-white mb-2">Categories</h3>
         </div>
 
         <nav className="flex flex-col px-4 pb-4 gap-3">

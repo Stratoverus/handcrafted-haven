@@ -8,11 +8,13 @@ export async function GET(
   try {
 
     const { category } = await context.params;
-    const categorySlug = category.toLowerCase();
 
     const products = await prisma.product.findMany({
       where: { 
-        category: categorySlug,
+        category: {
+          equals: category,
+          mode: 'insensitive', // Case-insensitive search
+        },
         User: {
           NOT: {
             name: 'Deleted User',
@@ -23,13 +25,31 @@ export async function GET(
       include: {
         ProductImage: true,
         Review: true,
+        OrderItem: true, // Include order items to calculate sales count
+        User: { // Include seller information
+          select: {
+            id: true,
+            name: true,
+            shopName: true,
+          },
+        },
       },
       orderBy: {
         createdAt: 'desc',
       },
     });
 
-    return NextResponse.json({ products }, { status: 200 });
+    // Calculate sales count for each product
+    const productsWithSalesCount = products.map(product => {
+      const salesCount = product.OrderItem.reduce((total, item) => total + item.quantity, 0);
+      const { OrderItem, ...productWithoutOrderItems } = product;
+      return {
+        ...productWithoutOrderItems,
+        salesCount,
+      };
+    });
+
+    return NextResponse.json({ products: productsWithSalesCount }, { status: 200 });
   } catch (err) {
     console.error('Category API error:', err);
     return NextResponse.json(

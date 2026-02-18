@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { Bell, MessageSquare, Package, Trash2, ArrowLeft } from 'lucide-react';
+import { Bell, MessageSquare, Package, Trash2, ArrowLeft, Star } from 'lucide-react';
 
 interface Notification {
   id: string;
@@ -124,6 +124,8 @@ export default function NotificationsPage() {
         return <MessageSquare className="h-5 w-5" />;
       case 'ORDER':
         return <Package className="h-5 w-5" />;
+      case 'REVIEW':
+        return <Star className="h-5 w-5" />;
       default:
         return <Bell className="h-5 w-5" />;
     }
