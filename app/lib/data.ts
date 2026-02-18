@@ -46,6 +46,49 @@ export async function fetchLatestProducts() {
   }
 }
 
+export async function fetchTopSellingProducts() {
+  try {
+    const topSales = await prisma.orderItem.groupBy({
+      by: ['productId'],
+      _sum: {
+        quantity: true,
+      },
+      orderBy: {
+        _sum: {
+          quantity: 'desc',
+        },
+      },
+      take: 3, 
+    });
+
+    if (topSales.length === 0) return [];
+
+    const productIds = topSales.map((item) => item.productId);
+
+    const products = await prisma.product.findMany({
+      where: {
+        id: { in: productIds },
+      },
+      include: {
+        ProductImage: {
+          select: { url: true },
+          take: 1,
+        },
+      },
+    });
+
+    return products.map((product) => ({
+      ...product,
+      createdAt: product.createdAt.toISOString(),
+      updatedAt: product.updatedAt.toISOString(),
+      salesCount: topSales.find(s => s.productId === product.id)?._sum.quantity || 0
+    }));
+  } catch (err) {
+    console.error('Database Error:', err);
+    return [];
+  }
+}
+
 
 
 
