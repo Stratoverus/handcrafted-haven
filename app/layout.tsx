@@ -9,10 +9,10 @@ import { CartProvider } from '@/context/CartContext';
 import { ToastProvider } from '@/context/ToastContext';
 
 
-// export const metadata = {
-//   title: 'Handcrafted Haven',
-//   description: 'Handmade goods marketplace',
-// };
+/*export const metadata = {
+  title: 'Handcrafted Haven',
+  description: 'Handmade goods marketplace',
+};*/
 
 export default function RootLayout({
   children,
