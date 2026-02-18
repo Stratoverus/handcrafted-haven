@@ -25,8 +25,8 @@ export default async function Front() {
       </section> */}
        {/* Latest product section */}
       <section>
-        <div className="px-6 py-3 flex items-right ">
-          <h2 className="p-3 w-full text-2xl font-bold text-center">LATEST PRODUCTS</h2>
+        <div className="bg-[var(--rust)] text-white px-6 py-3 flex items-center justify-between">
+          <h2 className="text-2xl font-bold flex justify-center items-center gap-2">LATEST PRODUCTS</h2>
           <Link 
             href="/product-list?sort=latest"
             className="text-white hover:underline font-semibold text-sm flex items-center gap-1"
