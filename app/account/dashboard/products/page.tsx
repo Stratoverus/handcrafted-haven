@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { Plus, Edit, Trash2, Package, DollarSign, ArrowLeft } from 'lucide-react';
 import { authClient } from '@/lib/auth/client';
 import { useToast } from '@/context/ToastContext';
+import ConfirmModal from '@/components/ConfirmModal';
 
 interface Product {
   id: string;
@@ -24,6 +25,8 @@ export default function ManageProductsPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [productToDelete, setProductToDelete] = useState<string | null>(null);
 
   useEffect(() => {
     if (data?.session) {
@@ -52,13 +55,16 @@ export default function ManageProductsPage() {
   };
 
   const handleDelete = async (productId: string) => {
-    if (!confirm('Are you sure you want to delete this product?')) {
-      return;
-    }
+    setProductToDelete(productId);
+    setShowDeleteConfirm(true);
+  };
 
-    setDeletingId(productId);
+  const confirmDeleteProduct = async () => {
+    if (!productToDelete) return;
+
+    setDeletingId(productToDelete);
     try {
-      const response = await fetch(`/api/product/seller?id=${productId}`, {
+      const response = await fetch(`/api/product/seller?id=${productToDelete}`, {
         method: 'DELETE',
       });
 
@@ -67,7 +73,10 @@ export default function ManageProductsPage() {
       }
 
       // Remove from local state
-      setProducts(products.filter((p) => p.id !== productId));
+      setProducts(products.filter((p) => p.id !== productToDelete));
+      showToast('Product deleted successfully', 'success');
+      setShowDeleteConfirm(false);
+      setProductToDelete(null);
     } catch (err) {
       console.error('Error deleting product:', err);
       showToast('Failed to delete product', 'error');
@@ -199,6 +208,20 @@ export default function ManageProductsPage() {
           ))}
         </div>
       )}
+
+      {/* Delete Product Confirmation Modal */}
+      <ConfirmModal
+        isOpen={showDeleteConfirm}
+        onClose={() => {
+          setShowDeleteConfirm(false);
+          setProductToDelete(null);
+        }}
+        onConfirm={confirmDeleteProduct}
+        title="Delete Product"
+        message="Are you sure you want to delete this product? This action cannot be undone."
+        confirmText="Delete"
+        isLoading={!!deletingId}
+      />
     </div>
   );
 }

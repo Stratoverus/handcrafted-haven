@@ -8,6 +8,7 @@ import { useCart } from '@/context/CartContext';
 import { useToast } from '@/context/ToastContext';
 import MessageSellerModal from '@/components/MessageSellerModal';
 import ReviewModal from '@/components/ReviewModal';
+import ConfirmModal from '@/components/ConfirmModal';
 import { authClient } from '@/lib/auth/client';
 
 interface ProductImage {
@@ -41,6 +42,7 @@ interface Product {
   stock: number;
   category: string;
   sellerId: string;
+  salesCount?: number;
   ProductImage: ProductImage[];
   Review: Review[];
   User: Seller;
@@ -56,6 +58,8 @@ export default function ProductPage() {
   const [loading, setLoading] = useState(true);
   const [showMessageModal, setShowMessageModal] = useState(false);
   const [imageErrors, setImageErrors] = useState<Set<string>>(new Set());
+  const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
+  const [showingCategoryProducts, setShowingCategoryProducts] = useState(true);
 
   const handleImageError = (imageId: string) => {
     setImageErrors(prev => new Set(prev).add(imageId));
@@ -63,6 +67,10 @@ export default function ProductPage() {
 
   // NEW: Review modal state
   const [showReviewModal, setShowReviewModal] = useState(false);
+  const [editingReviewId, setEditingReviewId] = useState<string | null>(null);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [reviewToDelete, setReviewToDelete] = useState<string | null>(null);
+  const [deletingReview, setDeletingReview] = useState(false);
 
   const [quantity, setQuantity] = useState(1);
 
@@ -94,6 +102,67 @@ export default function ProductPage() {
 
     fetchProduct();
   }, [id]);
+
+  // Scroll to review if hash is present in URL
+  useEffect(() => {
+    if (product && window.location.hash) {
+      const hash = window.location.hash.substring(1); // Remove the #
+      const element = document.getElementById(hash);
+      if (element) {
+        setTimeout(() => {
+          element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          // Add a subtle highlight effect
+          element.classList.add('bg-yellow-100');
+          setTimeout(() => {
+            element.classList.remove('bg-yellow-100');
+          }, 2000);
+        }, 100);
+      }
+    }
+  }, [product]);
+
+  // Fetch related products from the same category
+  useEffect(() => {
+    if (!product) return;
+
+    const fetchRelatedProducts = async () => {
+      try {
+        const res = await fetch(`/api/product/category/${encodeURIComponent(product.category)}`);
+        const data = await res.json();
+        
+        if (data.products) {
+          // Filter out current product and sort by popularity
+          const filtered = data.products
+            .filter((p: Product) => p.id !== product.id)
+            .sort((a: Product, b: Product) => (b.salesCount || 0) - (a.salesCount || 0))
+            .slice(0, 6); // Limit to 6 products
+          
+          // If no products in same category, fetch popular products as fallback
+          if (filtered.length === 0) {
+            const popularRes = await fetch('/api/product');
+            const popularData = await popularRes.json();
+            
+            if (popularData.products) {
+              const popularFiltered = popularData.products
+                .filter((p: Product) => p.id !== product.id)
+                .sort((a: Product, b: Product) => (b.salesCount || 0) - (a.salesCount || 0))
+                .slice(0, 6);
+              
+              setRelatedProducts(popularFiltered);
+              setShowingCategoryProducts(false);
+            }
+          } else {
+            setRelatedProducts(filtered);
+            setShowingCategoryProducts(true);
+          }
+        }
+      } catch (error) {
+        console.error('Failed to fetch related products:', error);
+      }
+    };
+
+    fetchRelatedProducts();
+  }, [product]);
 
   if (loading) return <p className="p-6">Loading...</p>;
   if (!product) return <p className="p-6">Product not found.</p>;
@@ -129,13 +198,16 @@ export default function ProductPage() {
 
     setSubmittingReview(true);
     try {
+      const isEditing = !!editingReviewId;
+      const method = isEditing ? 'PUT' : 'POST';
+      const body = isEditing 
+        ? { reviewId: editingReviewId, rating: newRating, comment: newComment }
+        : { rating: newRating, comment: newComment };
+
       const res = await fetch(`/api/product/${product.id}/review`, {
-        method: 'POST',
+        method,
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          rating: newRating,
-          comment: newComment,
-        }),
+        body: JSON.stringify(body),
       });
 
       const data = await res.json();
@@ -144,19 +216,85 @@ export default function ProductPage() {
         throw new Error(data.error || 'Failed to submit review');
       }
 
-      setProduct(prev =>
-        prev ? { ...prev, Review: [...prev.Review, data.review] } : prev
-      );
+      if (isEditing) {
+        // Update existing review in the list
+        setProduct(prev =>
+          prev ? {
+            ...prev,
+            Review: prev.Review.map(r => r.id === editingReviewId ? data.review : r)
+          } : prev
+        );
+        showToast('Review updated successfully!', 'success');
+      } else {
+        // Add new review to the list
+        setProduct(prev =>
+          prev ? { ...prev, Review: [...prev.Review, data.review] } : prev
+        );
+        showToast('Review submitted successfully!', 'success');
+      }
 
       setNewRating(5);
       setNewComment('');
+      setEditingReviewId(null);
       setShowReviewModal(false);
-      showToast('Review submitted successfully!', 'success');
     } catch (err) {
       showToast(err instanceof Error ? err.message : 'Failed to submit review', 'error');
     } finally {
       setSubmittingReview(false);
     }
+  };
+
+  const handleEditReview = (review: Review) => {
+    setEditingReviewId(review.id);
+    setNewRating(review.rating);
+    setNewComment(review.comment || '');
+    setShowReviewModal(true);
+  };
+
+  const handleDeleteReview = async (reviewId: string) => {
+    setReviewToDelete(reviewId);
+    setShowDeleteConfirm(true);
+  };
+
+  const confirmDeleteReview = async () => {
+    if (!reviewToDelete) return;
+
+    setDeletingReview(true);
+    try {
+      const res = await fetch(`/api/product/${product?.id}/review`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ reviewId: reviewToDelete }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || 'Failed to delete review');
+      }
+
+      setProduct(prev =>
+        prev ? {
+          ...prev,
+          Review: prev.Review.filter(r => r.id !== reviewToDelete)
+        } : prev
+      );
+
+      showToast('Review deleted successfully!', 'success');
+      setShowDeleteConfirm(false);
+      setReviewToDelete(null);
+    } catch (err) {
+      showToast(err instanceof Error ? err.message : 'Failed to delete review', 'error');
+    } finally {
+      setDeletingReview(false);
+    }
+  };
+
+  const openNewReviewModal = () => {
+    setEditingReviewId(null);
+    setNewRating(5);
+    setNewComment('');
+    setShowReviewModal(true);
   };
 
   return (
@@ -216,7 +354,9 @@ export default function ProductPage() {
 
           <p className="text-gray-700 mb-4">{product.description}</p>
           <p className="text-2xl font-bold mb-2">${product.price.toFixed(2)}</p>
-          <p className="mb-4 text-sm text-gray-600">{product.stock} available</p>
+          <p className={`mb-4 text-sm font-semibold ${product.stock === 0 ? 'text-red-600' : 'text-gray-600'}`}>
+            {product.stock === 0 ? 'Out of Stock' : `${product.stock} available`}
+          </p>
 
           {/* Seller Info */}
           <div className="mb-4 p-3 bg-white border rounded shadow-sm flex items-center justify-between text-sm">
@@ -247,17 +387,26 @@ export default function ProductPage() {
               max={product.stock}
               value={quantity}
               onChange={(e) => setQuantity(Number(e.target.value))}
+              disabled={product.stock === 0}
               style={{ border: '2px solid #6B7280' }}
-              className="w-20 rounded px-2 py-1 focus:ring-2 focus:ring-[var(--rust)] outline-none"
+              className="w-20 rounded px-2 py-1 focus:ring-2 focus:ring-[var(--rust)] outline-none disabled:bg-gray-100 disabled:cursor-not-allowed"
             />
           </div>
 
           <button
             onClick={handleAddToCart}
-            disabled={alreadyInCart >= product.stock}
-            className="w-full bg-[#CF5C36] text-white py-3 rounded hover:bg-[#b84f2f] transition cursor-pointer"
+            disabled={product.stock === 0 || alreadyInCart >= product.stock}
+            className={`w-full py-3 rounded transition ${
+              product.stock === 0
+                ? 'bg-gray-400 text-white cursor-not-allowed'
+                : 'bg-[#CF5C36] text-white hover:bg-[#b84f2f] cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed'
+            }`}
           >
-            {alreadyInCart >= product.stock ? "Max In Cart" : "Add to Cart"}
+            {product.stock === 0 
+              ? "Sold Out" 
+              : alreadyInCart >= product.stock 
+                ? "Max In Cart" 
+                : "Add to Cart"}
           </button>
         </div>
 
@@ -267,9 +416,9 @@ export default function ProductPage() {
       <div className="mt-12 p-6 border rounded bg-gray-50">
         <h2 className="text-xl font-semibold mb-4 px-2 py-1">Reviews</h2>
 
-        {session?.user?.id && (
+        {session?.user?.id && product.sellerId !== session.user.id && (
           <button
-            onClick={() => setShowReviewModal(true)}
+            onClick={openNewReviewModal}
             className="bg-[#CF5C36] text-white px-4 py-2 rounded hover:bg-[#b84f2f] mb-6"
           >
             Leave a Review
@@ -282,9 +431,10 @@ export default function ProductPage() {
           product.Review.map(r => {
             const reviewerName = r.User?.name || 'Anonymous';
             const isVerified = true; // All reviews are verified purchases now
+            const isOwnReview = session?.user?.id === r.userId;
             
             return (
-              <div key={r.id} className="mb-4 border-b pb-3">
+              <div key={r.id} id={`review-${r.id}`} className="mb-4 border-b pb-3 scroll-mt-24">
                 <div className="flex items-center gap-2 mb-1">
                   <p className="font-medium">{'⭐'.repeat(r.rating)} ({r.rating}/5)</p>
                   {isVerified && (
@@ -292,12 +442,72 @@ export default function ProductPage() {
                   )}
                 </div>
                 <p className="text-sm text-gray-600 mb-1">By: {reviewerName}</p>
-                {r.comment && <p className="text-gray-700">{r.comment}</p>}
+                {r.comment && <p className="text-gray-700 mb-2">{r.comment}</p>}
+                {isOwnReview && (
+                  <div className="flex gap-2 mt-2">
+                    <button
+                      onClick={() => handleEditReview(r)}
+                      className="text-sm bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => handleDeleteReview(r.id)}
+                      className="text-sm bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                )}
               </div>
             );
           })
         )}
       </div>
+
+      {/* Related Products Section */}
+      {relatedProducts.length > 0 && (
+        <div className="mt-12 p-6 border rounded bg-gray-50">
+          <h2 className="text-2xl font-bold mb-6 text-[var(--navy)]">
+            {showingCategoryProducts ? 'Related Products' : 'You May Also Like'}
+          </h2>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+            {relatedProducts.map((relatedProduct) => {
+              const avgRating = relatedProduct.Review && relatedProduct.Review.length > 0
+                ? relatedProduct.Review.reduce((sum, r) => sum + r.rating, 0) / relatedProduct.Review.length
+                : 0;
+
+              return (
+                <Link
+                  key={relatedProduct.id}
+                  href={`/product/${relatedProduct.id}`}
+                  className="border rounded-lg p-3 hover:shadow-lg transition cursor-pointer"
+                >
+                  {relatedProduct.ProductImage?.[0]?.url && (
+                    <img
+                      src={relatedProduct.ProductImage[0].url}
+                      alt={relatedProduct.title}
+                      className="w-full h-40 object-cover rounded mb-2"
+                    />
+                  )}
+                  <h3 className="font-semibold text-sm line-clamp-2 mb-1">{relatedProduct.title}</h3>
+                  <p className="text-[var(--rust)] font-bold text-lg">${relatedProduct.price.toFixed(2)}</p>
+                  {avgRating > 0 && (
+                    <p className="text-xs text-gray-600">
+                      {'⭐'.repeat(Math.round(avgRating))} ({relatedProduct.Review?.length || 0})
+                    </p>
+                  )}
+                  {relatedProduct.User && (
+                    <p className="text-xs text-gray-500 mt-1">
+                      by {relatedProduct.User.shopName || relatedProduct.User.name}
+                    </p>
+                  )}
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      )}
 
       {/* Message Seller Modal */}
       <MessageSellerModal
@@ -312,13 +522,33 @@ export default function ProductPage() {
       {/* NEW: Review Modal */}
       <ReviewModal
         isOpen={showReviewModal}
-        onClose={() => setShowReviewModal(false)}
+        onClose={() => {
+          setShowReviewModal(false);
+          setEditingReviewId(null);
+          setNewRating(5);
+          setNewComment('');
+        }}
         rating={newRating}
         setRating={setNewRating}
         comment={newComment}
         setComment={setNewComment}
         submitting={submittingReview}
         onSubmit={handleSubmitReview}
+        editMode={!!editingReviewId}
+      />
+
+      {/* Delete Review Confirmation Modal */}
+      <ConfirmModal
+        isOpen={showDeleteConfirm}
+        onClose={() => {
+          setShowDeleteConfirm(false);
+          setReviewToDelete(null);
+        }}
+        onConfirm={confirmDeleteReview}
+        title="Delete Review"
+        message="Are you sure you want to delete this review? This action cannot be undone."
+        confirmText="Delete"
+        isLoading={deletingReview}
       />
     </div>
   );
