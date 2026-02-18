@@ -288,19 +288,19 @@ export default function ProfilePage() {
               <div key={order.id} className="flex items-center justify-between py-3 border-b last:border-b-0">
                 <div>
                   <p className="font-medium text-[var(--navy)]">Order #{order.displayId}</p>
-                  <p className="text-sm text-gray-600">{order.timeAgo} • {order.itemCount} {order.itemCount === 1 ? 'item' : 'items'}</p>
-                  <p className="text-sm text-gray-500">${order.total.toFixed(2)} • {order.status}</p>
+                  <p className="text-sm text-gray-900">{order.timeAgo} • {order.itemCount} {order.itemCount === 1 ? 'item' : 'items'}</p>
+                  <p className="text-sm text-gray-900">${order.total.toFixed(2)} • {order.status}</p>
                 </div>
                 <Link 
                   href={`/account/orders/${order.id}`} 
-                  className="text-[var(--rust)] hover:underline text-sm"
+                  className="bg-[var(--rust)] text-white px-4 py-2 rounded-md hover:bg-[var(--rust)]/90 transition-colors text-sm font-bold cursor-pointer"
                 >
                   View Order
                 </Link>
               </div>
             ))
           ) : (
-            <p className="text-gray-500 text-center py-8">No orders yet</p>
+            <p className="text-gray-900 text-center py-8">No orders yet</p>
           )}
         </div>
       </div>

@@ -118,7 +118,7 @@ export default function MyOrdersPage() {
         {loading && (
           <div className="text-center py-12">
             <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[var(--rust)]"></div>
-            <p className="mt-4 text-gray-600">Loading orders...</p>
+            <p className="mt-4 text-gray-900">Loading orders...</p>
           </div>
         )}
 
@@ -131,7 +131,7 @@ export default function MyOrdersPage() {
         {!loading && !error && orders.length === 0 && (
           <div className="text-center py-12">
             <Package className="h-16 w-16 text-gray-300 mx-auto mb-4" />
-            <p className="text-gray-600 text-lg">No orders yet</p>
+            <p className="text-gray-900 text-lg">No orders yet</p>
             <Link
               href="/product-list"
               className="inline-block mt-4 bg-[var(--rust)] text-white px-6 py-2 rounded-md hover:bg-[var(--rust)]/90 transition-colors"
@@ -158,15 +158,15 @@ export default function MyOrdersPage() {
                         {order.status}
                       </span>
                     </div>
-                    <p className="text-sm text-gray-600">{formatDate(order.createdAt)}</p>
-                    <p className="text-sm text-gray-600">
+                    <p className="text-sm text-gray-900">{formatDate(order.createdAt)}</p>
+                    <p className="text-sm text-gray-900">
                       {order.itemCount} {order.itemCount === 1 ? 'item' : 'items'}
                     </p>
                   </div>
 
                   <div className="flex items-center gap-4">
                     <div className="text-right">
-                      <p className="text-sm text-gray-600">Total</p>
+                      <p className="text-sm text-gray-900">Total</p>
                       <p className="text-2xl font-bold text-[var(--navy)]">
                         ${order.total.toFixed(2)}
                       </p>
@@ -191,10 +191,10 @@ export default function MyOrdersPage() {
                 )}
 
                 <div className="border-t border-gray-300 pt-4 mt-4">
-                  <p className="text-sm font-semibold text-gray-700 mb-2">Items:</p>
+                  <p className="text-sm font-semibold text-gray-900 mb-2">Items:</p>
                   <div className="space-y-1">
                     {order.OrderItem.map((item) => (
-                      <div key={item.id} className="text-sm text-gray-600 flex justify-between">
+                      <div key={item.id} className="text-sm text-gray-900 flex justify-between">
                         <span>
                           {item.Product.title} × {item.quantity}
                         </span>

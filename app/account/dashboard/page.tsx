@@ -260,7 +260,7 @@ export default function DashboardPage() {
           </div>
           <Link 
             href="/account/dashboard/orders"
-            className="block mt-4 text-center text-[var(--rust)] hover:underline font-medium cursor-pointer"
+            className="block mt-4 text-center bg-[var(--rust)] text-white px-4 py-2 rounded-md hover:bg-[var(--rust)]/90 transition-colors text-sm font-bold cursor-pointer"
           >
             View All Orders
           </Link>
@@ -308,7 +308,7 @@ export default function DashboardPage() {
           </div>
           <Link 
             href="/account/dashboard/products"
-            className="block mt-4 text-center text-[var(--rust)] hover:underline font-medium"
+            className="block mt-4 text-center bg-[var(--rust)] text-white px-4 py-2 rounded-md hover:bg-[var(--rust)]/90 transition-colors text-sm font-bold cursor-pointer"
           >
             Manage All Products
           </Link>

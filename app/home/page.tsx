@@ -15,18 +15,54 @@ export default async function Front() {
 
   return (
     <>
-      <section className="flex flex-wrap mx-auto w-4/5 px-3 py-3"> {/*border-dotted border-2 border-gray-500*/}
+      {/* Hero Section */}
+      <section className="relative w-full h-[400px] md:h-[500px] lg:h-[600px] overflow-hidden">
+        {/* Background Image */}
         <Image
           src="/handcrafted.png"
-          alt="handcrafted"
-          width={1000}
-          height={300}
-          className="rounded-md mx-aut"
+          alt="Handcrafted Haven"
+          fill
+          className="object-cover"
+          priority
         />
+        
+        {/* Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent"></div>
+        
+        {/* Hero Content */}
+        <div className="absolute inset-0 flex items-center">
+          <div className="container mx-auto px-6 md:px-12 lg:px-20 max-w-7xl">
+            <div className="max-w-2xl space-y-6 animate-fade-in">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
+                Discover Unique
+                <span className="block text-[var(--beige)]">Handcrafted Treasures</span>
+              </h1>
+              <p className="text-lg md:text-xl text-gray-200 leading-relaxed">
+                Support local sellers and find unique items made with passion and craftsmanship. List your handcrafted item with us!
+              </p>
+              <div className="flex flex-wrap gap-4 pt-4">
+                <Link 
+                  href="/product-list"
+                  className="bg-[var(--rust)] hover:bg-[#b54e2e] text-white font-semibold px-8 py-3 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105"
+                >
+                  Shop Now
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
        {/* Latest product section */}
       <section>
-        <h2 className="p-3 text-2xl font-bold">LATEST PRODUCTS</h2>
+        <div className="bg-[var(--rust)] text-white px-6 py-3 flex items-center justify-between">
+          <h2 className="text-2xl font-bold">LATEST PRODUCTS</h2>
+          <Link 
+            href="/product-list?sort=latest"
+            className="text-white hover:underline font-semibold text-sm flex items-center gap-1"
+          >
+            View All →
+          </Link>
+        </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 px-6 py-6 justify-items-center">
           {latestProducts.map((product) => (
             <article
@@ -66,10 +102,17 @@ export default async function Front() {
       </section>
           {/* Best seller section */}
       <section>
-        <h2 className="p-3 text-2xl font-bold flex items-center gap-2">
-          BEST SELLERS
-          <TrendingUp className="text-[var(--rust)]" />
-        </h2>
+        <div className="bg-[var(--rust)] text-white px-6 py-3 flex items-center justify-between">
+          <h2 className="text-2xl font-bold flex items-center gap-2">
+            BEST SELLERS
+          </h2>
+          <Link 
+            href="/product-list?sort=bestsellers"
+            className="text-white hover:underline font-semibold text-sm flex items-center gap-1"
+          >
+            View All →
+          </Link>
+        </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 px-6 py-6 justify-items-center">
           {topProducts.map((product) => (
@@ -114,7 +157,15 @@ export default async function Front() {
 
              {/* Category section */}
       <section>
-        <h2 className="p-3 text-2xl font-bold">CATEGORIES</h2>
+        <div className="bg-[var(--rust)] text-white px-6 py-3 flex items-center justify-between">
+          <h2 className="text-2xl font-bold">CATEGORIES</h2>
+          <Link 
+            href="/product-list"
+            className="text-white hover:underline font-semibold text-sm flex items-center gap-1"
+          >
+            View All Products →
+          </Link>
+        </div>
 
         <div className="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-8 px-6 py-6 justify-items-center justify-center">
           {categories.map((item, index) => (
