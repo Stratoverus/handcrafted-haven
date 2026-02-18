@@ -401,8 +401,6 @@ export default function ProductPage() {
                 ? 'bg-gray-400 text-white cursor-not-allowed'
                 : 'bg-[var(--rust)] text-white hover:bg-[#b84f2f] cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed'
             }`}
-            disabled={alreadyInCart >= product.stock}
-            className="w-full bg-[var(--rust)] text-white py-3 rounded hover:bg-[#b84f2f] transition cursor-pointer"
           >
             {product.stock === 0 
               ? "Sold Out" 
