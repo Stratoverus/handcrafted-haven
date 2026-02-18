@@ -42,7 +42,7 @@ export default function BottomBar({categories}: CategoryProps){
 
     if (isSmall){
         return(
-            <nav className="border-t bg-[#cf5c36] text-[#fff] hidden md:block">
+            <nav className="border-t bg-[var(--rust)] text-[#fff] hidden md:block">
 
                 <div className="px-6 py-3 flex justify-center gap-6">
 
@@ -69,7 +69,7 @@ export default function BottomBar({categories}: CategoryProps){
         )
     } else {
         return(
-            <nav className="border-t bg-[#cf5c36] text-[#fff] hidden md:block">
+            <nav className="border-t bg-[var(--rust)] text-[#fff] hidden md:block">
 
                 <div className="px-6 py-3 flex justify-center gap-6">
 
