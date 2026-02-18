@@ -1,5 +1,6 @@
 import Link from "next/link"
 import UserActions from "./userActions";
+import Logo from "./logo";
 
 export const categories = [
         'Sweaters',
@@ -10,11 +11,11 @@ export const categories = [
         'Other',
     ];
 
-export default function NavMenu(){
-    
+export default function NavMenu(){    
 
     return(
-        <nav className="border-t bg-[#fff]/60 text-[#050517]">
+        <nav id="nav" className="border-t bg-[#fff]/60 text-[#050517]">        
+
             <div className="px-6 py-3 flex justify-center gap-6">
                 {categories.map((category) => (
                     <Link

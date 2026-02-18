@@ -7,15 +7,14 @@ import UserActions from './userActions';
 import NavMenu from './NavMenu';
 import LeftNavMenu from './LeftNavMenu';
 
-
-
 export default function Header() {
   
   const [menuOpen, setMenuOpen] = useState(false);
-
+  
   return (
     <>
-      <header>
+      <header id='header'>
+
         {/* TOP ROW */}
         <div className="px-4 bg-white/45">
           <div className="flex items-center justify-center sm:justify-between gap-4 text-black">

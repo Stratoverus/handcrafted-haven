@@ -4,7 +4,7 @@ import Image from "next/image"
 export default function Logo(){
     return(
         <>
-            <Link href="/" className="flex items-center">
+            <Link href="/" className="flex items-center justify-center">
                 <Image
                     src="/Logo_5.png"
                     alt="Handcrafted Haven logo"
