@@ -81,8 +81,6 @@ export default function CategoryPage() {
         className="w-full max-w-[400px] h-[250px] object-cover rounded mb-6 mx-auto"
       />
 
-      <p className="text-gray-600 mb-6">Welcome to the {displayName} page.</p>
-
       {loading ? (
         <p>Loading...</p>
       ) : products.length === 0 ? (
@@ -146,7 +144,7 @@ export default function CategoryPage() {
                 {product.shopName && (
                   <Link
                     href={`/seller/${product.sellerId}`}
-                    className="text-[#CF5C36] hover:underline text-sm mt-2 block"
+                    className="text-[var(--rust)] hover:underline text-sm mt-2 block"
                   >
                     {product.shopName}
                   </Link>
