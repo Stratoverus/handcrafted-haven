@@ -11,7 +11,16 @@ export async function GET( // API route to fetch product details by ID, includin
       where: { id },
       include: {
         ProductImage: true,
-        Review: true,
+        Review: {
+          include: {
+            User: {
+              select: {
+                name: true,
+                shopName: true,
+              },
+            },
+          },
+        },
         User: true,
       },
     });

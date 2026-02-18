@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Bell, MessageSquare, Package, Trash2, ArrowLeft } from 'lucide-react';
 
@@ -30,6 +31,7 @@ interface Notification {
 }
 
 export default function NotificationsPage() {
+  const router = useRouter();
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -157,8 +159,7 @@ export default function NotificationsPage() {
           {notifications.map((notification) => (
             <div
               key={notification.id}
-              onClick={() => handleNotificationClick(notification)}
-              className={`p-4 hover:bg-gray-50 transition cursor-pointer relative ${
+              className={`p-4 hover:bg-gray-50 transition relative ${
                 !notification.isRead ? 'bg-blue-50 border-l-4 border-l-blue-500' : ''
               }`}
             >
@@ -176,7 +177,8 @@ export default function NotificationsPage() {
                   {notification.link ? (
                     <Link
                       href={notification.link}
-                      className="block"
+                      onClick={() => handleNotificationClick(notification)}
+                      className="block cursor-pointer"
                     >
                       <div className="flex items-center gap-2 mb-1">
                         <h3 className={`font-semibold text-gray-900 ${
@@ -196,7 +198,7 @@ export default function NotificationsPage() {
                       </p>
                     </Link>
                   ) : (
-                    <>
+                    <div onClick={() => handleNotificationClick(notification)} className="cursor-pointer">
                       <div className="flex items-center gap-2 mb-1">
                         <h3 className={`font-semibold text-gray-900 ${
                           !notification.isRead ? 'font-bold' : ''
@@ -213,7 +215,7 @@ export default function NotificationsPage() {
                       <p className="text-xs text-gray-500">
                         {formatDate(notification.createdAt)}
                       </p>
-                    </>
+                    </div>
                   )}
                 </div>
 

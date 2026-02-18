@@ -11,7 +11,15 @@ export async function GET(
     const categorySlug = category.toLowerCase();
 
     const products = await prisma.product.findMany({
-      where: { category: categorySlug },
+      where: { 
+        category: categorySlug,
+        User: {
+          NOT: {
+            name: 'Deleted User',
+          },
+          role: 'SELLER',
+        },
+      },
       include: {
         ProductImage: true,
         Review: true,

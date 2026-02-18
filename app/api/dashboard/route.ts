@@ -30,6 +30,11 @@ export async function GET() {
       });
     }
 
+    // Check if user is a seller
+    if (user.role !== 'SELLER') {
+      return Response.json({ error: 'Access denied. Seller account required.' }, { status: 403 });
+    }
+
     // Fetch user's products
     const products = await prisma.product.findMany({
       where: { sellerId: userId },
@@ -82,6 +87,9 @@ export async function GET() {
     const monthlyOrders = await prisma.order.findMany({
       where: {
         createdAt: { gte: monthStart },
+        status: {
+          notIn: ['CANCELLED', 'REFUNDED'],
+        },
         OrderItem: {
           some: {
             Product: {

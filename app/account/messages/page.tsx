@@ -45,6 +45,7 @@ export default function MessagesPage() {
   const [shopName, setShopName] = useState('');
   const [userName, setUserName] = useState('');
   const [sendAsShop, setSendAsShop] = useState(false);
+  const [activeTab, setActiveTab] = useState<'inbox' | 'sent'>('inbox');
 
   useEffect(() => {
     fetchMessages();
@@ -72,13 +73,7 @@ export default function MessagesPage() {
       
       if (res.ok) {
         setMessages(data.messages || []);
-        // Get current user ID from first message
-        if (data.messages && data.messages.length > 0) {
-          const firstMsg = data.messages[0];
-          setCurrentUserId(firstMsg.senderId === firstMsg.Sender.id 
-            ? firstMsg.senderId 
-            : firstMsg.receiverId);
-        }
+        setCurrentUserId(data.userId || '');
       }
     } catch (error) {
       console.error('Error fetching messages:', error);
@@ -108,7 +103,10 @@ export default function MessagesPage() {
     setIsReplying(false);
     setReplyContent('');
     setReplyError('');
-    setSendAsShop(false);
+    
+    // Set default reply sender based on who the message was sent to
+    const shouldDefaultToShop = message.receiverId === currentUserId && !!message.productId && isSeller && !!shopName;
+    setSendAsShop(shouldDefaultToShop);
     
     // Mark as read if user is the receiver and message is unread
     if (message.receiverId === currentUserId && !message.isRead) {
@@ -180,6 +178,20 @@ export default function MessagesPage() {
     );
   }
 
+  // Filter messages based on active tab
+  const filteredMessages = messages.filter(message => {
+    if (activeTab === 'inbox') {
+      return message.receiverId === currentUserId;
+    } else {
+      return message.senderId === currentUserId;
+    }
+  });
+
+  // Count unread messages in inbox
+  const unreadCount = messages.filter(msg => 
+    msg.receiverId === currentUserId && !msg.isRead
+  ).length;
+
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4 sm:py-6">
       <div className="flex items-center gap-4 mb-4 sm:mb-6">
@@ -192,10 +204,47 @@ export default function MessagesPage() {
         <h1 className="text-2xl sm:text-3xl font-bold">Messages</h1>
       </div>
 
-      {messages.length === 0 ? (
+      {/* Tabs */}
+      <div className="flex gap-2 mb-4 border-b">
+        <button
+          onClick={() => {
+            setActiveTab('inbox');
+            setSelectedMessage(null);
+          }}
+          className={`px-4 py-2 font-medium transition cursor-pointer ${
+            activeTab === 'inbox'
+              ? 'text-[var(--rust)] border-b-2 border-[var(--rust)]'
+              : 'text-gray-600 hover:text-gray-800'
+          }`}
+        >
+          Inbox
+          {unreadCount > 0 && (
+            <span className="ml-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full">
+              {unreadCount}
+            </span>
+          )}
+        </button>
+        <button
+          onClick={() => {
+            setActiveTab('sent');
+            setSelectedMessage(null);
+          }}
+          className={`px-4 py-2 font-medium transition cursor-pointer ${
+            activeTab === 'sent'
+              ? 'text-[var(--rust)] border-b-2 border-[var(--rust)]'
+              : 'text-gray-600 hover:text-gray-800'
+          }`}
+        >
+          Sent
+        </button>
+      </div>
+
+      {filteredMessages.length === 0 ? (
         <div className="bg-white border rounded-lg p-6 sm:p-8 text-center">
           <Mail className="h-12 w-12 mx-auto mb-4 text-gray-400" />
-          <p className="text-gray-600">No messages yet</p>
+          <p className="text-gray-600">
+            {activeTab === 'inbox' ? 'No messages in your inbox' : 'No sent messages'}
+          </p>
         </div>
       ) : (
         <div className="grid md:grid-cols-3 gap-4">
@@ -204,7 +253,7 @@ export default function MessagesPage() {
             selectedMessage ? 'hidden md:block' : 'block'
           }`}>
             <div className="space-y-2 max-h-[70vh] md:max-h-[600px] overflow-y-auto">
-              {messages.map((message) => {
+              {filteredMessages.map((message) => {
                 const isReceiver = message.receiverId === currentUserId;
                 const otherUser = isReceiver ? message.Sender : message.Receiver;
                 const isUnread = isReceiver && !message.isRead;
@@ -285,6 +334,27 @@ export default function MessagesPage() {
                       {formatDate(selectedMessage.createdAt)}
                     </div>
                   </div>
+                  {selectedMessage.receiverId === currentUserId && (
+                    <div className="mt-2 text-sm text-gray-600">
+                      <strong>To:</strong> {
+                        selectedMessage.productId && isSeller && shopName
+                          ? shopName
+                          : (userName || 'You')
+                      }
+                      {selectedMessage.productId && isSeller && shopName && (
+                        <span className="ml-2 text-xs bg-green-100 text-green-800 px-2 py-1 rounded">
+                          Your Shop
+                        </span>
+                      )}
+                    </div>
+                  )}
+                  {selectedMessage.senderId === currentUserId && (
+                    <div className="mt-2 text-sm text-gray-600">
+                      <strong>To:</strong> {
+                        selectedMessage.Receiver.shopName || selectedMessage.Receiver.name || selectedMessage.Receiver.email
+                      }
+                    </div>
+                  )}
                   {selectedMessage.Product && (
                     <div className="mt-2">
                       <Link
@@ -318,7 +388,11 @@ export default function MessagesPage() {
                         <div>
                           <label className="block text-sm font-medium mb-2">Send as:</label>
                           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
-                            <label className="flex items-center cursor-pointer">
+                            <label className={`flex items-center cursor-pointer px-3 py-2 rounded-lg border-2 transition ${
+                              selectedMessage.receiverId === currentUserId && !selectedMessage.productId
+                                ? 'bg-green-50 border-green-300'
+                                : 'border-gray-200 hover:border-gray-300'
+                            }`}>
                               <input
                                 type="radio"
                                 checked={!sendAsShop}
@@ -326,8 +400,17 @@ export default function MessagesPage() {
                                 className="mr-2 cursor-pointer"
                               />
                               <span className="text-sm sm:text-base">{userName || 'Myself'}</span>
+                              {selectedMessage.receiverId === currentUserId && !selectedMessage.productId && (
+                                <span className="ml-2 text-xs bg-green-600 text-white px-2 py-1 rounded font-semibold">
+                                  Original recipient
+                                </span>
+                              )}
                             </label>
-                            <label className="flex items-center cursor-pointer">
+                            <label className={`flex items-center cursor-pointer px-3 py-2 rounded-lg border-2 transition ${
+                              selectedMessage.receiverId === currentUserId && selectedMessage.productId
+                                ? 'bg-green-50 border-green-300'
+                                : 'border-gray-200 hover:border-gray-300'
+                            }`}>
                               <input
                                 type="radio"
                                 checked={sendAsShop}
@@ -335,6 +418,11 @@ export default function MessagesPage() {
                                 className="mr-2 cursor-pointer"
                               />
                               <span className="text-sm sm:text-base">{shopName}</span>
+                              {selectedMessage.receiverId === currentUserId && selectedMessage.productId && (
+                                <span className="ml-2 text-xs bg-green-600 text-white px-2 py-1 rounded font-semibold">
+                                  Original recipient
+                                </span>
+                              )}
                             </label>
                           </div>
                         </div>

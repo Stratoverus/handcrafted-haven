@@ -27,7 +27,13 @@ export async function GET(
         category: { 
           equals: categorySlug, 
           mode: "insensitive" // <- THIS makes it ignore case
-        } 
+        },
+        User: {
+          NOT: {
+            name: 'Deleted User',
+          },
+          role: 'SELLER',
+        },
       },
       select: {
         id: true,

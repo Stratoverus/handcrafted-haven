@@ -25,6 +25,44 @@ export async function POST(
       );
     }
 
+    // Check if the product exists and get seller info
+    const product = await prisma.product.findUnique({
+      where: { id: productId },
+      select: { sellerId: true },
+    });
+
+    if (!product) {
+      return NextResponse.json(
+        { error: 'Product not found' },
+        { status: 404 }
+      );
+    }
+
+    // Prevent users from reviewing their own products
+    if (product.sellerId === userId) {
+      return NextResponse.json(
+        { error: 'You cannot review your own products' },
+        { status: 403 }
+      );
+    }
+
+    // Check if user has purchased this product
+    const hasPurchased = await prisma.orderItem.findFirst({
+      where: {
+        productId: productId,
+        Order: {
+          userId: userId,
+        },
+      },
+    });
+
+    if (!hasPurchased) {
+      return NextResponse.json(
+        { error: 'You can only review products you have purchased' },
+        { status: 403 }
+      );
+    }
+
     const newReview = await prisma.review.create({
       data: {
         rating,

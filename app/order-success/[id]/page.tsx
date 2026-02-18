@@ -46,32 +46,39 @@ export default function OrderSuccessPage() {
   return (
     <div className="max-w-3xl mx-auto py-10 px-4">
       <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
-        {/* Cabecera de Éxito */}
+        {/* Thanks for the Purchase */}
         <div className="bg-green-50 p-8 text-center border-b border-green-100">
           <CheckCircle className="h-16 w-16 text-green-500 mx-auto mb-4" />
-          <h1 className="text-3xl font-bold text-gray-900">¡Thank you for your purchase!</h1>
-          <p className="text-gray-600 mt-2">Order was register with success.</p>
+          <h1 className="text-3xl font-bold text-gray-900">Thank you for your purchase!</h1>
+          <p className="text-gray-600 mt-2">Order was placed successfully.</p>
           <div className="mt-4 inline-block bg-white px-4 py-2 rounded-full text-sm font-mono text-gray-500 border border-green-200">
-            ID de Orden: {id}
+            Order ID: {id}
           </div>
         </div>
 
         <div className="p-8">
           <h2 className="text-xl font-semibold mb-6 flex items-center gap-2">
             <Package className="h-5 w-5 text-[var(--rust)]" />
-            Order summary
+            Order Summary
           </h2>
 
           <div className="space-y-4 mb-8">
             {order.OrderItem?.map((item: any) => (
               <div key={item.id} className="flex justify-between items-center py-3 border-b border-gray-50 last:border-0">
                 <div className="flex gap-4 items-center">
-                  <div className="h-16 w-16 bg-gray-100 rounded-lg flex items-center justify-center text-xs text-gray-400">
-                    
-                    IMG
+                  <div className="h-16 w-16 bg-gray-100 rounded-lg overflow-hidden flex items-center justify-center">
+                    {item.Product?.ProductImage?.[0]?.url ? (
+                      <img 
+                        src={item.Product.ProductImage[0].url} 
+                        alt={item.Product.title}
+                        className="h-full w-full object-cover"
+                      />
+                    ) : (
+                      <span className="text-xs text-gray-400">No Image</span>
+                    )}
                   </div>
                   <div>
-                    <p className="font-medium text-gray-800">{item.Product?.name || 'Producto'}</p>
+                    <p className="font-medium text-gray-800">{item.Product?.title || 'Product'}</p>
                     <p className="text-sm text-gray-500">Quantity: {item.quantity}</p>
                   </div>
                 </div>
@@ -101,7 +108,7 @@ export default function OrderSuccessPage() {
               className="flex-1 bg-[var(--rust)] text-white text-center py-4 rounded-xl font-bold hover:bg-[#b84f2e] transition-all flex items-center justify-center gap-2"
             >
               <ShoppingBag className="h-5 w-5" />
-              Shopping more..
+              Back to Shopping...
             </Link>
             <Link 
               href="/account/profile" 

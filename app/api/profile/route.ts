@@ -90,7 +90,7 @@ export async function GET() {
         total: orderTotal,
         status: order.status,
         timeAgo,
-        itemCount: order.OrderItem.length,
+        itemCount: order.OrderItem.reduce((sum: number, item: any) => sum + item.quantity, 0),
       };
     });
 

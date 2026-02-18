@@ -13,7 +13,14 @@ export async function GET(
       include: {
         OrderItem: {
           include: {
-            Product: true
+            Product: {
+              include: {
+                User: true,
+                ProductImage: {
+                  take: 1,
+                },
+              }
+            }
           }
         }
       }

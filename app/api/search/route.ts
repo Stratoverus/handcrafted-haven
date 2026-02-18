@@ -18,6 +18,12 @@ export async function GET(req: NextRequest) {
           contains: query,
           mode: "insensitive", // case-insensitive
         },
+        User: {
+          NOT: {
+            name: 'Deleted User',
+          },
+          role: 'SELLER',
+        },
       },
       select: {
         id: true,

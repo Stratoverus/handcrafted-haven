@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { User, Mail, Phone, MapPin, Package, Heart, Settings, Store, MessageSquare, LogOut } from 'lucide-react';
 import { authClient } from '@/lib/auth/client';
+import { useToast } from '@/context/ToastContext';
 
 interface UserProfile {
   name: string;
@@ -14,9 +15,8 @@ interface UserProfile {
   shopName: string | null;
   bio: string | null;
   image: string | null;
-  isSeller: boolean;
-  memberSince: string;
   role: string;
+  memberSince: string;
   profileComplete: boolean;
 }
 
@@ -41,6 +41,7 @@ interface ProfileData {
 export default function ProfilePage() {
   const router = useRouter();
   const { data } = authClient.useSession();
+  const { showToast } = useToast();
   const [checkComplete, setCheckComplete] = useState(false);
   const [profileData, setProfileData] = useState<ProfileData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -115,7 +116,7 @@ export default function ProfilePage() {
       }
     } catch (err) {
       console.error(err);
-      alert('Failed to become a seller. Please try again.');
+      showToast('Failed to become a seller. Please try again.', 'error');
     } finally {
       setBecomingSellerLoading(false);
     }
@@ -197,20 +198,20 @@ export default function ProfilePage() {
                 <span>{user.address}</span>
               </div>
             )}
-            {user.shopName && (
+            {user.shopName && user.role === 'SELLER' && (
               <div className="flex items-center gap-3 text-gray-700">
                 <Store className="h-5 w-5 text-[var(--rust)]" />
                 <span className="font-medium">{user.shopName}</span>
               </div>
             )}
-            {user.bio && (
+            {user.bio && user.role === 'SELLER' && (
               <div className="mt-4 pt-4 border-t">
                 <p className="text-sm text-gray-700">{user.bio}</p>
               </div>
             )}
           </div>
 
-          {user.isSeller && (
+          {user.role === 'SELLER' && (
             <div className="mt-6 pt-6 border-t">
               <Link 
                 href="/account/dashboard"
@@ -236,7 +237,7 @@ export default function ProfilePage() {
                 <span>Messages</span>
               </Link>
               <Link 
-                href="/account/profile/orders"
+                href="/account/orders"
                 className="flex items-center gap-3 text-gray-700 hover:text-[var(--rust)] transition-colors"
               >
                 <Package className="h-5 w-5" />
@@ -262,7 +263,7 @@ export default function ProfilePage() {
             </div>
           </div>
 
-          {!user.isSeller && (
+          {user.role !== 'SELLER' && (
             <div className="bg-[var(--beige)] rounded-lg shadow-md p-6">
               <h3 className="font-semibold text-[var(--navy)] mb-2">Become a Seller</h3>
               <p className="text-sm text-gray-700 mb-4">
@@ -279,8 +280,6 @@ export default function ProfilePage() {
           )}
         </div>
       </div>
-
-      {/* Recent Orders */}
       <div className="mt-8 bg-white rounded-lg shadow-md p-6">
         <h3 className="text-xl font-semibold text-[var(--navy)] mb-4">Recent Orders</h3>
         <div className="space-y-4">
@@ -293,7 +292,7 @@ export default function ProfilePage() {
                   <p className="text-sm text-gray-500">${order.total.toFixed(2)} • {order.status}</p>
                 </div>
                 <Link 
-                  href={`/account/profile/orders/${order.id}`} 
+                  href={`/account/orders/${order.id}`} 
                   className="text-[var(--rust)] hover:underline text-sm"
                 >
                   View Order
