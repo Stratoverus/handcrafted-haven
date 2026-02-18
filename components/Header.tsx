@@ -136,7 +136,7 @@ export default function Header() {
     <>
       <header>
         {/* Desktop Layout */}
-        <div id='header' className="hidden md:block px-6 py-4 bg-white/45">
+        <div id='header' className="hidden md:block px-6 py-4 bg-[#cf5c36]">
           <div className="flex items-center justify-between gap-4 text-black">
             {/* Left */}
             <div className="flex items-center gap-4 shrink-0">
@@ -150,6 +150,14 @@ export default function Header() {
                   style={{ width: 'auto', height: '60px' }}
                 />
               </Link>
+              <button
+                aria-label="Open categories"
+                onClick={() => setMenuOpen(true)}
+                className="p-2 rounded hover:bg-gray-100 cursor-pointer"
+              >
+                
+                <Menu className="h-6 w-6" />
+              </button>
             </div>
 
             {/* Middle */}
@@ -190,14 +198,6 @@ export default function Header() {
             {/* Right */}
             <div className="flex items-center gap-4 shrink-0">
 
-              <button
-                aria-label="Open categories"
-                onClick={() => setMenuOpen(true)}
-                className="p-2 rounded hover:bg-gray-100 cursor-pointer"
-              >
-                
-                <Menu className="h-6 w-6" />
-              </button>
               {user ? (
                 <div 
                   className="relative"
@@ -274,7 +274,7 @@ export default function Header() {
         </div>
 
         {/* Mobile Layout */}
-        <div id='headerMob' className="md:hidden bg-white/45">
+        <div id='headerMob' className="md:hidden bg-[#cf5c36]">
           {/* Top Row - Logo (smaller) and Icons */}
           <div className="px-4 py-3 flex items-center justify-between border-b">
             <div className="flex items-center gap-3">
@@ -288,9 +288,6 @@ export default function Header() {
                   priority
                 />
               </Link>
-            </div>
-
-            <div className="flex items-center gap-2">
               <button
                 aria-label="Open categories"
                 onClick={() => setMenuOpen(true)}
@@ -298,6 +295,10 @@ export default function Header() {
               >
                 <Menu className="h-6 w-6" />
               </button>
+            </div>
+
+            <div className="flex items-center gap-2">
+              
               
               {user ? (
                 <Link 
