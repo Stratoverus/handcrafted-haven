@@ -9,6 +9,7 @@ import { useCart } from '../app/context/CartContext';
 
 
 import { useRouter } from 'next/navigation';
+import BottomBar from './BottomBar';
 
 function toTitleCase(text: string) {
   return text
@@ -149,7 +150,7 @@ export default function Header() {
             <div className="flex items-center gap-4 shrink-0">
               <Link href="/" className="flex items-center">
                 <Image
-                  src="/Logo_4.jpg"
+                  src="/Logo_5.png"
                   alt="Handcrafted Haven logo"
                   width={180}
                   height={60}
@@ -376,19 +377,7 @@ export default function Header() {
         </div>
 
         {/* BOTTOM BAR - hidden on mobile devices */}
-        <nav className="border-t bg-[var(--rust)] text-white hidden md:block">
-          <div className="px-6 py-3 flex justify-center gap-6">
-            {categories.map((category) => (
-              <Link
-                key={category}
-                href={`/category/${category.toLowerCase()}`}
-                className="font-medium hover:underline cursor-pointer"
-              >
-                {toTitleCase(category)}
-              </Link>
-            ))}
-          </div>
-        </nav>
+        <BottomBar categories={categories}/>
       </header>
 
       {/* OVERLAY */}
