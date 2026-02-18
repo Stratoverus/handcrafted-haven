@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useRef, useCallback } from "react";
+import { useEffect, useState, useRef, useCallback, Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Package, ShoppingBag, Filter, SlidersHorizontal, X, ChevronDown, ChevronUp } from "lucide-react";
@@ -25,7 +25,7 @@ interface Product { //matches product model is prisma schema
   };
 }
 
-export default function ProductListPage() { //main product listing page component
+function ProductListContent() { //main product listing page component
   const router = useRouter();
   const searchParams = useSearchParams();
   const [products, setProducts] = useState<Product[]>([]);
@@ -645,5 +645,20 @@ export default function ProductListPage() { //main product listing page componen
         </div>
       </div>
     </div>
+  );
+}
+
+export default function ProductListPage() {
+  return (
+    <Suspense fallback={
+      <div className="max-w-7xl mx-auto flex items-center justify-center min-h-[60vh]">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[var(--rust)] mx-auto"></div>
+          <p className="mt-4 text-black font-semibold">Loading products...</p>
+        </div>
+      </div>
+    }>
+      <ProductListContent />
+    </Suspense>
   );
 }
