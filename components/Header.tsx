@@ -376,7 +376,7 @@ export default function Header() {
         </div>
 
         {/* BOTTOM BAR - hidden on mobile devices */}
-        <nav className="border-t bg-[#CF5C36] text-white hidden md:block">
+        <nav className="border-t bg-[var(--rust)] text-white hidden md:block">
           <div className="px-6 py-3 flex justify-center gap-6">
             {categories.map((category) => (
               <Link
@@ -401,11 +401,11 @@ export default function Header() {
 
       {/* SLIDE-OUT MENU */}
       <aside
-        className={`fixed top-0 left-0 h-full w-64 bg-[#CF5C36] text-white z-50 transform transition-transform duration-300 overflow-y-auto ${
+        className={`fixed top-0 left-0 h-full w-64 bg-[var(--rust)] text-white z-50 transform transition-transform duration-300 overflow-y-auto ${
           menuOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
-        <div className="flex items-center justify-between px-4 py-4 border-b border-white bg-[#CF5C36]">
+        <div className="flex items-center justify-between px-4 py-4 border-b border-white bg-[var(--rust)]">
           <h2 className="text-lg font-semibold text-white">Menu</h2>
           <button aria-label="Close menu" onClick={() => setMenuOpen(false)} className="cursor-pointer">
             <X className="text-white" />

@@ -264,7 +264,7 @@ export default function MessagesPage() {
                     onClick={() => handleMessageClick(message)}
                     className={`p-3 sm:p-4 border rounded-lg cursor-pointer transition ${
                       selectedMessage?.id === message.id
-                        ? 'bg-[#CF5C36] text-white'
+                        ? 'bg-[var(--rust)] text-white'
                         : isUnread
                         ? 'bg-blue-50 border-blue-200 hover:bg-blue-100'
                         : 'bg-white hover:bg-gray-50'
@@ -359,7 +359,7 @@ export default function MessagesPage() {
                     <div className="mt-2">
                       <Link
                         href={`/product/${selectedMessage.Product.id}`}
-                        className="text-[#CF5C36] hover:underline text-sm cursor-pointer break-words"
+                        className="text-[var(--rust)] hover:underline text-sm cursor-pointer break-words"
                       >
                         Related Product: {selectedMessage.Product.title}
                       </Link>
@@ -374,7 +374,7 @@ export default function MessagesPage() {
                 {!isReplying ? (
                   <button
                     onClick={() => setIsReplying(true)}
-                    className="flex items-center gap-2 text-[#CF5C36] hover:text-[#b84f2f] transition cursor-pointer"
+                    className="flex items-center gap-2 text-[var(--rust)] hover:text-[#b84f2f] transition cursor-pointer"
                   >
                     <Reply className="h-4 w-4" />
                     <span>Reply</span>
@@ -431,7 +431,7 @@ export default function MessagesPage() {
                         value={replyContent}
                         onChange={(e) => setReplyContent(e.target.value)}
                         style={{ border: '2px solid #6B7280' }}
-                        className="w-full rounded px-3 py-2 h-32 sm:h-40 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-[#CF5C36] bg-white resize-none"
+                        className="w-full rounded px-3 py-2 h-32 sm:h-40 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-[var(--rust)] bg-white resize-none"
                         placeholder="Type your reply..."
                         required
                       />
@@ -456,7 +456,7 @@ export default function MessagesPage() {
                         <button
                           type="submit"
                           disabled={sendingReply || !replyContent.trim()}
-                          className="w-full sm:w-auto px-4 py-2 bg-[#CF5C36] text-white rounded hover:bg-[#b84f2f] transition disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed text-sm sm:text-base"
+                          className="w-full sm:w-auto px-4 py-2 bg-[var(--rust)] text-white rounded hover:bg-[#b84f2f] transition disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed text-sm sm:text-base"
                         >
                           {sendingReply ? 'Sending...' : 'Send Reply'}
                         </button>
