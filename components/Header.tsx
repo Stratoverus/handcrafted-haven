@@ -295,7 +295,7 @@ export default function Header() {
               
               <Link href="/" className="flex items-center">
                 <Image
-                  src="/Logo_4.jpg"
+                  src="/Logo_5.png"
                   alt="Handcrafted Haven logo"
                   width={120}
                   height={40}
